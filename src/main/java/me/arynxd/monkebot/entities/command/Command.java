@@ -150,7 +150,7 @@ public abstract class Command
 				}
 				else
 				{
-					event.replyError("An unhandled error occurred " + exception.getText());
+					event.replyError(exception.getText());
 				}
 			});
 		}

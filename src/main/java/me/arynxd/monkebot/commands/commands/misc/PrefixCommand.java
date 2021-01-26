@@ -1,8 +1,6 @@
 package me.arynxd.monkebot.commands.commands.misc;
 
-import java.util.List;
-import java.util.function.Consumer;
-
+import me.arynxd.monkebot.Constants;
 import me.arynxd.monkebot.entities.Emoji;
 import me.arynxd.monkebot.entities.command.Command;
 import me.arynxd.monkebot.entities.command.CommandEvent;
@@ -10,13 +8,14 @@ import me.arynxd.monkebot.entities.command.CommandFlag;
 import me.arynxd.monkebot.entities.database.GuildConfig;
 import me.arynxd.monkebot.entities.exception.CommandException;
 import me.arynxd.monkebot.entities.exception.CommandInputException;
-import me.arynxd.monkebot.entities.exception.CommandUserPermissionException;
+import me.arynxd.monkebot.util.EmbedUtils;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.MessageChannel;
-import me.arynxd.monkebot.Constants;
-import me.arynxd.monkebot.util.EmbedUtils;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
+import java.util.function.Consumer;
 
 @SuppressWarnings("unused")
 public class PrefixCommand extends Command
