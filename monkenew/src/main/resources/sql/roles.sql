@@ -1,7 +1,0 @@
-CREATE TABLE IF NOT EXISTS roles
-(
-    id BIGSERIAL PRIMARY KEY NOT NULL,
-    user_id BIGINT NOT NULL,
-    guild_id BIGINT NOT NULL REFERENCES guilds(guild_id) ON DELETE CASCADE,
-    role_id BIGINT NOT NULL
-);
