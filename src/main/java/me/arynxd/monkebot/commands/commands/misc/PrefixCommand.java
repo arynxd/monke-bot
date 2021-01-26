@@ -3,6 +3,7 @@ package me.arynxd.monkebot.commands.commands.misc;
 import java.util.List;
 import java.util.function.Consumer;
 
+import me.arynxd.monkebot.entities.Emoji;
 import me.arynxd.monkebot.entities.command.Command;
 import me.arynxd.monkebot.entities.command.CommandEvent;
 import me.arynxd.monkebot.entities.command.CommandFlag;
@@ -50,7 +51,7 @@ public class PrefixCommand extends Command
 
 		if(!event.memberPermissionCheck(Permission.MANAGE_SERVER))
 		{
-			failure.accept(new CommandException("Emoji.FAILURE.getAsChat() +\n" +
+			failure.accept(new CommandException(Emoji.FAILURE.getAsChat() +
 					" You do not have the following required permissions: *Manage Server*"));
 			return;
 		}
