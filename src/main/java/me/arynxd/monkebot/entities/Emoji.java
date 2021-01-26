@@ -38,14 +38,8 @@ public enum Emoji
 
 	WASTE_BASKET(":wastebasket:", "\uD83D\uDDD1\uFE0F"),
 
-	SUCCESS("801087111855079424"),
-	FAILURE("801087074949791754"),
-
-	IGSQ1("798965091247587348"),
-	IGSQ2("798965111590223892"),
-	IGSQ3("798965123494182933"),
-	IGSQ4("798965137075470336"),
-	IGSQ5("798965148357230662"),
+	SUCCESS("801482196674019369"),
+	FAILURE("801482209227702274"),
 
 	ZERO(":zero:", "\u0030\uFE0F"),
 	ONE(":one:", "\u0031\uFE0F"),
@@ -132,11 +126,4 @@ public enum Emoji
 		}
 		return this.emote;
 	}
-
-	public List<Emoji> getIGSQNumbers()
-	{
-		return List.of(IGSQ1, IGSQ2, IGSQ3, IGSQ4);
-	}
-
-
 }
