@@ -118,16 +118,16 @@ public class Monke extends ListenerAdapter
 
 		registerGuilds(event.getJDA().getShardManager());
 
-		getLogger().info("  ___ ___ ___  ___  ___      _     ___ _            _          _ ");
-		getLogger().info(" |_ _/ __/ __|/ _ \\| _ ) ___| |_  / __| |_ __ _ _ _| |_ ___ __| |");
-		getLogger().info("  | | (_ \\__ \\ (_) | _ \\/ _ \\  _| \\__ \\  _/ _` | '_|  _/ -_) _` |");
-		getLogger().info(" |___\\___|___/\\__\\_\\___/\\___/\\__| |___/\\__\\__,_|_|  \\__\\___\\__,_|");
+		getLogger().info("  ___      _     ___ _            _          _ _ ");
+		getLogger().info(" | _ ) ___| |_  / __| |_ __ _ _ _| |_ ___ __| | |");
+		getLogger().info(" | _ \\/ _ \\  _| \\__ \\  _/ _` | '_|  _/ -_) _` |_|");
+		getLogger().info(" |___/\\___/\\__| |___/\\__\\__,_|_|  \\__\\___\\__,_(_)");
 		getLogger().info("");
 		getLogger().info("Account:         " + event.getJDA().getSelfUser().getAsTag() + " / " + event.getJDA().getSelfUser().getId());
 		getLogger().info("Total Shards:    " + BotInfo.getTotalShards(event.getJDA().getShardManager()));
 		getLogger().info("Total Guilds:    " + BotInfo.getTotalServers(event.getJDA().getShardManager()));
 		getLogger().info("JDA Version:     " + JDAInfo.VERSION);
-		getLogger().info("Monke Version: " + Constants.VERSION);
+		getLogger().info("Monke Version:   " + Constants.VERSION);
 		getLogger().info("JVM Version:     " + BotInfo.getJavaVersion());
 
 		getTaskHandler().addRepeatingTask(() ->

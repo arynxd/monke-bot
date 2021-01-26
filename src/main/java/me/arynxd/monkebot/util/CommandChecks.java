@@ -9,7 +9,6 @@ import me.arynxd.monkebot.entities.command.CommandEvent;
 import me.arynxd.monkebot.entities.exception.*;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.*;
-import org.igsq.igsqbot.entities.exception.*;
 
 public class CommandChecks
 {

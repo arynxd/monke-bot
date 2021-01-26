@@ -4,7 +4,7 @@ plugins{
     id 'com.github.johnrengelman.shadow' version '6.0.0'
     id 'nu.studer.jooq' version '5.2'
 }
-mainClassName = 'org.igsq.igsqbot.Main'
+mainClassName = 'me.arynxd.monkebot.Main'
 version '0.0.1'
 sourceCompatibility = 14
 repositories {
@@ -43,9 +43,9 @@ jooq {
                 generationTool {
                     logging = org.jooq.meta.jaxb.Logging.WARN
                     jdbc {
-                        url = "jdbc:postgresql://${IGSQBOT_DB_HOST}:${IGSQBOT_DB_PORT}/${IGSQBOT_DB_DATABASE}"
-                        user = IGSQBOT_DB_USER
-                        password = IGSQBOT_DB_PASSWORD
+                        url = "jdbc:postgresql://${MONKE_DB_HOST}:${MONKE_DB_PORT}/${MONKE_DB_DATABASE}"
+                        user = MONKE_DB_USER
+                        password = MONKE_DB_PASSWORD
                         driver = 'org.postgresql.Driver'
                     }
                     generator {
@@ -64,7 +64,7 @@ jooq {
                         }
                         target {
                             packageName = ''
-                            directory = "src/main/java/org/igsq/igsqbot/entities/jooq"
+                            directory = "src/main/java/me/arynxd/monkebot/entities/jooq"
                             clean = true
                         }
                         strategy.name = "org.jooq.codegen.DefaultGeneratorStrategy"
