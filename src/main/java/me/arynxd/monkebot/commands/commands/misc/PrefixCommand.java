@@ -38,7 +38,7 @@ public class PrefixCommand extends Command
 		{
 			EmbedUtils.sendDeletingEmbed(channel, new EmbedBuilder()
 					.setDescription("My prefix for this server is `" + guildConfig.getPrefix() + "`.")
-					.setColor(Constants.IGSQ_PURPLE), 30000);
+					.setColor(Constants.EMBED_COLOUR), 30000);
 			return;
 		}
 

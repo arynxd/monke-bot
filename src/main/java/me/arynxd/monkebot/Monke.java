@@ -204,7 +204,7 @@ public class Monke extends ListenerAdapter
 					fieldCount++;
 					embedBuilder.setTitle("Help page: " + page);
 					embedBuilder.addField(cmd.getName(), cmd.getDescription() + "\n**" + cmd.getAliases().get(0) + "**`" + cmd.getSyntax() + "`", false);
-					embedBuilder.setColor(Constants.IGSQ_PURPLE);
+					embedBuilder.setColor(Constants.EMBED_COLOUR);
 					embedBuilder.setFooter("<> Optional;  [] Required; {} Maximum Quantity | ");
 				}
 				else

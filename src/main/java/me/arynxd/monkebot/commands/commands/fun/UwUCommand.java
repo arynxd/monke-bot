@@ -48,7 +48,7 @@ public class UwUCommand extends Command
 
 		event.sendMessage(new EmbedBuilder()
 				.setDescription(finalSentence.toString())
-				.setColor(Constants.IGSQ_PURPLE)
+				.setColor(Constants.EMBED_COLOUR)
 				.setFooter("This sentence was UwU'd by: " + author.getAsTag() + " | "));
 
 	}

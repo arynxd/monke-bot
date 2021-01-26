@@ -85,7 +85,6 @@ public class BlacklistUtils
 			return false;
 		}
 
-
 		if(findLink(content))
 		{
 			if(member == null)

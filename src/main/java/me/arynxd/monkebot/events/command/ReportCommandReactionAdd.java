@@ -111,7 +111,7 @@ public class ReportCommandReactionAdd extends ListenerAdapter
 													.addField("Reporting User", StringUtils.getUserAsMention(report.getReportedUserId()), true)
 													.addField("Reason", report.getReason(), true)
 													.addField("Dealt with by", user.getAsMention(), true)
-													.setColor(Constants.IGSQ_PURPLE)
+													.setColor(Constants.EMBED_COLOUR)
 													.setTimestamp(Instant.now()).build())
 							).queue(null, error ->
 							{});

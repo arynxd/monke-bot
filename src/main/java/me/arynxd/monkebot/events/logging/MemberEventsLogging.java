@@ -36,7 +36,7 @@ public class MemberEventsLogging extends ListenerAdapter
 			logChannel.sendMessage(new EmbedBuilder()
 					.setTitle("Member Left")
 					.setDescription("**Member**: " + user.getAsMention())
-					.setColor(Constants.IGSQ_PURPLE)
+					.setColor(Constants.EMBED_COLOUR)
 					.setTimestamp(Instant.now())
 					.build()).queue();
 		}
@@ -57,7 +57,7 @@ public class MemberEventsLogging extends ListenerAdapter
 					.setTitle("Member Joined")
 					.setDescription("**Member**: " + member.getAsMention() +
 							"\n**Joined On**: " + member.getTimeJoined().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")))
-					.setColor(Constants.IGSQ_PURPLE)
+					.setColor(Constants.EMBED_COLOUR)
 					.setTimestamp(Instant.now())
 					.build()).queue();
 		}

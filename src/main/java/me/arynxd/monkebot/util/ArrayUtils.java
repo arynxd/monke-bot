@@ -18,30 +18,4 @@ public class ArrayUtils
 		}
 		return builder.toString().strip();
 	}
-
-	public static boolean isValueInArray(Object[] array, Object value)
-	{
-		if(array.length == 0) return false;
-		for(Object currentObject : array)
-		{
-			if(currentObject.equals(value))
-			{
-				return true;
-			}
-		}
-		return false;
-	}
-
-	public static boolean isValueInArray(List<Object> array, Object value)
-	{
-		if(array.isEmpty()) return false;
-		for(Object currentObject : array)
-		{
-			if(currentObject.equals(value))
-			{
-				return true;
-			}
-		}
-		return false;
-	}
 }

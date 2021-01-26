@@ -42,7 +42,7 @@ public class SuggestionCommand extends Command
 		suggestionChannel.sendMessage(new EmbedBuilder()
 				.setTitle("Suggestion:")
 				.setDescription(ArrayUtils.arrayCompile(args, " "))
-				.setColor(Constants.IGSQ_PURPLE)
+				.setColor(Constants.EMBED_COLOUR)
 				.setThumbnail(author.getAvatarUrl())
 				.setFooter("Suggested by: " + event.getAuthor().getAsTag() + " | ")
 				.setTimestamp(Instant.now())

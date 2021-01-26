@@ -31,6 +31,6 @@ public class UptimeCommand extends Command
 								" days, " + uptime.toHoursPart() +
 								" hours, " + uptime.toSecondsPart() +
 								" seconds.")
-				.setColor(Constants.IGSQ_PURPLE));
+				.setColor(Constants.EMBED_COLOUR));
 	}
 }

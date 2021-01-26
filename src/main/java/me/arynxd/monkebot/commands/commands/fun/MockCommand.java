@@ -36,7 +36,7 @@ public class MockCommand extends Command
 		{
 			event.getChannel().sendFile(file, "mock.jpg").embed(new EmbedBuilder()
 					.setTitle(mockText(args))
-					.setColor(Constants.IGSQ_PURPLE)
+					.setColor(Constants.EMBED_COLOUR)
 					.setImage("attachment://mock.jpg")
 					.setTimestamp(Instant.now())
 					.build()).queue();
