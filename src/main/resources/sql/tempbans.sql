@@ -1,0 +1,7 @@
+CREATE TABLE IF NOT EXISTS tempbans
+(
+    id bigserial PRIMARY KEY NOT NULL,
+    user_id BIGINT NOT NULL UNIQUE,
+    guild_id BIGINT NOT NULL UNIQUE REFERENCES guilds(guild_id) ON DELETE CASCADE,
+    muted_until TIMESTAMP NOT NULL
+);
