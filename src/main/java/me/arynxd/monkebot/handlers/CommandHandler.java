@@ -26,7 +26,7 @@ import me.arynxd.monkebot.util.EmbedUtils;
 
 public class CommandHandler
 {
-	public static final String COMMAND_PACKAGE = "org.igsq.igsqbot.commands.commands";
+	public static final String COMMAND_PACKAGE = "me.arynxd.monkebot.commands.commands";
 
 	private final ClassGraph classGraph = new ClassGraph().acceptPackages(COMMAND_PACKAGE);
 	private final Map<String, Command> commandMap;
