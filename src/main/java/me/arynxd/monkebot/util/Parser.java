@@ -158,6 +158,19 @@ public class Parser
 		if(!message.getMentions().isEmpty()) //Direct mention
 		{
 			IMentionable mention = message.getMentions(type).get(0);
+			if(mention.getIdLong() == selfUser.getIdLong())
+			{
+				if(message.getMentions().size() > 1)
+				{
+					IMentionable mention2 = message.getMentions(type).get(1);
+					consumer.accept(mention2);
+				}
+				else
+				{
+					event.replyError("No " + typeName.toLowerCase() + "s with name " + arg + " found.");
+				}
+				return;
+			}
 			consumer.accept(mention);
 			return;
 		}
@@ -178,8 +191,8 @@ public class Parser
 				else
 				{
 					jda.retrieveUserById(mentionableId).queue(consumer, failure -> event.replyError("No " + typeName.toLowerCase() + "s with name " + arg + " found."));
-					return;
 				}
+				return;
 			}
 			else if(type == Message.MentionType.CHANNEL)
 			{
@@ -235,13 +248,12 @@ public class Parser
 			if(rolesChannelsList.isEmpty()) //Role / Channel
 			{
 				event.replyError("No " + typeName.toLowerCase() + "s with name " + arg + " found.");
-				return;
 			}
 			else
 			{
 				consumer.accept(rolesChannelsList.get(0));
-				return;
 			}
+			return;
 		}
 
 		event.replyError("No " + typeName.toLowerCase() + "s with name " + arg + " found.");

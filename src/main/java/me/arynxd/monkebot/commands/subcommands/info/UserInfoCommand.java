@@ -38,7 +38,8 @@ public class UserInfoCommand extends Command
 		else
 		{
 			Guild guild = event.getGuild();
-			String arg = ArrayUtils.arrayCompile(args.subList(0, args.size()), " ");
+			String arg = String.join(" ", args.subList(0, args.size()));
+
 			new Parser(arg, event).parseAsUser(
 					user -> UserUtils.getMemberFromUser(user, guild).queue(
 							member -> showInfo(member, event),

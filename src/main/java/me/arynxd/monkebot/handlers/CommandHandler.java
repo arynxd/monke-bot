@@ -104,11 +104,11 @@ public class CommandHandler
 		Command cmd;
 
 		boolean startsWithId = messageContent.startsWith("<@" + selfID + ">") || messageContent.startsWith("<@!" + selfID + ">");
-		String idTrimmed = messageContent.substring(messageContent.indexOf(">") + 1).trim();
+		String idTrimmed = messageContent.substring(messageContent.indexOf(selfID + ">") + selfID.length() + 2).trim();
 		String prefix = Constants.DEFAULT_BOT_PREFIX;
 		boolean containsBlacklist = BlacklistUtils.isBlacklistedPhrase(event, monke);
 
-		if(idTrimmed.isBlank())
+		if(startsWithId && idTrimmed.isBlank())
 		{
 			return;
 		}
