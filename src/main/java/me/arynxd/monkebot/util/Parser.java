@@ -155,7 +155,7 @@ public class Parser
 		JDA jda = event.getJDA();
 		SelfUser selfUser = jda.getSelfUser();
 
-		if(type.getPattern().matcher(arg).matches()) //Direct mention
+		if(!message.getMentions().isEmpty()) //Direct mention
 		{
 			IMentionable mention = message.getMentions(type).get(0);
 			consumer.accept(mention);
