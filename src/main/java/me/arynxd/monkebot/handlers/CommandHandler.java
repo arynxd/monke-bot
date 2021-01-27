@@ -191,7 +191,7 @@ public class CommandHandler
 				deleteBlacklisted(event);
 				return;
 			}
-			EmbedUtils.sendError(event.getChannel(), "Command `" + command + " ` was not found.\n See " + prefix + "help for help.");
+			EmbedUtils.sendError(event.getChannel(), "Command `" + command + "` was not found.\n See " + prefix + "help for help.");
 			return;
 		}
 
