@@ -57,7 +57,7 @@ public class Parser
 		{
 			return Optional.of(true);
 		}
-		else if(arg.equalsIgnoreCase("false")|| arg.equalsIgnoreCase("off"))
+		else if(arg.equalsIgnoreCase("false")|| arg.equalsIgnoreCase("no"))
 		{
 			return Optional.of(false);
 		}
