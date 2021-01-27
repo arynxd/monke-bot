@@ -116,7 +116,6 @@ public class CommandHandler
 		else
 		{
 			prefix = Constants.DEFAULT_BOT_PREFIX;
-
 		}
 
 		if(!messageContent.startsWith(prefix))
@@ -136,10 +135,21 @@ public class CommandHandler
 		findCommand(prefix, command, args, event);
 	}
 
+	private void deleteBlacklisted(MessageReceivedEvent event)
+	{
+		EmbedUtils.sendError(event.getChannel(), "Your message contained a blacklisted phrase.");
+		if(event.getGuild().getSelfMember().hasPermission((GuildChannel) event.getChannel(), Permission.MESSAGE_MANAGE))
+		{
+			event.getMessage().delete().queue();
+		}
+	}
+
+
 	private void handleGuild(MessageReceivedEvent event)
 	{
 		String prefix = new GuildConfig(event.getGuild(), monke).getPrefix();
 		String messageContent = event.getMessage().getContentRaw();
+		boolean containsBlacklist = BlacklistUtils.isBlacklistedPhrase(event, monke);
 
 		if(isBotMention(event))
 		{
@@ -148,6 +158,10 @@ public class CommandHandler
 
 		if(!messageContent.startsWith(prefix))
 		{
+			if(containsBlacklist)
+			{
+				deleteBlacklisted(event);
+			}
 			return;
 		}
 
@@ -168,10 +182,22 @@ public class CommandHandler
 	private void findCommand(String prefix, String command, List<String> args, MessageReceivedEvent event)
 	{
 		Command cmd = commandMap.get(command);
+		boolean containsBlacklist = BlacklistUtils.isBlacklistedPhrase(event, monke);
 
 		if(cmd == null)
 		{
+			if(containsBlacklist)
+			{
+				deleteBlacklisted(event);
+				return;
+			}
 			EmbedUtils.sendError(event.getChannel(), "Command `" + command + " ` was not found.\n See " + prefix + "help for help.");
+			return;
+		}
+
+		if(containsBlacklist && cmd.hasFlag(CommandFlag.BLACKLIST_BYPASS))
+		{
+			deleteBlacklisted(event);
 			return;
 		}
 
