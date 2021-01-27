@@ -39,7 +39,7 @@ public class PingCommand extends Command
 							.setDescription("**Shard ID**: " + jda.getShardInfo().getShardId()
 									+ "\n**REST Ping**: " + ping
 									+ "ms\n**Gateway Ping**: " + jda.getGatewayPing() + "ms")
-							.setColor(Constants.IGSQ_PURPLE));
+							.setColor(Constants.EMBED_COLOUR));
 				});
 	}
 }

@@ -64,7 +64,7 @@ public class PollCommand extends Command
 				.setDescription(topic)
 				.addField("Options:", options.toString(), false)
 				.setThumbnail(author.getEffectiveAvatarUrl())
-				.setColor(Constants.IGSQ_PURPLE)
+				.setColor(Constants.EMBED_COLOUR)
 				.build()).queue(message -> reactions.forEach(reaction -> message.addReaction(reaction).queue(null, error -> {})));
 	}
 }

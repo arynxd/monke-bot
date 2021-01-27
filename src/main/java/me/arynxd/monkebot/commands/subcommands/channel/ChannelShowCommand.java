@@ -10,6 +10,7 @@ import me.arynxd.monkebot.entities.jooq.tables.pojos.ChannelBlacklists;
 import net.dv8tion.jda.api.EmbedBuilder;
 import me.arynxd.monkebot.util.BlacklistUtils;
 import me.arynxd.monkebot.util.StringUtils;
+import net.dv8tion.jda.api.Permission;
 import org.jetbrains.annotations.NotNull;
 
 public class ChannelShowCommand extends Command
@@ -17,6 +18,7 @@ public class ChannelShowCommand extends Command
 	public ChannelShowCommand(Command parent)
 	{
 		super(parent, "show", "Shows all configured channels for this server.", "[none]");
+		addMemberPermissions(Permission.MANAGE_SERVER);
 	}
 
 	@Override

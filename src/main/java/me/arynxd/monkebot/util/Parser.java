@@ -53,11 +53,15 @@ public class Parser
 
 	public Optional<Boolean> parseAsBoolean()
 	{
-		try
+		if(arg.equalsIgnoreCase("true") || arg.equalsIgnoreCase("yes"))
 		{
-			return Optional.of(Boolean.parseBoolean(arg));
+			return Optional.of(true);
 		}
-		catch(Exception exception)
+		else if(arg.equalsIgnoreCase("false")|| arg.equalsIgnoreCase("no"))
+		{
+			return Optional.of(false);
+		}
+		else
 		{
 			event.replyError("Invalid true / false entered.");
 			return Optional.empty();

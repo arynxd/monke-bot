@@ -99,7 +99,7 @@ public class ReportCommand extends Command
 				.setTitle("Your report in " + author.getGuild().getName())
 				.addField("Reporting User", reported.getAsMention(), true)
 				.addField("Reason", reason, true)
-				.setColor(Constants.IGSQ_PURPLE)
+				.setColor(Constants.EMBED_COLOUR)
 				.setTimestamp(Instant.now());
 	}
 }

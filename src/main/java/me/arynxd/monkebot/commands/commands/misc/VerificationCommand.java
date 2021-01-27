@@ -112,7 +112,7 @@ public class VerificationCommand extends Command
 											commandEvent.getChannel().sendMessage(new EmbedBuilder()
 													.setTitle("Verification for " + target.getAsTag())
 													.addField("Roles", ctxMessage.length() == 0 ? "No roles found" : ctxMessage.toString(), false)
-													.setColor(Constants.IGSQ_PURPLE)
+													.setColor(Constants.EMBED_COLOUR)
 													.setTimestamp(Instant.now())
 													.build()).queue(message ->
 											{
@@ -131,7 +131,7 @@ public class VerificationCommand extends Command
 																		.setAuthor(target.getAsTag(), null, target.getEffectiveAvatarUrl())
 																		.setDescription(target.getAsMention() + " has joined " + guild.getName() + ". Welcome!")
 																		.addField("Roles", welcomeMessage.length() == 0 ? "No roles." : welcomeMessage.toString(), false)
-																		.setColor(Constants.IGSQ_PURPLE)
+																		.setColor(Constants.EMBED_COLOUR)
 																		.setTimestamp(Instant.now())
 																		.build()).queue();
 															}

@@ -299,13 +299,13 @@ public class CommandEvent
 	}
 
 	/**
-	 * Sends an embed to the user, adding the {@link Constants#IGSQ_PURPLE default} {@link java.awt.Color colour} and footer.
+	 * Sends an embed to the user, adding the {@link Constants#EMBED_COLOUR default} {@link java.awt.Color colour} and footer.
 	 * @param embed The {@link net.dv8tion.jda.api.EmbedBuilder embed} to send.
 	 */
 	public void sendMessage(EmbedBuilder embed)
 	{
 		addSuccessReaction();
-		getChannel().sendMessage(embed.setColor(Constants.IGSQ_PURPLE).setTimestamp(Instant.now()).build()).queue();
+		getChannel().sendMessage(embed.setColor(Constants.EMBED_COLOUR).setTimestamp(Instant.now()).build()).queue();
 	}
 
 	/**

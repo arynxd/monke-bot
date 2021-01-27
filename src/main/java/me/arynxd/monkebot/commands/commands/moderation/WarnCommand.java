@@ -69,7 +69,7 @@ public class WarnCommand extends Command
 						.flatMap(privateChannel -> privateChannel.sendMessage(new EmbedBuilder()
 								.setTitle("You have been warned in " + guild.getName())
 								.addField("Reason", reason, true)
-								.setColor(Constants.IGSQ_PURPLE)
+								.setColor(Constants.EMBED_COLOUR)
 								.setTimestamp(Instant.now())
 								.build())).queue(null, error ->
 				{});

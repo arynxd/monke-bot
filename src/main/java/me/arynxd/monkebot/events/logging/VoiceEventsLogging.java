@@ -40,7 +40,7 @@ public class VoiceEventsLogging extends ListenerAdapter
 					.setDescription("**Member**: " + member.getAsMention() + "\n" +
 							"**Old Channel**: " + oldChannel.getName() + "\n" +
 							"**New Channel**: " + newChannel.getName())
-					.setColor(Constants.IGSQ_PURPLE)
+					.setColor(Constants.EMBED_COLOUR)
 					.setTimestamp(Instant.now())
 					.build()).queue();
 		}
@@ -61,12 +61,10 @@ public class VoiceEventsLogging extends ListenerAdapter
 					.setTitle("Member Left VC")
 					.setDescription("**Member**: " + member.getAsMention() + "\n" +
 							"**Channel**: " + channel.getName())
-					.setColor(Constants.IGSQ_PURPLE)
+					.setColor(Constants.EMBED_COLOUR)
 					.setTimestamp(Instant.now())
 					.build()).queue();
 		}
-
-
 	}
 
 
@@ -84,7 +82,7 @@ public class VoiceEventsLogging extends ListenerAdapter
 					.setTitle("Member Joined VC")
 					.setDescription("**Member**: " + member.getAsMention() + "\n" +
 							"**Channel**: " + channel.getName())
-					.setColor(Constants.IGSQ_PURPLE)
+					.setColor(Constants.EMBED_COLOUR)
 					.setTimestamp(Instant.now())
 					.build()).queue();
 		}

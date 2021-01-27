@@ -11,6 +11,7 @@ import me.arynxd.monkebot.entities.exception.CommandResultException;
 import me.arynxd.monkebot.util.BlacklistUtils;
 import me.arynxd.monkebot.util.CommandChecks;
 import me.arynxd.monkebot.util.Parser;
+import net.dv8tion.jda.api.Permission;
 import org.jetbrains.annotations.NotNull;
 
 public class ChannelIgnoreCommand extends Command
@@ -18,6 +19,7 @@ public class ChannelIgnoreCommand extends Command
 	public ChannelIgnoreCommand(Command parent)
 	{
 		super(parent, "ignore", "Controls ignored channels.", "[channel][true / false]");
+		addMemberPermissions(Permission.MANAGE_SERVER);
 	}
 
 	@Override

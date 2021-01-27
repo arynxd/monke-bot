@@ -9,7 +9,7 @@ public abstract class CooldownHandler
 {
 	private static final Map<CooledCommand, Long> COOLDOWN_MAP = new ConcurrentHashMap<>(); //K = userId, guildId, command V = timestamp
 
-	private CooldownHandler()
+	private CooldownHandler() //TODO: Remove shit from the map
 	{
 		//Overrides the default, public, constructor
 	}

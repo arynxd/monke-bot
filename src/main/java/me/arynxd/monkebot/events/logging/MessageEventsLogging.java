@@ -63,7 +63,7 @@ public class MessageEventsLogging extends ListenerAdapter
 									"\n**Sent On**: " + newMessage.getTimeCreated().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")) +
 									"\n\n**Message Content Before**: " + oldContent +
 									"\n**Message Content After**: " + newContent)
-							.setColor(Constants.IGSQ_PURPLE)
+							.setColor(Constants.EMBED_COLOUR)
 							.setTimestamp(Instant.now())
 							.build()).queue();
 
@@ -104,7 +104,7 @@ public class MessageEventsLogging extends ListenerAdapter
 									"\n**Sent In**: " + StringUtils.getChannelAsMention(channel.getId()) +
 									"\n**Sent On**: " + message.getTimeCreated().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")) +
 									"\n\n**Message Content**: " + content)
-							.setColor(Constants.IGSQ_PURPLE)
+							.setColor(Constants.EMBED_COLOUR)
 							.setTimestamp(Instant.now())
 							.build()).queue();
 					cache.remove(message);

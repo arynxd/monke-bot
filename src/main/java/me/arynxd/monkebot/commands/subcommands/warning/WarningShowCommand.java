@@ -57,7 +57,7 @@ public class WarningShowCommand extends Command
 			channel.sendMessage(new EmbedBuilder()
 					.setTitle("Warnings for " + user.getAsTag())
 					.setDescription(stringBuilder.length() == 0 ? "This user has no warnings" : stringBuilder.toString())
-					.setColor(Constants.IGSQ_PURPLE)
+					.setColor(Constants.EMBED_COLOUR)
 					.build()).queue();
 		});
 	}
