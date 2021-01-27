@@ -157,21 +157,22 @@ public class Parser
 
 		if(!message.getMentions().isEmpty()) //Direct mention
 		{
-			IMentionable mention = message.getMentions(type).get(0);
-			if(mention.getIdLong() == selfUser.getIdLong())
+			List<IMentionable> mentions = message.getMentions();
+
+			if(mentions.isEmpty())
 			{
-				if(message.getMentions().size() > 1)
-				{
-					IMentionable mention2 = message.getMentions(type).get(1);
-					consumer.accept(mention2);
-				}
-				else
-				{
-					event.replyError("No " + typeName.toLowerCase() + "s with name " + arg + " found.");
-				}
+				event.replyError("No " + typeName.toLowerCase() + "s with name " + arg + " found.");
 				return;
 			}
-			consumer.accept(mention);
+
+			//Is a command but has a second user within it, @Bot info @User for example. Avoids mismatching the self user.
+			if(mentions.get(0).getIdLong() == selfUser.getIdLong() && mentions.size() > 1)
+			{
+				consumer.accept(mentions.get(1));
+				return;
+			}
+
+			consumer.accept(mentions.get(0));
 			return;
 		}
 
