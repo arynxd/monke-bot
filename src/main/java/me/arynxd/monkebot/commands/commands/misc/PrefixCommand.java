@@ -50,8 +50,7 @@ public class PrefixCommand extends Command
 
 		if(!event.memberPermissionCheck(Permission.MANAGE_SERVER))
 		{
-			failure.accept(new CommandException(Emoji.FAILURE.getAsChat() +
-					" You do not have the following required permissions: *Manage Server*"));
+			failure.accept(new CommandException("You do not have the following required permissions: *Manage Server*"));
 			return;
 		}
 
