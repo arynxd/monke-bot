@@ -6,7 +6,6 @@ import java.util.function.Consumer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-
 import me.arynxd.monkebot.entities.command.CommandEvent;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.*;
@@ -57,7 +56,7 @@ public class Parser
 		{
 			return Optional.of(true);
 		}
-		else if(arg.equalsIgnoreCase("false")|| arg.equalsIgnoreCase("no"))
+		else if(arg.equalsIgnoreCase("false") || arg.equalsIgnoreCase("no"))
 		{
 			return Optional.of(false);
 		}

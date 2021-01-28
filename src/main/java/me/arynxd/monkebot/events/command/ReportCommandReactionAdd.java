@@ -4,19 +4,18 @@ import java.awt.*;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
-
+import me.arynxd.monkebot.Constants;
 import me.arynxd.monkebot.Monke;
+import me.arynxd.monkebot.entities.Emoji;
 import me.arynxd.monkebot.entities.database.GuildConfig;
 import me.arynxd.monkebot.entities.database.Report;
+import me.arynxd.monkebot.util.EmbedUtils;
+import me.arynxd.monkebot.util.StringUtils;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.requests.RestAction;
-import me.arynxd.monkebot.Constants;
-import me.arynxd.monkebot.entities.Emoji;
-import me.arynxd.monkebot.util.EmbedUtils;
-import me.arynxd.monkebot.util.StringUtils;
 
 public class ReportCommandReactionAdd extends ListenerAdapter
 {
@@ -114,9 +113,12 @@ public class ReportCommandReactionAdd extends ListenerAdapter
 													.setColor(Constants.EMBED_COLOUR)
 													.setTimestamp(Instant.now()).build())
 							).queue(null, error ->
-							{});
+							{
+							});
 						}
 					}
-				}, error -> {});
+				}, error ->
+				{
+				});
 	}
 }

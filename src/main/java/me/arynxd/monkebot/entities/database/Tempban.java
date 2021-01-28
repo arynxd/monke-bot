@@ -4,11 +4,10 @@ import java.sql.Connection;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-
 import me.arynxd.monkebot.Monke;
+import me.arynxd.monkebot.entities.jooq.Tables;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Role;
-import me.arynxd.monkebot.entities.jooq.Tables;
 
 import static me.arynxd.monkebot.entities.jooq.tables.Roles.ROLES;
 import static me.arynxd.monkebot.entities.jooq.tables.Tempbans.TEMPBANS;

@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Configuration file handler for the {@link me.arynxd.monkebot.Monke bot}
+ *
  * @see #getString(ConfigOption)
  */
 public class Configuration
@@ -26,6 +27,7 @@ public class Configuration
 
 	/**
 	 * Constructs a new {@link Configuration configuraton handler}
+	 *
 	 * @param monke The {@link me.arynxd.monkebot.Monke monke} instance.
 	 */
 	public Configuration(@Nonnull Monke monke)
@@ -76,6 +78,7 @@ public class Configuration
 
 	/**
 	 * Load the initial state of the 'config/bot.cfg' file.
+	 *
 	 * @return The config values.
 	 */
 	private List<ConfigurationValue> loadInitialValues()
@@ -105,6 +108,7 @@ public class Configuration
 
 	/**
 	 * Apply the default values from {@link ConfigOption options} if the key does not exist.
+	 *
 	 * @param loadedValues The loaded values to apply the defaults to.
 	 * @return The new values
 	 */
@@ -123,6 +127,7 @@ public class Configuration
 
 	/**
 	 * Save the current config options to file.
+	 *
 	 * @param configValues The options to save.
 	 */
 	private void save(List<ConfigurationValue> configValues)
@@ -151,6 +156,7 @@ public class Configuration
 	/**
 	 * Gets a {@link ConfigOption option} from the loaded list
 	 * <p>This IS a Threadsafe operation.
+	 *
 	 * @param configOption The config option to load.
 	 * @return The retrieved option, or the default.
 	 */

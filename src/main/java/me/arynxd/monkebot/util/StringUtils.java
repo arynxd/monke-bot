@@ -3,7 +3,6 @@ package me.arynxd.monkebot.util;
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
-
 import me.arynxd.monkebot.entities.Emoji;
 
 public class StringUtils

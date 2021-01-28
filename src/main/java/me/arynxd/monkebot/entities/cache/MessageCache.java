@@ -92,6 +92,7 @@ public class MessageCache
 
 	/**
 	 * Adds a {@link CachedMessage message} to the {@link #cachedMessages}.
+	 *
 	 * @param message The {@link CachedMessage message} to add.
 	 */
 	public void set(@Nonnull CachedMessage message)
@@ -102,6 +103,7 @@ public class MessageCache
 
 	/**
 	 * Adds a {@link java.util.List list} of {@link CachedMessage messages} to the {@link #cachedMessages}.
+	 *
 	 * @param messages The {@link java.util.List list} of {@link CachedMessage messages} to add.
 	 */
 	public void set(@Nonnull List<CachedMessage> messages)
@@ -115,9 +117,10 @@ public class MessageCache
 
 	/**
 	 * Gets a {@link CachedMessage message} from the {@link #cachedMessages cache}.
+	 *
 	 * @param messageId The messageId to get.
 	 * @return The {@link CachedMessage message} or <code>null</code> if a message is not found.
-	 * @see #isInCache(Long) 
+	 * @see #isInCache(Long)
 	 */
 	@Nullable
 	public CachedMessage get(@Nonnull Long messageId)
@@ -136,6 +139,7 @@ public class MessageCache
 
 	/**
 	 * Removes a {@link CachedMessage message} from the {@link #cachedMessages cache}.
+	 *
 	 * @param messageId The messageId to remove.
 	 */
 	public void remove(@Nonnull Long messageId)
@@ -146,6 +150,7 @@ public class MessageCache
 
 	/**
 	 * Removes a {@link CachedMessage message} from the {@link #cachedMessages cache}.
+	 *
 	 * @param message The message to remove.
 	 */
 	public void remove(@Nonnull CachedMessage message)
@@ -156,6 +161,7 @@ public class MessageCache
 
 	/**
 	 * Removes a {@link CachedMessage message} from the {@link #cachedMessages cache}.
+	 *
 	 * @param message The message to remove.
 	 */
 	public void remove(@Nonnull Message message)
@@ -166,6 +172,7 @@ public class MessageCache
 
 	/**
 	 * Removes a {@link CachedMessage message} from the {@link #cachedMessages cache}.
+	 *
 	 * @param messages The {@link java.util.List list} of {@link net.dv8tion.jda.api.entities.Message messages} to remove.
 	 */
 	public void remove(@Nonnull List<Message> messages)
@@ -179,6 +186,7 @@ public class MessageCache
 
 	/**
 	 * Queries the {@link #cachedMessages cache} to see if it contains a {@link CachedMessage message} with the given id.
+	 *
 	 * @param messageId The messageId to look for.
 	 * @return Whether the {@link #cachedMessages cache} contains the message.
 	 */
@@ -189,6 +197,7 @@ public class MessageCache
 
 	/**
 	 * Queries the {@link #cachedMessages cache} to see if it contains a {@link CachedMessage message} with the given id.
+	 *
 	 * @param message The message to look for.
 	 * @return Whether the {@link #cachedMessages cache} contains the message.
 	 */
@@ -199,6 +208,7 @@ public class MessageCache
 
 	/**
 	 * Updates the {@link #cachedMessages cache}, replacing the oldMessage with the newMessage.
+	 *
 	 * @param oldMessage The old message.
 	 * @param newMessage the new message.
 	 */
@@ -211,8 +221,9 @@ public class MessageCache
 
 	/**
 	 * Updates the {@link #cachedMessages cache}, replacing the oldMessage with the newMessage.
+	 *
 	 * @param oldMessageId The old messageId.
-	 * @param newMessage the new message.
+	 * @param newMessage   the new message.
 	 */
 	public void update(@Nonnull Long oldMessageId, @Nonnull CachedMessage newMessage)
 	{

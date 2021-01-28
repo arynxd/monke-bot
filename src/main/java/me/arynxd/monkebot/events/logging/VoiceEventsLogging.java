@@ -1,7 +1,7 @@
 package me.arynxd.monkebot.events.logging;
 
 import java.time.Instant;
-
+import me.arynxd.monkebot.Constants;
 import me.arynxd.monkebot.Monke;
 import me.arynxd.monkebot.entities.database.GuildConfig;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -13,7 +13,6 @@ import net.dv8tion.jda.api.events.guild.voice.GuildVoiceJoinEvent;
 import net.dv8tion.jda.api.events.guild.voice.GuildVoiceLeaveEvent;
 import net.dv8tion.jda.api.events.guild.voice.GuildVoiceMoveEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
-import me.arynxd.monkebot.Constants;
 
 public class VoiceEventsLogging extends ListenerAdapter
 {

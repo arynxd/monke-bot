@@ -3,21 +3,19 @@ package me.arynxd.monkebot.commands.subcommands.info;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
-
 import me.arynxd.monkebot.entities.command.Command;
 import me.arynxd.monkebot.entities.command.CommandEvent;
 import me.arynxd.monkebot.entities.command.CommandFlag;
 import me.arynxd.monkebot.entities.exception.CommandException;
 import me.arynxd.monkebot.entities.exception.CommandResultException;
 import me.arynxd.monkebot.entities.info.MemberInfo;
+import me.arynxd.monkebot.util.Parser;
+import me.arynxd.monkebot.util.StringUtils;
+import me.arynxd.monkebot.util.UserUtils;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
-import me.arynxd.monkebot.util.ArrayUtils;
-import me.arynxd.monkebot.util.Parser;
-import me.arynxd.monkebot.util.StringUtils;
-import me.arynxd.monkebot.util.UserUtils;
 import org.jetbrains.annotations.NotNull;
 
 public class UserInfoCommand extends Command

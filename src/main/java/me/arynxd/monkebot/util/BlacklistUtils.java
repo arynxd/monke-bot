@@ -3,7 +3,6 @@ package me.arynxd.monkebot.util;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
-
 import me.arynxd.monkebot.Monke;
 import me.arynxd.monkebot.entities.database.GuildConfig;
 import me.arynxd.monkebot.entities.jooq.Tables;
@@ -20,6 +19,7 @@ public class BlacklistUtils
 {
 	public static final List<String> LINKS = List.copyOf(List.of("youtube.com", "twitch.tv", "youtu.be", "https://", "http://", "www."));
 	public static final List<String> DISCORD = List.copyOf(List.of("discord.gg/"));
+
 	private BlacklistUtils()
 	{
 		//Overrides the default, public, constructor
@@ -36,7 +36,7 @@ public class BlacklistUtils
 		String content = event.getMessage().getContentRaw();
 		Member member = event.getMember();
 
-		if(member == null || member.hasPermission(Permission.ADMINISTRATOR))
+		if(member == null)
 		{
 			return false;
 		}

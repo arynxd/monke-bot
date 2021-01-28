@@ -1,19 +1,18 @@
 package me.arynxd.monkebot.events.main;
 
 import java.util.List;
-
 import me.arynxd.monkebot.Monke;
 import me.arynxd.monkebot.entities.cache.CachedMessage;
 import me.arynxd.monkebot.entities.cache.MessageCache;
 import me.arynxd.monkebot.entities.database.Vote;
-import net.dv8tion.jda.api.Permission;
-import net.dv8tion.jda.api.entities.*;
-import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
-import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import me.arynxd.monkebot.util.BlacklistUtils;
 import me.arynxd.monkebot.util.CommandUtils;
 import me.arynxd.monkebot.util.DatabaseUtils;
 import me.arynxd.monkebot.util.EmbedUtils;
+import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.entities.*;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 public class MessageEventsMain extends ListenerAdapter
 {

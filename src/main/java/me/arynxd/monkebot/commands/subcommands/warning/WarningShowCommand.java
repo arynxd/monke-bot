@@ -2,7 +2,7 @@ package me.arynxd.monkebot.commands.subcommands.warning;
 
 import java.util.List;
 import java.util.function.Consumer;
-
+import me.arynxd.monkebot.Constants;
 import me.arynxd.monkebot.entities.command.Command;
 import me.arynxd.monkebot.entities.command.CommandEvent;
 import me.arynxd.monkebot.entities.command.CommandFlag;
@@ -10,13 +10,12 @@ import me.arynxd.monkebot.entities.database.Warning;
 import me.arynxd.monkebot.entities.exception.CommandException;
 import me.arynxd.monkebot.entities.exception.CommandInputException;
 import me.arynxd.monkebot.entities.jooq.tables.pojos.Warnings;
-import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.MessageChannel;
-import me.arynxd.monkebot.Constants;
 import me.arynxd.monkebot.util.CommandChecks;
 import me.arynxd.monkebot.util.Parser;
 import me.arynxd.monkebot.util.StringUtils;
+import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.MessageChannel;
 import org.jetbrains.annotations.NotNull;
 
 public class WarningShowCommand extends Command

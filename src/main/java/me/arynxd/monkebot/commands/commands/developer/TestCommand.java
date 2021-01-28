@@ -17,6 +17,7 @@ public class TestCommand extends Command
 		addAliases("test");
 		addFlags(CommandFlag.DEVELOPER_ONLY);
 	}
+
 	@Override
 	public void run(@NotNull List<String> args, @NotNull CommandEvent event, @NotNull Consumer<CommandException> failure)
 	{

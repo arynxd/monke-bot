@@ -5,18 +5,17 @@ import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 import javax.annotation.Nonnull;
-
+import me.arynxd.monkebot.Constants;
 import me.arynxd.monkebot.Monke;
+import me.arynxd.monkebot.entities.Emoji;
+import me.arynxd.monkebot.entities.bot.ConfigOption;
 import me.arynxd.monkebot.entities.database.GuildConfig;
+import me.arynxd.monkebot.util.EmbedUtils;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
-import me.arynxd.monkebot.Constants;
-import me.arynxd.monkebot.entities.Emoji;
-import me.arynxd.monkebot.entities.bot.ConfigOption;
-import me.arynxd.monkebot.util.EmbedUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,7 +34,7 @@ public class CommandEvent
 	 * Constructs a new {@link CommandEvent event}.
 	 *
 	 * @param event   The {@link net.dv8tion.jda.api.events.message.MessageReceivedEvent event} to use.
-	 * @param monke The {@link me.arynxd.monkebot.Monke monke} instance to use.
+	 * @param monke   The {@link me.arynxd.monkebot.Monke monke} instance to use.
 	 * @param command The {@link Command command} to use.
 	 * @param args    The {@link java.util.List<String> args} to use.
 	 */
@@ -300,6 +299,7 @@ public class CommandEvent
 
 	/**
 	 * Sends an embed to the user, adding the {@link Constants#EMBED_COLOUR default} {@link java.awt.Color colour} and footer.
+	 *
 	 * @param embed The {@link net.dv8tion.jda.api.EmbedBuilder embed} to send.
 	 */
 	public void sendMessage(EmbedBuilder embed)

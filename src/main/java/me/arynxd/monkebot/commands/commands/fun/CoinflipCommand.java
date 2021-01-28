@@ -3,7 +3,6 @@ package me.arynxd.monkebot.commands.commands.fun;
 import java.util.List;
 import java.util.Random;
 import java.util.function.Consumer;
-
 import me.arynxd.monkebot.entities.command.Command;
 import me.arynxd.monkebot.entities.command.CommandEvent;
 import me.arynxd.monkebot.entities.exception.CommandException;

@@ -5,7 +5,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
 import me.arynxd.monkebot.Monke;
 import me.arynxd.monkebot.entities.jooq.Tables;
 import me.arynxd.monkebot.entities.jooq.tables.Guilds;

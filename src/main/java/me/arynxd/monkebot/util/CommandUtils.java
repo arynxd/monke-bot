@@ -2,7 +2,6 @@ package me.arynxd.monkebot.util;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import me.arynxd.monkebot.Monke;
 import me.arynxd.monkebot.entities.command.CommandEvent;
 import me.arynxd.monkebot.entities.database.GuildConfig;

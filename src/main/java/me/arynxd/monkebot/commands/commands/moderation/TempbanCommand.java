@@ -3,7 +3,6 @@ package me.arynxd.monkebot.commands.commands.moderation;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.function.Consumer;
-
 import me.arynxd.monkebot.entities.command.Command;
 import me.arynxd.monkebot.entities.command.CommandEvent;
 import me.arynxd.monkebot.entities.command.CommandFlag;
@@ -67,28 +66,24 @@ public class TempbanCommand extends Command
 			}
 
 			CommandUtils.interactionCheck(selfUser, user, event, () ->
-			{
-				CommandUtils.interactionCheck(author, user, event, () ->
-				{
-					UserUtils.getMemberFromUser(user, guild).queue(member ->
-					{
-						List<Long> roleIds = UserUtils.getRoleIds(member);
-						guild.modifyMemberRoles(member, tempBanRole).queue(
-								success ->
-								{
-									if(Tempban.add(member.getIdLong(), roleIds, guild, muteTime, event.getMonke()))
-									{
-										event.replySuccess("Tempbanned " + user.getAsMention() + " until " + StringUtils.parseDateTime(muteTime));
-									}
-									else
-									{
-										failure.accept(new CommandResultException("User " + user.getAsMention() + " is already tempbanned."));
-									}
-								}
-						);
-					});
-				});
-			});
+					CommandUtils.interactionCheck(author, user, event, () ->
+							UserUtils.getMemberFromUser(user, guild).queue(member ->
+							{
+								List<Long> roleIds = UserUtils.getRoleIds(member);
+								guild.modifyMemberRoles(member, tempBanRole).queue(
+										success ->
+										{
+											if(Tempban.add(member.getIdLong(), roleIds, guild, muteTime, event.getMonke()))
+											{
+												event.replySuccess("Tempbanned " + user.getAsMention() + " until " + StringUtils.parseDateTime(muteTime));
+											}
+											else
+											{
+												failure.accept(new CommandResultException("User " + user.getAsMention() + " is already tempbanned."));
+											}
+										}
+								);
+							})));
 		});
 	}
 
@@ -124,22 +119,18 @@ public class TempbanCommand extends Command
 				Guild guild = event.getGuild();
 
 				CommandUtils.interactionCheck(selfUser, user, event, () ->
-				{
-					CommandUtils.interactionCheck(author, user, event, () ->
-					{
-						UserUtils.getMemberFromUser(user, guild).queue(member ->
-						{
-							if(Tempban.remove(member.getIdLong(), event.getMonke()))
-							{
-								event.replySuccess("Removed tempban for user " + StringUtils.getUserAsMention(member.getIdLong()));
-							}
-							else
-							{
-								failure.accept(new CommandResultException("User " + user.getAsMention() + " is not tempbanned."));
-							}
-						});
-					});
-				});
+						CommandUtils.interactionCheck(author, user, event, () ->
+								UserUtils.getMemberFromUser(user, guild).queue(member ->
+								{
+									if(Tempban.remove(member.getIdLong(), event.getMonke()))
+									{
+										event.replySuccess("Removed tempban for user " + StringUtils.getUserAsMention(member.getIdLong()));
+									}
+									else
+									{
+										failure.accept(new CommandResultException("User " + user.getAsMention() + " is not tempbanned."));
+									}
+								})));
 			});
 		}
 	}

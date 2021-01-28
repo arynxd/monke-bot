@@ -3,16 +3,15 @@ package me.arynxd.monkebot.commands.subcommands.info;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
-
 import me.arynxd.monkebot.entities.command.Command;
 import me.arynxd.monkebot.entities.command.CommandEvent;
 import me.arynxd.monkebot.entities.command.CommandFlag;
 import me.arynxd.monkebot.entities.exception.CommandException;
 import me.arynxd.monkebot.entities.info.GuildInfo;
-import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.entities.Guild;
 import me.arynxd.monkebot.util.Parser;
 import me.arynxd.monkebot.util.StringUtils;
+import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.entities.Guild;
 import org.jetbrains.annotations.NotNull;
 
 public class ServerInfoCommand extends Command
