@@ -6,7 +6,6 @@ import java.util.function.Consumer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-
 import me.arynxd.monkebot.entities.command.CommandEvent;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.*;
@@ -57,7 +56,7 @@ public class Parser
 		{
 			return Optional.of(true);
 		}
-		else if(arg.equalsIgnoreCase("false")|| arg.equalsIgnoreCase("no"))
+		else if(arg.equalsIgnoreCase("false") || arg.equalsIgnoreCase("no"))
 		{
 			return Optional.of(false);
 		}
@@ -155,10 +154,24 @@ public class Parser
 		JDA jda = event.getJDA();
 		SelfUser selfUser = jda.getSelfUser();
 
-		if(type.getPattern().matcher(arg).matches()) //Direct mention
+		if(!message.getMentions().isEmpty()) //Direct mention
 		{
-			IMentionable mention = message.getMentions(type).get(0);
-			consumer.accept(mention);
+			List<IMentionable> mentions = message.getMentions();
+
+			if(mentions.isEmpty())
+			{
+				event.replyError("No " + typeName.toLowerCase() + "s with name " + arg + " found.");
+				return;
+			}
+
+			//Is a command but has a second user within it, @Bot info @User for example. Avoids mismatching the self user.
+			if(mentions.get(0).getIdLong() == selfUser.getIdLong() && mentions.size() > 1)
+			{
+				consumer.accept(mentions.get(1));
+				return;
+			}
+
+			consumer.accept(mentions.get(0));
 			return;
 		}
 
@@ -178,8 +191,8 @@ public class Parser
 				else
 				{
 					jda.retrieveUserById(mentionableId).queue(consumer, failure -> event.replyError("No " + typeName.toLowerCase() + "s with name " + arg + " found."));
-					return;
 				}
+				return;
 			}
 			else if(type == Message.MentionType.CHANNEL)
 			{
@@ -235,13 +248,12 @@ public class Parser
 			if(rolesChannelsList.isEmpty()) //Role / Channel
 			{
 				event.replyError("No " + typeName.toLowerCase() + "s with name " + arg + " found.");
-				return;
 			}
 			else
 			{
 				consumer.accept(rolesChannelsList.get(0));
-				return;
 			}
+			return;
 		}
 
 		event.replyError("No " + typeName.toLowerCase() + "s with name " + arg + " found.");

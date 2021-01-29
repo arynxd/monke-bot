@@ -6,7 +6,6 @@ package me.arynxd.monkebot.entities.jooq;
 
 import java.util.Arrays;
 import java.util.List;
-
 import me.arynxd.monkebot.entities.jooq.tables.*;
 import org.jooq.Catalog;
 import org.jooq.Sequence;

@@ -3,14 +3,13 @@ package me.arynxd.monkebot.commands.subcommands.verification;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
-
 import me.arynxd.monkebot.entities.command.Command;
 import me.arynxd.monkebot.entities.command.CommandEvent;
 import me.arynxd.monkebot.entities.command.CommandFlag;
 import me.arynxd.monkebot.entities.exception.CommandException;
-import net.dv8tion.jda.api.EmbedBuilder;
 import me.arynxd.monkebot.util.StringUtils;
 import me.arynxd.monkebot.util.VerificationUtils;
+import net.dv8tion.jda.api.EmbedBuilder;
 import org.jetbrains.annotations.NotNull;
 
 public class VerificationShowCommand extends Command

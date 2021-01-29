@@ -3,11 +3,11 @@ package me.arynxd.monkebot.entities.database;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
-import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.User;
 import me.arynxd.monkebot.Monke;
 import me.arynxd.monkebot.entities.jooq.Tables;
 import me.arynxd.monkebot.entities.jooq.tables.pojos.Warnings;
+import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.User;
 
 import static me.arynxd.monkebot.entities.jooq.tables.Warnings.WARNINGS;
 

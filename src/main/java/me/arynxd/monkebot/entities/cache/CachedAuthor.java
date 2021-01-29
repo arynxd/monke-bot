@@ -13,6 +13,7 @@ public class CachedAuthor
 
 	/**
 	 * Constructs a {@link CachedAuthor author} from a {@link net.dv8tion.jda.api.entities.User user}.
+	 *
 	 * @param user The {@link net.dv8tion.jda.api.entities.User user} to construct from.
 	 */
 	public CachedAuthor(@Nonnull User user)

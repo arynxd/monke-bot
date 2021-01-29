@@ -7,10 +7,9 @@ package me.arynxd.monkebot.entities.jooq.tables;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
-
-import me.arynxd.monkebot.entities.jooq.tables.records.VotesRecord;
 import me.arynxd.monkebot.entities.jooq.Keys;
 import me.arynxd.monkebot.entities.jooq.Public;
+import me.arynxd.monkebot.entities.jooq.tables.records.VotesRecord;
 import org.jooq.Record;
 import org.jooq.*;
 import org.jooq.impl.DSL;

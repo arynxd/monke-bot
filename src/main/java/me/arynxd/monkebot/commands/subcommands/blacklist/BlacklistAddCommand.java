@@ -2,16 +2,15 @@ package me.arynxd.monkebot.commands.subcommands.blacklist;
 
 import java.util.List;
 import java.util.function.Consumer;
-
 import me.arynxd.monkebot.entities.command.Command;
 import me.arynxd.monkebot.entities.command.CommandEvent;
 import me.arynxd.monkebot.entities.command.CommandFlag;
 import me.arynxd.monkebot.entities.exception.CommandException;
 import me.arynxd.monkebot.entities.exception.CommandInputException;
-import net.dv8tion.jda.api.Permission;
 import me.arynxd.monkebot.util.ArrayUtils;
 import me.arynxd.monkebot.util.BlacklistUtils;
 import me.arynxd.monkebot.util.CommandChecks;
+import net.dv8tion.jda.api.Permission;
 import org.jetbrains.annotations.NotNull;
 
 public class BlacklistAddCommand extends Command

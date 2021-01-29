@@ -5,24 +5,19 @@ import io.github.classgraph.ClassInfo;
 import io.github.classgraph.ScanResult;
 import java.lang.reflect.Constructor;
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
-import net.dv8tion.jda.api.JDA;
-import net.dv8tion.jda.api.Permission;
-import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.GuildChannel;
-import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.entities.MessageChannel;
-import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import me.arynxd.monkebot.Constants;
 import me.arynxd.monkebot.Monke;
-import me.arynxd.monkebot.entities.Emoji;
 import me.arynxd.monkebot.entities.command.Command;
 import me.arynxd.monkebot.entities.command.CommandEvent;
 import me.arynxd.monkebot.entities.command.CommandFlag;
 import me.arynxd.monkebot.entities.database.GuildConfig;
 import me.arynxd.monkebot.util.BlacklistUtils;
 import me.arynxd.monkebot.util.EmbedUtils;
+import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.entities.GuildChannel;
+import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 public class CommandHandler
 {
@@ -94,125 +89,134 @@ public class CommandHandler
 			return;
 		}
 
-		List<String> args = Arrays.stream(event.getMessage().getContentRaw().split("\\s+")).collect(Collectors.toList());
-		String messageContent = event.getMessage().getContentRaw();
-		JDA jda = event.getJDA();
-		MessageChannel channel = event.getChannel();
-		String selfID = jda.getSelfUser().getId();
-		String commandText;
-		String content;
-		Command cmd;
-
-		boolean startsWithId = messageContent.startsWith("<@" + selfID + ">") || messageContent.startsWith("<@!" + selfID + ">");
-		String idTrimmed = messageContent.substring(messageContent.indexOf(">") + 1).trim();
-		String prefix = Constants.DEFAULT_BOT_PREFIX;
-		boolean containsBlacklist = BlacklistUtils.isBlacklistedPhrase(event, monke);
-
-		if(idTrimmed.isBlank())
-		{
-			return;
-		}
-
 		if(event.isFromGuild())
 		{
-			Guild guild = event.getGuild();
-			if(startsWithId)
-			{
-				content = idTrimmed;
-			}
-			else if(messageContent.startsWith(new GuildConfig(guild.getIdLong(), monke).getPrefix()))
-			{
-				prefix = new GuildConfig(guild.getIdLong(), monke).getPrefix();
-				content = messageContent.substring(prefix.length()).trim();
-				if(content.startsWith(prefix))
-				{
-					return;
-				}
-			}
-			else if(containsBlacklist)
-			{
-				EmbedUtils.sendError(channel, "Your message contained a blacklisted phrase.");
-				if(event.getGuild().getSelfMember().hasPermission((GuildChannel) channel, Permission.MESSAGE_MANAGE))
-				{
-					event.getMessage().delete().queue();
-				}
-				return;
-			}
-			else
-			{
-				return;
-			}
+			handleGuild(event);
+		}
+		else
+		{
+			handleDM(event);
+		}
+	}
+
+	private void handleDM(MessageReceivedEvent event)
+	{
+		String prefix;
+		String messageContent = event.getMessage().getContentRaw();
+
+		if(isBotMention(event))
+		{
+			prefix = messageContent.substring(0, messageContent.indexOf(">"));
 		}
 		else
 		{
 			prefix = Constants.DEFAULT_BOT_PREFIX;
-			if(startsWithId)
-			{
-				content = idTrimmed;
-			}
-			else if(messageContent.startsWith(prefix))
-			{
-				content = messageContent.substring(prefix.length()).trim();
-			}
-			else
-			{
-				return;
-			}
 		}
 
-		commandText = (content.contains(" ") ? content.substring(0, content.indexOf(' ')) : content).toLowerCase();
-
-		if(commandText.isBlank())
+		if(!messageContent.startsWith(prefix))
 		{
 			return;
 		}
 
-		cmd = commandMap.get(commandText.toLowerCase());
+		messageContent = messageContent.substring(prefix.length());
+
+		List<String> args = Arrays.stream(messageContent.split("\\s+")).collect(Collectors.toList());
+		if(args.isEmpty())
+		{
+			return;
+		}
+
+		String command = args.get(0);
+		findCommand(prefix, command, args, event);
+	}
+
+	private void deleteBlacklisted(MessageReceivedEvent event)
+	{
+		EmbedUtils.sendError(event.getChannel(), "Your message contained a blacklisted phrase.");
+		if(event.getGuild().getSelfMember().hasPermission((GuildChannel) event.getChannel(), Permission.MESSAGE_MANAGE))
+		{
+			event.getMessage().delete().queue();
+		}
+	}
+
+
+	private void handleGuild(MessageReceivedEvent event)
+	{
+		String prefix = new GuildConfig(event.getGuild(), monke).getPrefix();
+		String messageContent = event.getMessage().getContentRaw();
+		boolean containsBlacklist = BlacklistUtils.isBlacklistedPhrase(event, monke);
+
+		if(isBotMention(event))
+		{
+			prefix = messageContent.substring(0, messageContent.indexOf(">"));
+		}
+
+		if(!messageContent.startsWith(prefix))
+		{
+			if(containsBlacklist)
+			{
+				deleteBlacklisted(event);
+			}
+			return;
+		}
+
+		messageContent = messageContent.substring(prefix.length());
+
+		List<String> args = Arrays.stream(messageContent.split("\\s+")).collect(Collectors.toList());
+		String command = args.get(0);
+		findCommand(prefix, command, args, event);
+	}
+
+	private boolean isBotMention(MessageReceivedEvent event)
+	{
+		String content = event.getMessage().getContentRaw();
+		long id = event.getJDA().getSelfUser().getIdLong();
+		return content.startsWith("<@" + id + ">") || content.startsWith("<!@" + id + ">");
+	}
+
+	private void findCommand(String prefix, String command, List<String> args, MessageReceivedEvent event)
+	{
+		Command cmd = commandMap.get(command);
+		boolean containsBlacklist = BlacklistUtils.isBlacklistedPhrase(event, monke);
+
 		if(cmd == null)
 		{
 			if(containsBlacklist)
 			{
-				EmbedUtils.sendError(channel, "Your message contained a blacklisted phrase.");
-				if(event.getGuild().getSelfMember().hasPermission((GuildChannel) channel, Permission.MESSAGE_MANAGE))
-				{
-					event.getMessage().delete().queue();
-				}
+				deleteBlacklisted(event);
 				return;
 			}
-			event.getMessage().addReaction(Emoji.FAILURE.getAsReaction()).queue(success -> event.getMessage().removeReaction(Emoji.FAILURE.getAsReaction()).queueAfter(10, TimeUnit.SECONDS, null, error -> {}), error -> {});
-			EmbedUtils.sendError(channel, "The command `" + commandText + "` was not found.\n Type `" + prefix + "help` for help.");
+			EmbedUtils.sendError(event.getChannel(), "Command `" + command + "` was not found.\n See " + prefix + "help for help.");
 			return;
 		}
 
 		if(containsBlacklist && cmd.hasFlag(CommandFlag.BLACKLIST_BYPASS))
 		{
-			EmbedUtils.sendError(channel, "Your message contained a blacklisted phrase.");
-			if(event.getGuild().getSelfMember().hasPermission((GuildChannel) channel, Permission.MESSAGE_MANAGE))
-			{
-				event.getMessage().delete().queue();
-			}
+			deleteBlacklisted(event);
 			return;
 		}
 
 		args.remove(0);
-		if(startsWithId)
-		{
-			args.remove(0);
-		}
-		CommandEvent ctx = new CommandEvent(event, monke, cmd, args);
+		CommandEvent commandEvent = new CommandEvent(event, monke, cmd, args);
 
-		if(args.isEmpty())
+		if(!cmd.hasChildren())
 		{
-			cmd.process(ctx);
+			cmd.process(commandEvent);
 			return;
 		}
 
-		cmd.getChildren().stream()
+		if(args.isEmpty())
+		{
+			cmd.process(commandEvent);
+			return;
+		}
+
+		cmd.getChildren()
+				.stream()
 				.filter(child -> child.getName().equalsIgnoreCase(args.get(0)))
 				.findFirst()
 				.ifPresentOrElse(
-				child -> child.process(new CommandEvent(event, monke, child, args.subList(1, args.size()))),
-				() -> cmd.process(ctx));
+						child -> child.process(new CommandEvent(event, monke, child, args.subList(1, args.size()))),
+						() -> cmd.process(commandEvent));
 	}
-
 }

@@ -2,7 +2,6 @@ package me.arynxd.monkebot.commands.commands.developer;
 
 import java.util.List;
 import java.util.function.Consumer;
-
 import me.arynxd.monkebot.entities.command.Command;
 import me.arynxd.monkebot.entities.command.CommandEvent;
 import me.arynxd.monkebot.entities.command.CommandFlag;
@@ -44,7 +43,7 @@ public class ModuleCommand extends Command
 		public void run(@NotNull List<String> args, @NotNull CommandEvent event, @NotNull Consumer<CommandException> failure)
 		{
 			if(CommandChecks.argsEmpty(event, failure))
-return;
+				return;
 			String moduleName = args.get(0);
 			Command command = event.getMonke().getCommandHandler().getCommandMap().get(moduleName);
 			if(command == null)
@@ -76,7 +75,7 @@ return;
 		public void run(@NotNull List<String> args, @NotNull CommandEvent event, @NotNull Consumer<CommandException> failure)
 		{
 			if(CommandChecks.argsEmpty(event, failure))
-return;
+				return;
 			String moduleName = args.get(0);
 			Command command = event.getMonke().getCommandHandler().getCommandMap().get(moduleName);
 			if(command == null)

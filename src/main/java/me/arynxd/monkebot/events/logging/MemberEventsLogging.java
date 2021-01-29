@@ -2,7 +2,7 @@ package me.arynxd.monkebot.events.logging;
 
 import java.time.Instant;
 import java.time.format.DateTimeFormatter;
-
+import me.arynxd.monkebot.Constants;
 import me.arynxd.monkebot.Monke;
 import me.arynxd.monkebot.entities.database.GuildConfig;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -13,7 +13,6 @@ import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.guild.member.GuildMemberJoinEvent;
 import net.dv8tion.jda.api.events.guild.member.GuildMemberRemoveEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
-import me.arynxd.monkebot.Constants;
 
 public class MemberEventsLogging extends ListenerAdapter
 {

@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import javax.security.auth.login.LoginException;
-
 import me.arynxd.monkebot.entities.bot.ConfigOption;
 import me.arynxd.monkebot.entities.bot.Configuration;
 import me.arynxd.monkebot.entities.command.Command;
@@ -22,6 +21,7 @@ import me.arynxd.monkebot.events.main.MessageEventsMain;
 import me.arynxd.monkebot.handlers.CommandHandler;
 import me.arynxd.monkebot.handlers.DatabaseHandler;
 import me.arynxd.monkebot.handlers.TaskHandler;
+import me.arynxd.monkebot.util.DatabaseUtils;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDAInfo;
@@ -35,7 +35,6 @@ import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder;
 import net.dv8tion.jda.api.sharding.ShardManager;
 import net.dv8tion.jda.api.utils.MemberCachePolicy;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
-import me.arynxd.monkebot.util.DatabaseUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

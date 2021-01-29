@@ -3,16 +3,15 @@ package me.arynxd.monkebot.commands.subcommands.reactionrole;
 import java.util.List;
 import java.util.OptionalLong;
 import java.util.function.Consumer;
-
 import me.arynxd.monkebot.entities.command.Command;
 import me.arynxd.monkebot.entities.command.CommandEvent;
 import me.arynxd.monkebot.entities.command.CommandFlag;
 import me.arynxd.monkebot.entities.database.ReactionRole;
 import me.arynxd.monkebot.entities.exception.CommandException;
-import net.dv8tion.jda.api.EmbedBuilder;
 import me.arynxd.monkebot.util.CommandChecks;
 import me.arynxd.monkebot.util.Parser;
 import me.arynxd.monkebot.util.StringUtils;
+import net.dv8tion.jda.api.EmbedBuilder;
 import org.jetbrains.annotations.NotNull;
 
 public class ReactionRoleShowCommand extends Command

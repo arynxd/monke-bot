@@ -3,7 +3,7 @@ package me.arynxd.monkebot.commands.commands.moderation;
 import java.time.Instant;
 import java.util.List;
 import java.util.function.Consumer;
-
+import me.arynxd.monkebot.Constants;
 import me.arynxd.monkebot.commands.subcommands.warning.WarningRemoveCommand;
 import me.arynxd.monkebot.commands.subcommands.warning.WarningShowCommand;
 import me.arynxd.monkebot.entities.command.Command;
@@ -13,14 +13,13 @@ import me.arynxd.monkebot.entities.database.Warning;
 import me.arynxd.monkebot.entities.exception.CommandException;
 import me.arynxd.monkebot.entities.exception.CommandHierarchyException;
 import me.arynxd.monkebot.entities.exception.CommandResultException;
+import me.arynxd.monkebot.util.CommandChecks;
+import me.arynxd.monkebot.util.CommandUtils;
+import me.arynxd.monkebot.util.Parser;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.User;
-import me.arynxd.monkebot.Constants;
-import me.arynxd.monkebot.util.CommandChecks;
-import me.arynxd.monkebot.util.CommandUtils;
-import me.arynxd.monkebot.util.Parser;
 import org.jetbrains.annotations.NotNull;
 
 @SuppressWarnings("unused")
@@ -72,7 +71,8 @@ public class WarnCommand extends Command
 								.setColor(Constants.EMBED_COLOUR)
 								.setTimestamp(Instant.now())
 								.build())).queue(null, error ->
-				{});
+				{
+				});
 			});
 		});
 	}

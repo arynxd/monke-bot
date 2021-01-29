@@ -17,6 +17,7 @@ public class CachedMessage
 
 	/**
 	 * Constructs a {@link CachedMessage cached message} from a received {@link net.dv8tion.jda.api.entities.Message message}.
+	 *
 	 * @param message The {@link net.dv8tion.jda.api.entities.Message message} to construct from.
 	 */
 	public CachedMessage(@Nonnull Message message)

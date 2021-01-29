@@ -1,7 +1,8 @@
 package me.arynxd.monkebot.commands.commands.misc;
 
+import java.util.List;
+import java.util.function.Consumer;
 import me.arynxd.monkebot.Constants;
-import me.arynxd.monkebot.entities.Emoji;
 import me.arynxd.monkebot.entities.command.Command;
 import me.arynxd.monkebot.entities.command.CommandEvent;
 import me.arynxd.monkebot.entities.command.CommandFlag;
@@ -13,9 +14,6 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.List;
-import java.util.function.Consumer;
 
 @SuppressWarnings("unused")
 public class PrefixCommand extends Command
@@ -50,8 +48,7 @@ public class PrefixCommand extends Command
 
 		if(!event.isDeveloper() && !event.memberPermissionCheck(Permission.MANAGE_SERVER))
 		{
-			failure.accept(new CommandException(Emoji.FAILURE.getAsChat() +
-					" You do not have the following required permissions: *Manage Server*"));
+			failure.accept(new CommandException("You do not have the following required permissions: *Manage Server*"));
 			return;
 		}
 

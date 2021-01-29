@@ -3,7 +3,7 @@ package me.arynxd.monkebot.commands.commands.moderation;
 import java.time.Instant;
 import java.util.List;
 import java.util.function.Consumer;
-
+import me.arynxd.monkebot.Constants;
 import me.arynxd.monkebot.entities.Emoji;
 import me.arynxd.monkebot.entities.command.Command;
 import me.arynxd.monkebot.entities.command.CommandEvent;
@@ -19,7 +19,6 @@ import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.User;
-import me.arynxd.monkebot.Constants;
 import org.jetbrains.annotations.NotNull;
 
 @SuppressWarnings("unused")
@@ -82,7 +81,8 @@ public class ReportCommand extends Command
 													.flatMap(privateChannel ->
 															privateChannel.sendMessage(generateDM(member, user, reason).build()))
 													.queue(null, error ->
-													{});
+													{
+													});
 
 											Report.add(message.getIdLong(), event.getMessage().getIdLong(), channel.getIdLong(), guild.getIdLong(), user.getIdLong(), author.getIdLong(), reason, event.getMonke());
 											message.addReaction(Emoji.THUMB_UP.getUnicode()).queue();
