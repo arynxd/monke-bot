@@ -91,13 +91,17 @@ public abstract class Command
 	 */
 	public void process(CommandEvent event)
 	{
-		if(isDisabled() || hasFlag(CommandFlag.DISABLED))
-		{
-			EmbedUtils.sendDisabledError(event);
-		}
-		else if(hasFlag(CommandFlag.GUILD_ONLY) && !event.isFromGuild())
+		if(hasFlag(CommandFlag.GUILD_ONLY) && !event.isFromGuild())
 		{
 			event.replyError("This command must be executed in a server.");
+		}
+		else if(event.isDeveloper())
+		{
+			execute(event);
+		}
+		else if(isDisabled() || hasFlag(CommandFlag.DISABLED))
+		{
+			EmbedUtils.sendDisabledError(event);
 		}
 		else if(!getMemberRequiredPermissions().isEmpty() && !event.memberPermissionCheck(getMemberRequiredPermissions()))
 		{
@@ -113,47 +117,56 @@ public abstract class Command
 		}
 		else
 		{
-			if(hasFlag(CommandFlag.AUTO_DELETE_MESSAGE) && event.selfPermissionCheck(Permission.MESSAGE_MANAGE))
-			{
-				event.getMessage().delete().queue();
-			}
-
-			run(event.getArgs(), event, exception ->
-			{
-				if(exception instanceof CommandCooldownException)
-				{
-					event.replyError(event.getAuthor().getAsMention() + " is on cooldown from command `" + getName() + "`");
-				}
-				else if(exception instanceof CommandResultException)
-				{
-					event.replyError("An error occurred. " + exception.getText());
-				}
-				else if(exception instanceof CommandInputException)
-				{
-					event.replyError("Your input was invalid. " + exception.getText());
-				}
-				else if(exception instanceof CommandSyntaxException)
-				{
-					EmbedUtils.sendSyntaxError(event);
-				}
-				else if(exception instanceof CommandHierarchyException)
-				{
-					event.replyError("A hierarchy error occurred when trying to run command `" + getName() + "`");
-				}
-				else if(exception instanceof CommandUserPermissionException)
-				{
-					EmbedUtils.sendMemberPermissionError(event);
-				}
-				else if(exception instanceof MissingConfigurationException)
-				{
-					event.replyError("`" + exception.getText() + "` is not setup.");
-				}
-				else
-				{
-					event.replyError(exception.getText());
-				}
-			});
+			execute(event);
 		}
+	}
+
+	/**
+	 * Submits a command for execution, catching all errors, acts as an internal shortcut to {@link #run(java.util.List, CommandEvent, java.util.function.Consumer)}
+	 * @param event The event to run.
+	 */
+	private void execute(CommandEvent event)
+	{
+		if(hasFlag(CommandFlag.AUTO_DELETE_MESSAGE) && event.selfPermissionCheck(Permission.MESSAGE_MANAGE))
+		{
+			event.getMessage().delete().queue();
+		}
+
+		run(event.getArgs(), event, exception ->
+		{
+			if(exception instanceof CommandCooldownException)
+			{
+				event.replyError(event.getAuthor().getAsMention() + " is on cooldown from command `" + getName() + "`");
+			}
+			else if(exception instanceof CommandResultException)
+			{
+				event.replyError("An error occurred. " + exception.getText());
+			}
+			else if(exception instanceof CommandInputException)
+			{
+				event.replyError("Your input was invalid. " + exception.getText());
+			}
+			else if(exception instanceof CommandSyntaxException)
+			{
+				EmbedUtils.sendSyntaxError(event);
+			}
+			else if(exception instanceof CommandHierarchyException)
+			{
+				event.replyError("A hierarchy error occurred when trying to run command `" + getName() + "`");
+			}
+			else if(exception instanceof CommandUserPermissionException)
+			{
+				EmbedUtils.sendMemberPermissionError(event);
+			}
+			else if(exception instanceof MissingConfigurationException)
+			{
+				event.replyError("`" + exception.getText() + "` is not setup.");
+			}
+			else
+			{
+				event.replyError(exception.getText());
+			}
+		});
 	}
 
 	/**
