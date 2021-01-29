@@ -4,15 +4,12 @@ import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 import me.arynxd.monkebot.Monke;
-import me.arynxd.monkebot.entities.database.GuildConfig;
 import me.arynxd.monkebot.entities.jooq.Tables;
-import me.arynxd.monkebot.entities.jooq.tables.ChannelBlacklists;
 import me.arynxd.monkebot.entities.jooq.tables.WordBlacklists;
-import net.dv8tion.jda.api.Permission;
+import me.arynxd.monkebot.entities.jooq.tables.ChannelBlacklists;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.MessageChannel;
-import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 public class BlacklistUtils
@@ -65,65 +62,6 @@ public class BlacklistUtils
 			monke.getLogger().error("An SQL error occurred", exception);
 			return false;
 		}
-	}
-
-	public static boolean isAdvertising(MessageReceivedEvent event, Monke monke)
-	{
-		if(!event.isFromGuild())
-		{
-			return false;
-		}
-		Guild guild = event.getGuild();
-		String content = event.getMessage().getContentRaw();
-		Member member = event.getMember();
-
-		MessageChannel promoChannel = guild.getTextChannelById(new GuildConfig(guild.getIdLong(), monke).getPromoChannel());
-		Role promoBypass = guild.getRoleById(new GuildConfig(guild.getIdLong(), monke).getPromoRole());
-
-		if(promoChannel == null || promoBypass == null)
-		{
-			return false;
-		}
-
-		if(findLink(content))
-		{
-			if(member == null)
-			{
-				return true;
-			}
-
-			if(member.hasPermission(Permission.MESSAGE_MANAGE) || !event.getChannel().equals(promoChannel))
-			{
-				return false;
-			}
-
-			return event.getChannel().equals(promoChannel) && !member.getRoles().contains(promoBypass);
-		}
-		return false;
-	}
-
-	private static boolean findLink(String content)
-	{
-		String finalContent = content.replaceAll("\\s+", "").toLowerCase();
-		return LINKS.stream().anyMatch(word -> finalContent.contains(word.toLowerCase()));
-	}
-
-	public static boolean isDiscordInvite(MessageReceivedEvent event)
-	{
-		if(!event.isFromGuild())
-		{
-			return false;
-		}
-		Member member = event.getMember();
-
-		if(member == null || member.hasPermission(Permission.MESSAGE_MANAGE))
-		{
-			return false;
-		}
-
-		String content = event.getMessage().getContentRaw().replaceAll("\\s+", "").toLowerCase();
-
-		return DISCORD.stream().anyMatch(phrase -> content.contains(phrase.toLowerCase()));
 	}
 
 	public static List<String> getBlacklistedPhrases(Guild guild, Monke monke)

@@ -26,7 +26,6 @@ public class MessageEventsMain extends ListenerAdapter
 	@Override
 	public void onMessageReceived(MessageReceivedEvent event)
 	{
-		MessageChannel channel = event.getChannel();
 		if(event.isFromGuild())
 		{
 			Guild guild = event.getGuild();
@@ -39,26 +38,6 @@ public class MessageEventsMain extends ListenerAdapter
 			if(!event.getAuthor().isBot())
 			{
 				MessageCache.getCache(guild).set(new CachedMessage(event.getMessage()));
-			}
-
-			if(BlacklistUtils.isDiscordInvite(event))
-			{
-				EmbedUtils.sendError(channel, "You cannot advertise Discord servers.");
-				if(guild.getSelfMember().hasPermission((GuildChannel) event.getChannel(), Permission.MESSAGE_MANAGE))
-				{
-					event.getMessage().delete().queue();
-				}
-				return;
-			}
-
-			if(BlacklistUtils.isAdvertising(event, monke))
-			{
-				EmbedUtils.sendError(channel, "You cannot advertise here.");
-				if(guild.getSelfMember().hasPermission((GuildChannel) event.getChannel(), Permission.MESSAGE_MANAGE))
-				{
-					event.getMessage().delete().queue();
-				}
-				return;
 			}
 
 			if(!event.isWebhookMessage())

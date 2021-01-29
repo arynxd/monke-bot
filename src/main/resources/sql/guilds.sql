@@ -10,8 +10,6 @@ CREATE TABLE IF NOT EXISTS guilds
     welcome_channel BIGINT NOT NULL DEFAULT -1,
     suggestion_channel BIGINT NOT NULL DEFAULT -1,
     channel_suggestion_channel BIGINT NOT NULL DEFAULT -1,
-    self_promo_channel BIGINT NOT NULL DEFAULT -1,
-    self_promo_role BIGINT NOT NULL DEFAULT -1,
     level_up_bot BIGINT NOT NULL DEFAULT -1,
     prefix VARCHAR(5) NOT NULL DEFAULT '.'
 );
