@@ -46,7 +46,7 @@ public class PrefixCommand extends Command
 			return;
 		}
 
-		if(event.isDeveloper() && !event.memberPermissionCheck(Permission.MANAGE_SERVER))
+		if(!event.isDeveloper() || !event.memberPermissionCheck(Permission.MANAGE_SERVER))
 		{
 			failure.accept(new CommandException("You do not have the following required permissions: *Manage Server*"));
 			return;
