@@ -1,10 +1,7 @@
 package me.arynxd.monkebot.commands.commands.developer;
 
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 import java.util.function.Consumer;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
@@ -24,11 +21,17 @@ public class EvalCommand extends Command
 	private static final List<String> DEFAULT_IMPORTS = List.of("net.dv8tion.jda.api.entities.impl", "net.dv8tion.jda.api.managers", "net.dv8tion.jda.api.entities", "net.dv8tion.jda.api",
 			"java.io", "java.math", "java.util", "java.util.concurrent", "java.time", "java.util.stream");
 
-	private static final ExecutorService EVAL_EXECUTOR = Executors.newSingleThreadExecutor();
+	private static final ThreadPoolExecutor EVAL_EXECUTOR = new ThreadPoolExecutor(
+			4,
+			4,
+			10000,
+			TimeUnit.MILLISECONDS,
+			new LinkedBlockingQueue<>()
+	);
 
 	public EvalCommand()
 	{
-		super("Eval", "Evaluates Java code", "[code]");
+		super("Eval", "Evaluates Java code.", "[code]");
 		addFlags(CommandFlag.GUILD_ONLY, CommandFlag.DEVELOPER_ONLY);
 		addAliases("eval", "evaluate", "code");
 	}
@@ -38,7 +41,7 @@ public class EvalCommand extends Command
 	{
 		if(CommandChecks.argsEmpty(event, failure)) return;
 
-		Future<?> evalTask = EVAL_EXECUTOR.submit(() ->
+		Runnable runnable = () ->
 		{
 			Object out;
 			String status = "Success";
@@ -77,15 +80,18 @@ public class EvalCommand extends Command
 					.addField("Duration:", (System.currentTimeMillis() - start) + "ms", true)
 					.addField("Code:", "```java\n" + code + "\n```", false)
 					.addField("Result:", out == null ? "No result." : out.toString(), false));
-		});
+		};
+
+		Future<?> evalFuture = EVAL_EXECUTOR.submit(runnable);
 
 		event.getMonke().getTaskHandler().addTask(() ->
 		{
-			if(!evalTask.isDone())
+			if(!evalFuture.isDone())
 			{
-				event.replyError("Eval task expired, did you enter an infinite loop?");
+				event.replyError("Eval could not complete within the designated timeframe, cancelling.");
 			}
-			evalTask.cancel(true);
+			evalFuture.cancel(true);
+			EVAL_EXECUTOR.remove(runnable);
 		}, TimeUnit.SECONDS, 5);
 	}
 }
