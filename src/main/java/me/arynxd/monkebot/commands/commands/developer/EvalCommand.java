@@ -1,5 +1,6 @@
 package me.arynxd.monkebot.commands.commands.developer;
 
+import groovy.transform.TimedInterrupt;
 import java.util.List;
 import java.util.concurrent.*;
 import java.util.function.Consumer;
@@ -41,7 +42,7 @@ public class EvalCommand extends Command
 	{
 		if(CommandChecks.argsEmpty(event, failure)) return;
 
-		Runnable runnable = () ->
+		EVAL_EXECUTOR.submit(() ->
 		{
 			Object out;
 			String status = "Success";
@@ -80,19 +81,7 @@ public class EvalCommand extends Command
 					.addField("Duration:", (System.currentTimeMillis() - start) + "ms", true)
 					.addField("Code:", "```java\n" + code + "\n```", false)
 					.addField("Result:", out == null ? "No result." : out.toString(), false));
-		};
-
-		Future<?> evalFuture = EVAL_EXECUTOR.submit(runnable);
-
-		event.getMonke().getTaskHandler().addTask(() ->
-		{
-			if(!evalFuture.isDone())
-			{
-				event.replyError("Eval could not complete within the designated timeframe, cancelling.");
-			}
-			evalFuture.cancel(true);
-			EVAL_EXECUTOR.remove(runnable);
-		}, TimeUnit.SECONDS, 5);
+		});
 	}
 }
 
