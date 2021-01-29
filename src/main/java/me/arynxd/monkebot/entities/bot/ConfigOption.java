@@ -7,7 +7,6 @@ public enum ConfigOption
 {
 	TOKEN("token", "token"),
 	PRIVILEGEDUSERS("privilegedusers", "0000000000000"),
-	HOMESERVER("homeserver", "000000000000000000"),
 
 	LOCALUSERNAME("localusername", "username"),
 	LOCALPASSWORD("localpassword", "password"),

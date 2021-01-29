@@ -3,7 +3,6 @@ package me.arynxd.monkebot.commands.subcommands.reactionrole;
 import java.util.List;
 import java.util.OptionalLong;
 import java.util.function.Consumer;
-
 import me.arynxd.monkebot.entities.command.Command;
 import me.arynxd.monkebot.entities.command.CommandEvent;
 import me.arynxd.monkebot.entities.command.CommandFlag;
@@ -11,10 +10,10 @@ import me.arynxd.monkebot.entities.database.ReactionRole;
 import me.arynxd.monkebot.entities.exception.CommandException;
 import me.arynxd.monkebot.entities.exception.CommandInputException;
 import me.arynxd.monkebot.entities.exception.CommandResultException;
-import net.dv8tion.jda.api.Permission;
 import me.arynxd.monkebot.util.CommandChecks;
 import me.arynxd.monkebot.util.Parser;
 import me.arynxd.monkebot.util.StringUtils;
+import net.dv8tion.jda.api.Permission;
 import org.jetbrains.annotations.NotNull;
 
 public class ReactionRoleRemoveCommand extends Command
@@ -39,25 +38,22 @@ public class ReactionRoleRemoveCommand extends Command
 			if(messageId.isPresent())
 			{
 				new Parser(args.get(1), event).parseAsTextChannel(
-						channel ->
+					channel -> channel.retrieveMessageById(messageId.getAsLong()).queue(
+						message ->
 						{
-							channel.retrieveMessageById(messageId.getAsLong()).queue(
-									message ->
-									{
-										ReactionRole reactionRole = new ReactionRole(messageId.getAsLong(), role.getIdLong(), event.getGuild().getIdLong(), emote, event.getMonke());
+							ReactionRole reactionRole = new ReactionRole(messageId.getAsLong(), role.getIdLong(), event.getGuild().getIdLong(), emote, event.getMonke());
 
-										if(!reactionRole.isPresent())
-										{
-											failure.accept(new CommandResultException("That reaction role does not exist"));
-											return;
-										}
+							if(!reactionRole.isPresent())
+							{
+								failure.accept(new CommandResultException("That reaction role does not exist"));
+								return;
+							}
 
-										reactionRole.remove();
-										event.replySuccess("Removed reaction role for role " + StringUtils.getRoleAsMention(role.getIdLong()));
-										message.clearReactions(emote).queue();
-									},
-									error -> failure.accept(new CommandInputException("Message " + messageId.getAsLong() + " does not exist")));
-						});
+							reactionRole.remove();
+							event.replySuccess("Removed reaction role for role " + StringUtils.getRoleAsMention(role.getIdLong()));
+							message.clearReactions(emote).queue();
+						},
+						error -> failure.accept(new CommandInputException("Message " + messageId.getAsLong() + " does not exist"))));
 			}
 		});
 	}

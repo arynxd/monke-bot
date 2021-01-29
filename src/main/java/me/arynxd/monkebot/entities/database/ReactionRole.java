@@ -4,13 +4,11 @@ import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
+import javax.annotation.Nonnull;
 import me.arynxd.monkebot.Monke;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
-
-import javax.annotation.Nonnull;
 
 import static me.arynxd.monkebot.entities.jooq.tables.ReactionRoles.REACTION_ROLES;
 
@@ -27,11 +25,12 @@ public class ReactionRole
 
 	/**
 	 * Constructs a new reaction role.
+	 *
 	 * @param messageId The messageId.
-	 * @param roleId The roleId.
-	 * @param guildId The guildId.
-	 * @param emote The emote / emoji.
-	 * @param monke The {@link me.arynxd.monkebot.Monke monke} instance.
+	 * @param roleId    The roleId.
+	 * @param guildId   The guildId.
+	 * @param emote     The emote / emoji.
+	 * @param monke     The {@link me.arynxd.monkebot.Monke monke} instance.
 	 */
 	public ReactionRole(@Nonnull Long messageId, @Nonnull Long roleId, @Nonnull Long guildId, @Nonnull String emote, @Nonnull Monke monke)
 	{
@@ -44,8 +43,9 @@ public class ReactionRole
 
 	/**
 	 * Gets all reaction roles associated with a messageId.
+	 *
 	 * @param messageId The messageId.
-	 * @param igsqbot The {@link me.arynxd.monkebot.Monke igsqbot} instance.
+	 * @param igsqbot   The {@link me.arynxd.monkebot.Monke igsqbot} instance.
 	 * @return The reaction roles.
 	 */
 	@Nonnull
@@ -84,6 +84,7 @@ public class ReactionRole
 
 	/**
 	 * Adds this reaction role to the database.
+	 *
 	 * @see #getByMessageId(Long, me.arynxd.monkebot.Monke)
 	 */
 	public void add()

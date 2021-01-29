@@ -2,15 +2,14 @@ package me.arynxd.monkebot.commands.subcommands.info;
 
 import java.util.List;
 import java.util.function.Consumer;
-
 import me.arynxd.monkebot.entities.command.Command;
 import me.arynxd.monkebot.entities.command.CommandEvent;
 import me.arynxd.monkebot.entities.exception.CommandException;
 import me.arynxd.monkebot.entities.info.RoleInfo;
-import net.dv8tion.jda.api.EmbedBuilder;
 import me.arynxd.monkebot.util.ArrayUtils;
 import me.arynxd.monkebot.util.EmbedUtils;
 import me.arynxd.monkebot.util.Parser;
+import net.dv8tion.jda.api.EmbedBuilder;
 import org.jetbrains.annotations.NotNull;
 
 public class RoleInfoCommand extends Command

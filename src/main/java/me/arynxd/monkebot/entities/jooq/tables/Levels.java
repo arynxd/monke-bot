@@ -6,10 +6,9 @@ package me.arynxd.monkebot.entities.jooq.tables;
 
 import java.util.Arrays;
 import java.util.List;
-
-import me.arynxd.monkebot.entities.jooq.tables.records.LevelsRecord;
 import me.arynxd.monkebot.entities.jooq.Keys;
 import me.arynxd.monkebot.entities.jooq.Public;
+import me.arynxd.monkebot.entities.jooq.tables.records.LevelsRecord;
 import org.jooq.Record;
 import org.jooq.*;
 import org.jooq.impl.DSL;

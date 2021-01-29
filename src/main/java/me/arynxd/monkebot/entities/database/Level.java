@@ -3,14 +3,11 @@ package me.arynxd.monkebot.entities.database;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
-
+import javax.annotation.Nonnull;
 import me.arynxd.monkebot.Monke;
-import net.dv8tion.jda.api.entities.Role;
-import net.dv8tion.jda.api.entities.User;
 import me.arynxd.monkebot.entities.jooq.Tables;
 import me.arynxd.monkebot.entities.jooq.tables.pojos.Levels;
-
-import javax.annotation.Nonnull;
+import net.dv8tion.jda.api.entities.Role;
 
 import static me.arynxd.monkebot.entities.jooq.tables.Levels.LEVELS;
 
@@ -26,8 +23,9 @@ public class Level
 
 	/**
 	 * Adds a new level and {@link net.dv8tion.jda.api.entities.Role role} pair for the given guildId.
-	 * @param role The {@link net.dv8tion.jda.api.entities.Role role}.
-	 * @param level The level.
+	 *
+	 * @param role    The {@link net.dv8tion.jda.api.entities.Role role}.
+	 * @param level   The level.
 	 * @param guildId The guildId.
 	 * @param igsqbot The {@link me.arynxd.monkebot.Monke monke} instance.
 	 */
@@ -51,8 +49,9 @@ public class Level
 
 	/**
 	 * Removes a new level and {@link net.dv8tion.jda.api.entities.Role role} pair for the given guildId.
-	 * @param role The {@link net.dv8tion.jda.api.entities.Role role}.
-	 * @param level The level.
+	 *
+	 * @param role    The {@link net.dv8tion.jda.api.entities.Role role}.
+	 * @param level   The level.
 	 * @param guildId The guildId.
 	 * @param igsqbot The {@link me.arynxd.monkebot.Monke igsqbot} instance.
 	 * @return {@code true} if successful, {@code false} otherwise.
@@ -66,8 +65,8 @@ public class Level
 			var query = context
 					.deleteFrom(Tables.LEVELS)
 					.where(LEVELS.GUILD_ID.eq(guildId)
-					.and(LEVELS.ROLE_ID.eq(role.getIdLong()))
-					.and(LEVELS.AWARDED_AT.eq(level)));
+							.and(LEVELS.ROLE_ID.eq(role.getIdLong()))
+							.and(LEVELS.AWARDED_AT.eq(level)));
 
 			return query.execute() > 0;
 		}
@@ -81,6 +80,7 @@ public class Level
 
 	/**
 	 * Gets all level and {@link net.dv8tion.jda.api.entities.Role role} pairs for a guildId.
+	 *
 	 * @param guildId The guildId.
 	 * @param igsqbot The {@link me.arynxd.monkebot.Monke igsqbot} instance.
 	 * @return The levels.
@@ -106,16 +106,5 @@ public class Level
 			igsqbot.getLogger().error("An SQL error occurred", exception);
 		}
 		return result;
-	}
-
-	/**
-	 * Sets the level-up bot for a guildId.
-	 * @param bot The new bot.
-	 * @param guildId The guildId.
-	 * @param igsqbot The {@link me.arynxd.monkebot.Monke igsqbot} instance.
-	 */
-	public void setBot(@Nonnull User bot, @Nonnull Long guildId, @Nonnull Monke igsqbot)
-	{
-		new GuildConfig(guildId, igsqbot).setLevelUpBot(bot.getIdLong());
 	}
 }

@@ -3,7 +3,6 @@ package me.arynxd.monkebot.commands.subcommands.level;
 import java.util.List;
 import java.util.OptionalInt;
 import java.util.function.Consumer;
-
 import me.arynxd.monkebot.entities.command.Command;
 import me.arynxd.monkebot.entities.command.CommandEvent;
 import me.arynxd.monkebot.entities.command.CommandFlag;
@@ -11,9 +10,9 @@ import me.arynxd.monkebot.entities.database.GuildConfig;
 import me.arynxd.monkebot.entities.database.Level;
 import me.arynxd.monkebot.entities.exception.CommandException;
 import me.arynxd.monkebot.entities.exception.CommandResultException;
-import net.dv8tion.jda.api.entities.User;
 import me.arynxd.monkebot.util.CommandChecks;
 import me.arynxd.monkebot.util.Parser;
+import net.dv8tion.jda.api.entities.User;
 import org.jetbrains.annotations.NotNull;
 
 public class LevelRemoveCommand extends Command

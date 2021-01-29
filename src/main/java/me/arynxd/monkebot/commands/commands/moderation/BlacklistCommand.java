@@ -2,7 +2,6 @@ package me.arynxd.monkebot.commands.commands.moderation;
 
 import java.util.List;
 import java.util.function.Consumer;
-
 import me.arynxd.monkebot.commands.subcommands.blacklist.BlacklistAddCommand;
 import me.arynxd.monkebot.commands.subcommands.blacklist.BlacklistRemoveCommand;
 import me.arynxd.monkebot.commands.subcommands.blacklist.BlacklistShowCommand;

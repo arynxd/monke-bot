@@ -2,16 +2,15 @@ package me.arynxd.monkebot.commands.commands.misc;
 
 import java.util.List;
 import java.util.function.Consumer;
-
+import me.arynxd.monkebot.commands.subcommands.level.LevelAddCommand;
+import me.arynxd.monkebot.commands.subcommands.level.LevelBotCommand;
+import me.arynxd.monkebot.commands.subcommands.level.LevelRemoveCommand;
+import me.arynxd.monkebot.commands.subcommands.level.LevelShowCommand;
 import me.arynxd.monkebot.entities.command.Command;
 import me.arynxd.monkebot.entities.command.CommandEvent;
 import me.arynxd.monkebot.entities.command.CommandFlag;
 import me.arynxd.monkebot.entities.exception.CommandException;
 import me.arynxd.monkebot.entities.exception.CommandSyntaxException;
-import me.arynxd.monkebot.commands.subcommands.level.LevelAddCommand;
-import me.arynxd.monkebot.commands.subcommands.level.LevelBotCommand;
-import me.arynxd.monkebot.commands.subcommands.level.LevelRemoveCommand;
-import me.arynxd.monkebot.commands.subcommands.level.LevelShowCommand;
 import org.jetbrains.annotations.NotNull;
 
 public class LevelCommand extends Command

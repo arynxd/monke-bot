@@ -2,17 +2,16 @@ package me.arynxd.monkebot.commands.commands.misc;
 
 import java.util.List;
 import java.util.function.Consumer;
-
 import me.arynxd.monkebot.entities.command.Command;
 import me.arynxd.monkebot.entities.command.CommandEvent;
 import me.arynxd.monkebot.entities.command.CommandFlag;
 import me.arynxd.monkebot.entities.exception.CommandException;
 import me.arynxd.monkebot.entities.exception.CommandInputException;
 import me.arynxd.monkebot.entities.exception.CommandResultException;
-import net.dv8tion.jda.api.Permission;
-import net.dv8tion.jda.api.entities.Icon;
 import me.arynxd.monkebot.util.CommandChecks;
 import me.arynxd.monkebot.util.FileUtils;
+import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.entities.Icon;
 import org.jetbrains.annotations.NotNull;
 
 @SuppressWarnings("unused")

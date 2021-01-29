@@ -3,7 +3,6 @@ package me.arynxd.monkebot.commands.subcommands.reactionrole;
 import java.util.List;
 import java.util.OptionalLong;
 import java.util.function.Consumer;
-
 import me.arynxd.monkebot.entities.command.Command;
 import me.arynxd.monkebot.entities.command.CommandEvent;
 import me.arynxd.monkebot.entities.command.CommandFlag;
@@ -11,9 +10,9 @@ import me.arynxd.monkebot.entities.database.ReactionRole;
 import me.arynxd.monkebot.entities.exception.CommandException;
 import me.arynxd.monkebot.entities.exception.CommandHierarchyException;
 import me.arynxd.monkebot.entities.exception.CommandInputException;
-import net.dv8tion.jda.api.Permission;
 import me.arynxd.monkebot.util.CommandChecks;
 import me.arynxd.monkebot.util.Parser;
+import net.dv8tion.jda.api.Permission;
 import org.jetbrains.annotations.NotNull;
 
 public class ReactionRoleAddCommand extends Command
@@ -51,31 +50,25 @@ public class ReactionRoleAddCommand extends Command
 		if(messageId.isPresent())
 		{
 			new Parser(args.get(1), event).parseAsTextChannel(
-					channel ->
-					{
-						channel.retrieveMessageById(messageId.getAsLong()).queue(
-								message ->
-								{
-									new Parser(args.get(2), event).parseAsRole(
-											role ->
-											{
-												if(!event.getSelfMember().canInteract(role) || !event.getMember().canInteract(role))
-												{
-													failure.accept(new CommandHierarchyException(this));
-													return;
-												}
+					channel -> channel.retrieveMessageById(messageId.getAsLong()).queue(
+					message -> new Parser(args.get(2), event).parseAsRole(
+						role ->
+						{
+							if(!event.getSelfMember().canInteract(role) || !event.getMember().canInteract(role))
+							{
+								failure.accept(new CommandHierarchyException(this));
+								return;
+							}
 
-												message.addReaction(emote).queue(
-														success ->
-														{
-															new ReactionRole(message.getIdLong(), role.getIdLong(), event.getGuild().getIdLong(), emote, event.getMonke()).add();
-															event.replySuccess("Reaction role added.");
-														},
-														error -> failure.accept(new CommandInputException("I could not add reaction `" + event.getMessage().getEmotes().get(0).getName() + "`")));
-											});
-								},
-								error -> failure.accept(new CommandInputException("Message with ID " + messageId.getAsLong() + " not found in channel " + channel.getAsMention())));
-					});
+							message.addReaction(emote).queue(
+									success ->
+									{
+										new ReactionRole(message.getIdLong(), role.getIdLong(), event.getGuild().getIdLong(), emote, event.getMonke()).add();
+										event.replySuccess("Reaction role added.");
+									},
+									error -> failure.accept(new CommandInputException("I could not add reaction `" + event.getMessage().getEmotes().get(0).getName() + "`")));
+						}),
+								error -> failure.accept(new CommandInputException("Message with ID " + messageId.getAsLong() + " not found in channel " + channel.getAsMention()))));
 		}
 	}
 }

@@ -2,7 +2,6 @@ package me.arynxd.monkebot.commands.commands.moderation;
 
 import java.util.List;
 import java.util.function.Consumer;
-
 import me.arynxd.monkebot.commands.subcommands.channel.ChannelIgnoreCommand;
 import me.arynxd.monkebot.commands.subcommands.channel.ChannelShowCommand;
 import me.arynxd.monkebot.entities.command.Command;

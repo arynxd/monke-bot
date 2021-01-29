@@ -1,19 +1,18 @@
 package me.arynxd.monkebot.events.main;
 
 import java.util.List;
-
 import me.arynxd.monkebot.Monke;
 import me.arynxd.monkebot.entities.cache.CachedMessage;
 import me.arynxd.monkebot.entities.cache.MessageCache;
 import me.arynxd.monkebot.entities.database.Vote;
-import net.dv8tion.jda.api.Permission;
-import net.dv8tion.jda.api.entities.*;
-import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
-import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import me.arynxd.monkebot.util.BlacklistUtils;
 import me.arynxd.monkebot.util.CommandUtils;
 import me.arynxd.monkebot.util.DatabaseUtils;
 import me.arynxd.monkebot.util.EmbedUtils;
+import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.entities.*;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 public class MessageEventsMain extends ListenerAdapter
 {
@@ -27,7 +26,6 @@ public class MessageEventsMain extends ListenerAdapter
 	@Override
 	public void onMessageReceived(MessageReceivedEvent event)
 	{
-		MessageChannel channel = event.getChannel();
 		if(event.isFromGuild())
 		{
 			Guild guild = event.getGuild();
@@ -40,26 +38,6 @@ public class MessageEventsMain extends ListenerAdapter
 			if(!event.getAuthor().isBot())
 			{
 				MessageCache.getCache(guild).set(new CachedMessage(event.getMessage()));
-			}
-
-			if(BlacklistUtils.isDiscordInvite(event))
-			{
-				EmbedUtils.sendError(channel, "You cannot advertise Discord servers.");
-				if(guild.getSelfMember().hasPermission((GuildChannel) event.getChannel(), Permission.MESSAGE_MANAGE))
-				{
-					event.getMessage().delete().queue();
-				}
-				return;
-			}
-
-			if(BlacklistUtils.isAdvertising(event, monke))
-			{
-				EmbedUtils.sendError(channel, "You cannot advertise here.");
-				if(guild.getSelfMember().hasPermission((GuildChannel) event.getChannel(), Permission.MESSAGE_MANAGE))
-				{
-					event.getMessage().delete().queue();
-				}
-				return;
 			}
 
 			if(!event.isWebhookMessage())

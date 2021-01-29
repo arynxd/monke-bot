@@ -2,12 +2,11 @@ package me.arynxd.monkebot.entities.database;
 
 import java.sql.Connection;
 import javax.annotation.Nonnull;
-
-import me.arynxd.monkebot.Monke;
-import net.dv8tion.jda.api.entities.Guild;
 import me.arynxd.monkebot.Constants;
+import me.arynxd.monkebot.Monke;
 import me.arynxd.monkebot.entities.command.CommandEvent;
 import me.arynxd.monkebot.entities.jooq.Tables;
+import net.dv8tion.jda.api.entities.Guild;
 import org.jooq.Field;
 
 import static me.arynxd.monkebot.entities.jooq.tables.Guilds.GUILDS;
@@ -22,6 +21,7 @@ public class GuildConfig
 
 	/**
 	 * Constructs a new {@link GuildConfig GuildConfig}
+	 *
 	 * @param event The {@link me.arynxd.monkebot.entities.command.CommandEvent event} to construct from.
 	 */
 	public GuildConfig(@Nonnull CommandEvent event)
@@ -32,8 +32,9 @@ public class GuildConfig
 
 	/**
 	 * Constructs a new {@link GuildConfig GuildConfig}
+	 *
 	 * @param guildId The id to construct from.
-	 * @param monke The {@link me.arynxd.monkebot.Monke igsqbot} instance to construct from.
+	 * @param monke   The {@link me.arynxd.monkebot.Monke igsqbot} instance to construct from.
 	 */
 	public GuildConfig(@Nonnull Long guildId, @Nonnull Monke monke)
 	{
@@ -43,6 +44,7 @@ public class GuildConfig
 
 	/**
 	 * Constructs a new {@link GuildConfig GuildConfig}
+	 *
 	 * @param guild The {@link net.dv8tion.jda.api.entities.Guild guild} to construct from.
 	 * @param monke The {@link me.arynxd.monkebot.Monke igsqbot} instance to construct from.
 	 */
@@ -88,6 +90,25 @@ public class GuildConfig
 	}
 
 	/**
+	 * Sets a prefix for this guild.
+	 *
+	 * @param prefix The new prefix
+	 */
+	public void setPrefix(@Nonnull String prefix)
+	{
+		try(Connection connection = monke.getDatabaseHandler().getConnection())
+		{
+			var context = monke.getDatabaseHandler().getContext(connection);
+			var query = context.update(GUILDS).set(GUILDS.PREFIX, prefix).where(GUILDS.GUILD_ID.eq(guildId));
+			query.execute();
+		}
+		catch(Exception exception)
+		{
+			monke.getLogger().error("An SQL error occurred", exception);
+		}
+	}
+
+	/**
 	 * @return The self promotion role for this guild, -1 if it does not exist, or an error occurred.
 	 */
 	public long getPromoRole()
@@ -104,21 +125,13 @@ public class GuildConfig
 	}
 
 	/**
-	 * Sets a prefix for this guild.
-	 * @param prefix The new prefix
+	 * Sets a level up bot for this guild.
+	 *
+	 * @param userId The new bot.
 	 */
-	public void setPrefix(@Nonnull String prefix)
+	public void setLevelUpBot(@Nonnull Long userId)
 	{
-		try(Connection connection = monke.getDatabaseHandler().getConnection())
-		{
-			var context = monke.getDatabaseHandler().getContext(connection);
-			var query = context.update(GUILDS).set(GUILDS.PREFIX, prefix).where(GUILDS.GUILD_ID.eq(guildId));
-			query.execute();
-		}
-		catch(Exception exception)
-		{
-			monke.getLogger().error("An SQL error occurred", exception);
-		}
+		setValue(GUILDS.LEVEL_UP_BOT, userId);
 	}
 
 	/**
@@ -194,16 +207,8 @@ public class GuildConfig
 	}
 
 	/**
-	 * Sets a level up bot for this guild.
-	 * @param userId The new bot.
-	 */
-	public void setLevelUpBot(@Nonnull Long userId)
-	{
-		setValue(GUILDS.LEVEL_UP_BOT, userId);
-	}
-
-	/**
 	 * Gets the value for a field.
+	 *
 	 * @param field The field to get.
 	 * @return The value, defaults to -1.
 	 */
@@ -226,9 +231,10 @@ public class GuildConfig
 
 	/**
 	 * Sets the new value for a field.
+	 *
 	 * @param field The field to set.
 	 * @param value The value to set.
-	 * @param <T> The type to set.
+	 * @param <T>   The type to set.
 	 */
 	private <T> void setValue(Field<T> field, T value)
 	{

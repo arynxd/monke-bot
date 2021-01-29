@@ -3,18 +3,17 @@ package me.arynxd.monkebot.commands.commands.fun;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
-
+import me.arynxd.monkebot.Constants;
+import me.arynxd.monkebot.entities.Emoji;
 import me.arynxd.monkebot.entities.command.Command;
 import me.arynxd.monkebot.entities.command.CommandEvent;
 import me.arynxd.monkebot.entities.exception.CommandException;
-import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.entities.MessageChannel;
-import net.dv8tion.jda.api.entities.User;
-import me.arynxd.monkebot.Constants;
-import me.arynxd.monkebot.entities.Emoji;
 import me.arynxd.monkebot.util.CommandChecks;
 import me.arynxd.monkebot.util.EmbedUtils;
 import me.arynxd.monkebot.util.Parser;
+import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.entities.MessageChannel;
+import net.dv8tion.jda.api.entities.User;
 import org.jetbrains.annotations.NotNull;
 
 @SuppressWarnings("unused")
@@ -65,6 +64,8 @@ public class PollCommand extends Command
 				.addField("Options:", options.toString(), false)
 				.setThumbnail(author.getEffectiveAvatarUrl())
 				.setColor(Constants.EMBED_COLOUR)
-				.build()).queue(message -> reactions.forEach(reaction -> message.addReaction(reaction).queue(null, error -> {})));
+				.build()).queue(message -> reactions.forEach(reaction -> message.addReaction(reaction).queue(null, error ->
+		{
+		})));
 	}
 }

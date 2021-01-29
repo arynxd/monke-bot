@@ -3,7 +3,6 @@ package me.arynxd.monkebot.util;
 import java.awt.*;
 import java.time.Instant;
 import java.util.concurrent.TimeUnit;
-
 import me.arynxd.monkebot.entities.Emoji;
 import me.arynxd.monkebot.entities.command.Command;
 import me.arynxd.monkebot.entities.command.CommandEvent;

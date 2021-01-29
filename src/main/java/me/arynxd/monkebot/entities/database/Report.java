@@ -17,11 +17,6 @@ public class Report
 	private final Monke monke;
 	private final long reporteeUserId;
 
-	public long getReporteeUserId()
-	{
-		return reporteeUserId;
-	}
-
 	private Report(long messageId, long commandMessageId, long channelId, long guildId, long reportedUserId, long reporteeUserId, String reason, Monke monke)
 	{
 		this.messageId = messageId;
@@ -33,6 +28,7 @@ public class Report
 		this.reason = reason;
 		this.monke = monke;
 	}
+
 	public static Report getById(long messageId, Monke monke)
 	{
 		try(Connection connection = monke.getDatabaseHandler().getConnection())
@@ -45,7 +41,7 @@ public class Report
 			if(!result.isEmpty())
 			{
 				var report = result.get(0);
-				return new Report(report.getMessageId(), report.getReportMessageId(), report.getChannelId(), report.getGuildId(), report.getReporterId(),report.getReportteeId(), report.getReportText(), monke);
+				return new Report(report.getMessageId(), report.getReportMessageId(), report.getChannelId(), report.getGuildId(), report.getReporterId(), report.getReportteeId(), report.getReportText(), monke);
 			}
 			else
 			{
@@ -67,7 +63,7 @@ public class Report
 
 			ctx.insertInto(REPORTS)
 					.columns(REPORTS.MESSAGE_ID, REPORTS.REPORT_MESSAGE_ID, REPORTS.CHANNEL_ID, REPORTS.GUILD_ID, REPORTS.REPORTER_ID, REPORTS.REPORTTEE_ID, REPORTS.REPORT_TEXT)
-					.values(messageId, commandMessageId, channelId, guildId, reportedUserId,reporteeUserId, reason)
+					.values(messageId, commandMessageId, channelId, guildId, reportedUserId, reporteeUserId, reason)
 					.execute();
 		}
 		catch(Exception exception)
@@ -87,6 +83,11 @@ public class Report
 		{
 			monke.getLogger().error("An SQL error occurred", exception);
 		}
+	}
+
+	public long getReporteeUserId()
+	{
+		return reporteeUserId;
 	}
 
 	public long getMessageId()
