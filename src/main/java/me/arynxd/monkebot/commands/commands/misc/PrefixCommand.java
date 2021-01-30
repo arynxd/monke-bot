@@ -46,7 +46,14 @@ public class PrefixCommand extends Command
 			return;
 		}
 
-		if(!event.isDeveloper() && !event.memberPermissionCheck(Permission.MANAGE_SERVER))
+		if(event.isDeveloper())
+		{
+			guildConfig.setPrefix(args.get(0));
+			event.replySuccess("My new prefix is `" + args.get(0) + "`");
+			return;
+		}
+
+		if(!event.memberPermissionCheck(Permission.MANAGE_SERVER))
 		{
 			failure.accept(new CommandException("You do not have the following required permissions: *Manage Server*"));
 			return;

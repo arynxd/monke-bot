@@ -139,7 +139,6 @@ public class CommandHandler
 		}
 	}
 
-
 	private void handleGuild(MessageReceivedEvent event)
 	{
 		String prefix = new GuildConfig(event.getGuild(), monke).getPrefix();
@@ -176,6 +175,10 @@ public class CommandHandler
 
 	private void findCommand(String prefix, String command, List<String> args, MessageReceivedEvent event)
 	{
+		if(command.isBlank() || command.startsWith(prefix))
+		{
+			return;
+		}
 		Command cmd = commandMap.get(command);
 		boolean containsBlacklist = BlacklistUtils.isBlacklistedPhrase(event, monke);
 
