@@ -98,7 +98,7 @@ public class MessageCache
 	public void set(@Nonnull CachedMessage message)
 	{
 		LOGGER.debug("Adding message " + message.getIdLong() + " to cache.");
-		cachedMessages.putIfAbsent(message.getIdLong(), message);
+		cachedMessages.put(message.getIdLong(), message);
 	}
 
 	/**
@@ -111,7 +111,7 @@ public class MessageCache
 		for(CachedMessage selectedMessage : messages)
 		{
 			LOGGER.debug("Adding message " + selectedMessage.getIdLong() + " to cache.");
-			cachedMessages.putIfAbsent(selectedMessage.getIdLong(), selectedMessage);
+			cachedMessages.put(selectedMessage.getIdLong(), selectedMessage);
 		}
 	}
 
@@ -126,15 +126,7 @@ public class MessageCache
 	public CachedMessage get(@Nonnull Long messageId)
 	{
 		LOGGER.debug("Fetching message " + messageId + " from cache.");
-		for(Map.Entry<Long, CachedMessage> entry : cachedMessages.entrySet())
-		{
-			if(entry.getKey().equals(messageId))
-			{
-				LOGGER.debug("returned message " + entry.getValue().getIdLong() + " from cache.");
-				return entry.getValue();
-			}
-		}
-		return null;
+		return cachedMessages.get(messageId);
 	}
 
 	/**
@@ -215,8 +207,7 @@ public class MessageCache
 	public void update(@Nonnull CachedMessage oldMessage, @Nonnull CachedMessage newMessage)
 	{
 		LOGGER.debug("Updating message " + oldMessage.getIdLong() + " -> " + newMessage.getIdLong() + " in cache.");
-		cachedMessages.remove(oldMessage.getIdLong());
-		set(newMessage);
+		cachedMessages.put(oldMessage.getIdLong(), newMessage);
 	}
 
 	/**
@@ -227,8 +218,7 @@ public class MessageCache
 	 */
 	public void update(@Nonnull Long oldMessageId, @Nonnull CachedMessage newMessage)
 	{
-		cachedMessages.remove(oldMessageId);
-		set(newMessage);
+		cachedMessages.put(oldMessageId, newMessage);
 	}
 
 	/**
