@@ -5,6 +5,7 @@ import java.util.function.Consumer;
 import me.arynxd.monkebot.entities.command.Command;
 import me.arynxd.monkebot.entities.command.CommandEvent;
 import me.arynxd.monkebot.entities.exception.CommandException;
+import org.jetbrains.annotations.NotNull;
 
 @SuppressWarnings("unused")
 public class FlipCommand extends Command
@@ -16,7 +17,7 @@ public class FlipCommand extends Command
 	}
 
 	@Override
-	public void run(List<String> args, CommandEvent cmd, Consumer<CommandException> failure)
+	public void run(@NotNull List<String> args, @NotNull CommandEvent cmd, @NotNull Consumer<CommandException> failure)
 	{
 		cmd.getChannel().sendMessage("https://tenor.com/view/monki-flip-monkey-monkey-flip-gif-18319480").queue();
 	}

@@ -7,10 +7,12 @@ plugins{
 mainClassName = 'me.arynxd.monkebot.Main'
 version '0.0.1'
 sourceCompatibility = 14
+
 repositories {
     jcenter()
     maven { url 'https://jitpack.io' }
 }
+
 dependencies {
 
     //Misc / Util
@@ -34,6 +36,7 @@ dependencies {
     implementation 'com.zaxxer:HikariCP:4.0.1'
     implementation 'org.jooq:jooq:3.14.6'
 }
+
 jooq {
     version = '3.14.4'
     configurations {
