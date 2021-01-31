@@ -13,49 +13,32 @@ import me.arynxd.monkebot.util.WebUtils;
 import org.jetbrains.annotations.NotNull;
 
 @SuppressWarnings("unused")
-public class MemeCommand extends Command
+public class CatCommand extends Command
 {
-	public MemeCommand()
+	public CatCommand()
 	{
-		super("RedditPost" ,"Shows the best memes from Reddit.", "[wholesome / dank / irl / facebook / karen]");
-		addAliases("meme");
+		super("Cat", "Shows a cute cat", "[none]");
+		addAliases("cat", "cutecat");
 	}
+
 	@Override
 	public void run(@NotNull List<String> args, @NotNull CommandEvent event, @NotNull Consumer<CommandException> failure)
 	{
-		Random random = new Random();
-		String subreddit;
-
-		if(args.isEmpty())
-		{
-			subreddit = "post";
-		}
-		else
-		{
-			subreddit = switch(args.get(0))
-				{
-					case "wholesome" -> "wholesomememes";
-					case "dank" -> "dankmemes";
-					case "irl" -> "me_irl";
-					case "facebook" -> "terriblefacebookmemes";
-					case "karen" -> "karen";
-					default -> "post";
-				};
-		}
-
-
-		List<RedditPost> memes = WebUtils.getPosts(event.getMonke(), subreddit)
+		List<RedditPost> cats = WebUtils.getPosts(event.getMonke(), "kittens")
 				.stream()
 				.filter(post -> !post.isPinned() && !post.isStickied())
 				.collect(Collectors.toList());
 
-		if(memes.isEmpty())
+		Random random = new Random();
+
+		if(cats.isEmpty())
 		{
-			failure.accept(new CommandResultException("No post were found."));
+			failure.accept(new CommandResultException("Couldnt find any cats :pensive:"));
 			return;
 		}
 
-		RedditPost post = memes.get(random.nextInt(memes.size() - 1));
+		RedditPost post = cats.get(random.nextInt(cats.size() - 1));
+
 		WebUtils.checkAndSendPost(event, post, failure);
 	}
 }

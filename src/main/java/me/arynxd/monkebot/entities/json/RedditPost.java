@@ -2,11 +2,11 @@ package me.arynxd.monkebot.entities.json;
 
 import net.dv8tion.jda.api.utils.data.DataObject;
 
-public class Meme
+public class RedditPost
 {
 	private final DataObject dataObject;
 
-	public Meme(DataObject dataObject)
+	public RedditPost(DataObject dataObject)
 	{
 		this.dataObject = dataObject;
 	}

@@ -7,7 +7,7 @@ import java.sql.Connection;
 import me.arynxd.monkebot.Monke;
 import me.arynxd.monkebot.entities.bot.ConfigOption;
 import me.arynxd.monkebot.entities.bot.Configuration;
-import me.arynxd.monkebot.util.FileUtils;
+import me.arynxd.monkebot.util.IOUtils;
 import org.jooq.DSLContext;
 import org.jooq.SQLDialect;
 import org.jooq.impl.DSL;
@@ -96,7 +96,7 @@ public class DatabaseHandler
 			{
 				throw new NullPointerException("File for table '" + table + "' not found");
 			}
-			getConnection().createStatement().execute(FileUtils.convertToString(file));
+			getConnection().createStatement().execute(IOUtils.convertToString(file));
 		}
 		catch(Exception exception)
 		{

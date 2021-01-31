@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.function.Consumer;
 import me.arynxd.monkebot.entities.command.CommandEvent;
 import me.arynxd.monkebot.entities.exception.*;
+import me.arynxd.monkebot.entities.json.RedditPost;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.*;
 
@@ -25,6 +26,17 @@ public class CommandChecks
 		}
 		return false;
 	}
+
+	public static boolean canPost(CommandEvent event, RedditPost post, Consumer<CommandException> callback)
+	{
+		if(event.isFromGuild() && post.isNSFW() && !event.getTextChannel().isNSFW())
+		{
+			callback.accept(new CommandResultException("The selected post was marked as NSFW and cannot be shown here, please try again."));
+			return true;
+		}
+		return false;
+	}
+
 
 	public static boolean channelConfigured(MessageChannel channel, String name, Consumer<CommandException> callback)
 	{

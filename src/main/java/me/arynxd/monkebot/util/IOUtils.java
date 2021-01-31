@@ -7,9 +7,9 @@ import java.net.URL;
 import me.arynxd.monkebot.handlers.DatabaseHandler;
 import net.dv8tion.jda.api.entities.Icon;
 
-public class FileUtils
+public class IOUtils
 {
-	private FileUtils()
+	private IOUtils()
 	{
 		//Overrides the default, public, constructor
 	}

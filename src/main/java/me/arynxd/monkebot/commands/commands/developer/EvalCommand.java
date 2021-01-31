@@ -1,6 +1,5 @@
 package me.arynxd.monkebot.commands.commands.developer;
 
-import groovy.transform.TimedInterrupt;
 import java.util.List;
 import java.util.concurrent.*;
 import java.util.function.Consumer;
@@ -22,13 +21,7 @@ public class EvalCommand extends Command
 	private static final List<String> DEFAULT_IMPORTS = List.of("net.dv8tion.jda.api.entities.impl", "net.dv8tion.jda.api.managers", "net.dv8tion.jda.api.entities", "net.dv8tion.jda.api",
 			"java.io", "java.math", "java.util", "java.util.concurrent", "java.time", "java.util.stream");
 
-	private static final ThreadPoolExecutor EVAL_EXECUTOR = new ThreadPoolExecutor(
-			4,
-			4,
-			10000,
-			TimeUnit.MILLISECONDS,
-			new LinkedBlockingQueue<>()
-	);
+	private static final ExecutorService EVAL_EXECUTOR = Executors.newFixedThreadPool(4);
 
 	public EvalCommand()
 	{
