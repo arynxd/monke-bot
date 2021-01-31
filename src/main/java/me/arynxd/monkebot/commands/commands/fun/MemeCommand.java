@@ -17,7 +17,7 @@ public class MemeCommand extends Command
 {
 	public MemeCommand()
 	{
-		super("Meme" ,"Shows the best memes from Reddit.", "[wholesome / dank / irl / facebook / karen / blursed]");
+		super("Meme" ,"Shows the best memes from Reddit.", "[discord / wholesome / dank / irl / facebook / karen / blursed]");
 		addAliases("meme");
 	}
 	@Override
@@ -40,6 +40,7 @@ public class MemeCommand extends Command
 					case "facebook" -> "terriblefacebookmemes";
 					case "karen" -> "karen";
 					case "blursed" -> "blursedimages";
+					case "discord" -> "discord_irl";
 					default -> "memes";
 				};
 		}
