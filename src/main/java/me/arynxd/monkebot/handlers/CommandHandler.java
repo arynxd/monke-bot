@@ -156,6 +156,11 @@ public class CommandHandler
 			return;
 		}
 
+		if(!messageContent.startsWith(prefix))
+		{
+			return;
+		}
+
 		messageContent = messageContent.substring(prefix.length());
 		List<String> args = Arrays
 				.stream(messageContent.split("\\s+"))
@@ -163,7 +168,7 @@ public class CommandHandler
 				.collect(Collectors.toList());
 
 		String command = args.get(0);
-		
+
 		findCommand(prefix, command.strip(), args, event);
 	}
 
