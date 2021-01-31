@@ -17,7 +17,7 @@ public class MemeCommand extends Command
 {
 	public MemeCommand()
 	{
-		super("RedditPost" ,"Shows the best memes from Reddit.", "[wholesome / dank / irl / facebook / karen / blursed]");
+		super("Meme" ,"Shows the best memes from Reddit.", "[wholesome / dank / irl / facebook / karen / blursed]");
 		addAliases("meme");
 	}
 	@Override
