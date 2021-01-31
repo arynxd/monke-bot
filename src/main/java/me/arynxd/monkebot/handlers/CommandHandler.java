@@ -120,7 +120,11 @@ public class CommandHandler
 
 		messageContent = messageContent.substring(prefix.length());
 
-		List<String> args = Arrays.stream(messageContent.split("\\s+")).collect(Collectors.toList());
+		List<String> args = Arrays
+				.stream(messageContent.split("\\s+"))
+				.filter(arg -> !arg.isBlank())
+				.collect(Collectors.toList());
+
 		if(args.isEmpty())
 		{
 			return;
@@ -167,6 +171,11 @@ public class CommandHandler
 				.filter(arg -> !arg.isBlank())
 				.collect(Collectors.toList());
 
+
+		if(args.isEmpty())
+		{
+			return;
+		}
 		String command = args.get(0);
 
 		findCommand(prefix, command.strip(), args, event);
