@@ -18,6 +18,11 @@ public class RedditPost
 				: null;
 	}
 
+	public boolean isMedia()
+	{
+		return getURL().endsWith(".jpg") || getURL().endsWith(".png") || getURL().endsWith(".gif");
+	}
+
 	public String getUpvotes()
 	{
 		return dataObject.hasKey("ups")

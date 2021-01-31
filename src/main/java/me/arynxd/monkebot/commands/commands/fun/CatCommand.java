@@ -20,20 +20,22 @@ public class CatCommand extends Command
 		super("Cat", "Shows a cute cat", "[none]");
 		addAliases("cat", "cutecat");
 	}
+	private static final List<String> SUBREDDITS = List.of("kittens", "Kitten", "cutecats", "catsnamedafterfood");
 
 	@Override
 	public void run(@NotNull List<String> args, @NotNull CommandEvent event, @NotNull Consumer<CommandException> failure)
 	{
-		List<RedditPost> cats = WebUtils.getPosts(event.getMonke(), "kittens")
+		Random random = new Random();
+		List<RedditPost> cats = WebUtils.getPosts(event.getMonke(), SUBREDDITS.get(random.nextInt(SUBREDDITS.size())))
 				.stream()
-				.filter(post -> !post.isPinned() && !post.isStickied())
+				.filter(post -> !post.isPinned() && !post.isStickied() && post.isMedia())
 				.collect(Collectors.toList());
 
-		Random random = new Random();
+
 
 		if(cats.isEmpty())
 		{
-			failure.accept(new CommandResultException("Couldnt find any cats :pensive:"));
+			failure.accept(new CommandResultException("Couldn't find any cats :pensive:"));
 			return;
 		}
 

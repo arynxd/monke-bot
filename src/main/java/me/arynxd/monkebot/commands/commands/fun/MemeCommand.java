@@ -17,7 +17,7 @@ public class MemeCommand extends Command
 {
 	public MemeCommand()
 	{
-		super("RedditPost" ,"Shows the best memes from Reddit.", "[wholesome / dank / irl / facebook / karen]");
+		super("RedditPost" ,"Shows the best memes from Reddit.", "[wholesome / dank / irl / facebook / karen / blursed]");
 		addAliases("meme");
 	}
 	@Override
@@ -28,7 +28,7 @@ public class MemeCommand extends Command
 
 		if(args.isEmpty())
 		{
-			subreddit = "post";
+			subreddit = "memes";
 		}
 		else
 		{
@@ -39,23 +39,24 @@ public class MemeCommand extends Command
 					case "irl" -> "me_irl";
 					case "facebook" -> "terriblefacebookmemes";
 					case "karen" -> "karen";
-					default -> "post";
+					case "blursed" -> "blursedimages";
+					default -> "memes";
 				};
 		}
 
 
 		List<RedditPost> memes = WebUtils.getPosts(event.getMonke(), subreddit)
 				.stream()
-				.filter(post -> !post.isPinned() && !post.isStickied())
+				.filter(post -> !post.isPinned() && !post.isStickied() && post.isMedia())
 				.collect(Collectors.toList());
 
 		if(memes.isEmpty())
 		{
-			failure.accept(new CommandResultException("No post were found."));
+			failure.accept(new CommandResultException("No posts were found."));
 			return;
 		}
 
-		RedditPost post = memes.get(random.nextInt(memes.size() - 1));
+		RedditPost post = memes.get(random.nextInt(memes.size()));
 		WebUtils.checkAndSendPost(event, post, failure);
 	}
 }
