@@ -24,21 +24,21 @@ public class PingCommand extends Command
 	{
 		JDA jda = event.getJDA();
 		jda.getRestPing().queue(
-				ping ->
+			ping ->
+			{
+				int oCount = (int) (ping / 100);
+
+				if(oCount > 252)
 				{
-					int oCount = (int) (ping / 100);
+					oCount = 252;
+				}
 
-					if(oCount > 256)
-					{
-						oCount = 256;
-					}
-
-					event.sendMessage(new EmbedBuilder()
-							.setTitle("P" + "o".repeat(oCount) + "ng.")
-							.setDescription("**Shard ID**: " + jda.getShardInfo().getShardId()
-									+ "\n**REST Ping**: " + ping
-									+ "ms\n**Gateway Ping**: " + jda.getGatewayPing() + "ms")
-							.setColor(Constants.EMBED_COLOUR));
-				});
+				event.sendMessage(new EmbedBuilder()
+						.setTitle("P" + "o".repeat(oCount) + "ng.")
+						.setDescription(
+								"**Shard ID**: " + jda.getShardInfo().getShardId()
+								+ "\n**REST Ping**: " + ping
+								+ "ms\n**Gateway Ping**: " + jda.getGatewayPing() + "ms"));
+			});
 	}
 }
