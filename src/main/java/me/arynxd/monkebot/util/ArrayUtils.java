@@ -9,6 +9,7 @@ public class ArrayUtils
 		//Overrides the default, public, constructor
 	}
 
+	@Deprecated
 	public static String arrayCompile(List<String> array, String delimiter)
 	{
 		StringBuilder builder = new StringBuilder();

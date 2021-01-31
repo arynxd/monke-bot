@@ -76,4 +76,18 @@ public class IOUtils
 
 		return stringBuilder.toString();
 	}
+
+	public static boolean isURL(String url)
+	{
+		try
+		{
+			URL obj = new URL(url);
+			obj.toURI();
+			return true;
+		}
+		catch(Exception exception)
+		{
+			return false;
+		}
+	}
 }
