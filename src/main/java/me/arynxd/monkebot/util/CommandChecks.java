@@ -37,7 +37,7 @@ public class CommandChecks
 			callback.accept(new CommandResultException("You are not in a voice channel with me."));
 			return true;
 		}
-		else if(!selfState.inVoiceChannel() && event.getSelfMember().hasPermission(state.getChannel(), Permission.VIEW_CHANNEL, Permission.VOICE_SPEAK))
+		else if(!selfState.inVoiceChannel() && !event.getSelfMember().hasPermission(state.getChannel(), Permission.VIEW_CHANNEL, Permission.VOICE_SPEAK))
 		{
 			callback.accept(new CommandException("I cannot join / speak in your channel."));
 			return true;
