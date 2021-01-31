@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.function.Consumer;
 import me.arynxd.monkebot.entities.command.CommandEvent;
 import me.arynxd.monkebot.entities.exception.*;
+import me.arynxd.monkebot.entities.json.RedditPost;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.*;
 
@@ -14,6 +15,34 @@ public class CommandChecks
 	private CommandChecks()
 	{
 		//Overrides the default, public, constructor
+	}
+
+	public static boolean sharesVoice(CommandEvent event, Consumer<CommandException> callback)
+	{
+		GuildVoiceState state = event.getMember().getVoiceState();
+		GuildVoiceState selfState = event.getSelfMember().getVoiceState();
+
+		if(state == null || selfState == null)
+		{
+			callback.accept(new CommandResultException("Something went wrong when finding your VC."));
+			return true;
+		}
+
+		else if(state.getChannel() == null)
+		{
+			callback.accept(new CommandResultException("You are not in a voice channel."));
+		}
+		else if(selfState.inVoiceChannel() && !state.getChannel().getMembers().contains(event.getSelfMember()))
+		{
+			callback.accept(new CommandResultException("You are not in a voice channel with me."));
+			return true;
+		}
+		else if(!selfState.inVoiceChannel() && !event.getSelfMember().hasPermission(state.getChannel(), Permission.VIEW_CHANNEL, Permission.VOICE_SPEAK))
+		{
+			callback.accept(new CommandException("I cannot join / speak in your channel."));
+			return true;
+		}
+		return false;
 	}
 
 	public static boolean canSee(MessageChannel channel, Member selfMember, String name, Consumer<CommandException> callback)
@@ -25,6 +54,17 @@ public class CommandChecks
 		}
 		return false;
 	}
+
+	public static boolean canPost(CommandEvent event, RedditPost post, Consumer<CommandException> callback)
+	{
+		if(event.isFromGuild() && post.isNSFW() && !event.getTextChannel().isNSFW())
+		{
+			callback.accept(new CommandResultException("The selected post was marked as NSFW and cannot be shown here, please try again."));
+			return true;
+		}
+		return false;
+	}
+
 
 	public static boolean channelConfigured(MessageChannel channel, String name, Consumer<CommandException> callback)
 	{
@@ -56,7 +96,7 @@ public class CommandChecks
 		return false;
 	}
 
-	public static boolean stringIsURL(String url, CommandEvent ctx, Consumer<CommandException> callback)
+	public static boolean isURL(String url, CommandEvent ctx, Consumer<CommandException> callback)
 	{
 		try
 		{

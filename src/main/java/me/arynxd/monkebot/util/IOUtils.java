@@ -7,9 +7,9 @@ import java.net.URL;
 import me.arynxd.monkebot.handlers.DatabaseHandler;
 import net.dv8tion.jda.api.entities.Icon;
 
-public class FileUtils
+public class IOUtils
 {
-	private FileUtils()
+	private IOUtils()
 	{
 		//Overrides the default, public, constructor
 	}
@@ -43,6 +43,18 @@ public class FileUtils
 		return icon;
 	}
 
+	public static InputStream getFromURL(String url)
+	{
+		try
+		{
+			return new URL(url).openStream();
+		}
+		catch(Exception exception)
+		{
+			return null;
+		}
+	}
+
 	public static String convertToString(InputStream inputStream)
 	{
 		InputStreamReader isReader = new InputStreamReader(inputStream);
@@ -63,5 +75,19 @@ public class FileUtils
 		}
 
 		return stringBuilder.toString();
+	}
+
+	public static boolean isURL(String url)
+	{
+		try
+		{
+			URL obj = new URL(url);
+			obj.toURI();
+			return true;
+		}
+		catch(Exception exception)
+		{
+			return false;
+		}
 	}
 }

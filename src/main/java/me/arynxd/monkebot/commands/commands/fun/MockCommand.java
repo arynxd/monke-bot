@@ -11,7 +11,7 @@ import me.arynxd.monkebot.entities.command.CommandEvent;
 import me.arynxd.monkebot.entities.exception.CommandException;
 import me.arynxd.monkebot.entities.exception.CommandResultException;
 import me.arynxd.monkebot.util.CommandChecks;
-import me.arynxd.monkebot.util.FileUtils;
+import me.arynxd.monkebot.util.IOUtils;
 import net.dv8tion.jda.api.EmbedBuilder;
 import org.jetbrains.annotations.NotNull;
 
@@ -30,20 +30,20 @@ public class MockCommand extends Command
 		if(CommandChecks.argsEmpty(event, failure)) return;
 		if(CommandChecks.argsEmbedCompatible(event, failure)) return;
 
-		InputStream file = FileUtils.getResourceFile("mock.jpg");
-		if(file != null)
-		{
-			event.getChannel().sendFile(file, "mock.jpg").embed(new EmbedBuilder()
-					.setTitle(mockText(args))
-					.setColor(Constants.EMBED_COLOUR)
-					.setImage("attachment://mock.jpg")
-					.setTimestamp(Instant.now())
-					.build()).queue();
-		}
-		else
+		InputStream file = IOUtils.getResourceFile("mock.jpg");
+		if(file == null)
 		{
 			failure.accept(new CommandResultException("An error occurred while loading the mock image."));
+			return;
 		}
+
+		event.getChannel().sendFile(file, "mock.jpg").embed(new EmbedBuilder()
+				.setTitle(mockText(args))
+				.setColor(Constants.EMBED_COLOUR)
+				.setImage("attachment://mock.jpg")
+				.setTimestamp(Instant.now())
+				.build()).queue();
+
 	}
 
 	private String mockText(List<String> args)

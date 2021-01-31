@@ -3,14 +3,17 @@ package me.arynxd.monkebot.events.main;
 import java.util.List;
 import me.arynxd.monkebot.Monke;
 import me.arynxd.monkebot.entities.database.ReactionRole;
+import me.arynxd.monkebot.entities.music.GuildMusicManager;
 import me.arynxd.monkebot.util.DatabaseUtils;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.events.guild.GuildJoinEvent;
 import net.dv8tion.jda.api.events.guild.GuildLeaveEvent;
 import net.dv8tion.jda.api.events.guild.UnavailableGuildLeaveEvent;
+import net.dv8tion.jda.api.events.guild.voice.GuildVoiceLeaveEvent;
 import net.dv8tion.jda.api.events.message.guild.react.GuildMessageReactionAddEvent;
 import net.dv8tion.jda.api.events.message.guild.react.GuildMessageReactionRemoveEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import org.jetbrains.annotations.NotNull;
 
 public class GuildEventsMain extends ListenerAdapter
 {
@@ -57,6 +60,18 @@ public class GuildEventsMain extends ListenerAdapter
 					}
 				}
 			}
+		}
+	}
+
+	@Override
+	public void onGuildVoiceLeave(@NotNull GuildVoiceLeaveEvent event)
+	{
+		if(event.getMember().equals(event.getGuild().getSelfMember()))
+		{
+			GuildMusicManager manager = monke.getMusicHandler().getGuildMusicManager(event.getGuild());
+			manager.getPlayer().destroy();
+			manager.leave(event.getGuild());
+			manager.getScheduler().clear();
 		}
 	}
 

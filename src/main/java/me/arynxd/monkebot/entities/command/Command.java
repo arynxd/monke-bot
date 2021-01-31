@@ -140,7 +140,7 @@ public abstract class Command
 			}
 			else if(exception instanceof CommandResultException)
 			{
-				event.replyError("An error occurred. " + exception.getText());
+				event.replyError("Something went wrong. " + exception.getText());
 			}
 			else if(exception instanceof CommandInputException)
 			{

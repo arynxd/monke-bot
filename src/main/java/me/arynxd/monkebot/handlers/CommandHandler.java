@@ -120,7 +120,11 @@ public class CommandHandler
 
 		messageContent = messageContent.substring(prefix.length());
 
-		List<String> args = Arrays.stream(messageContent.split("\\s+")).collect(Collectors.toList());
+		List<String> args = Arrays
+				.stream(messageContent.split("\\s+"))
+				.filter(arg -> !arg.isBlank())
+				.collect(Collectors.toList());
+
 		if(args.isEmpty())
 		{
 			return;
@@ -139,7 +143,6 @@ public class CommandHandler
 		}
 	}
 
-
 	private void handleGuild(MessageReceivedEvent event)
 	{
 		String prefix = new GuildConfig(event.getGuild(), monke).getPrefix();
@@ -148,34 +151,50 @@ public class CommandHandler
 
 		if(isBotMention(event))
 		{
-			prefix = messageContent.substring(0, messageContent.indexOf(">"));
+			prefix = messageContent.substring(0, messageContent.indexOf(">") + 1);
+		}
+
+		if(containsBlacklist)
+		{
+			deleteBlacklisted(event);
+			return;
 		}
 
 		if(!messageContent.startsWith(prefix))
 		{
-			if(containsBlacklist)
-			{
-				deleteBlacklisted(event);
-			}
 			return;
 		}
 
 		messageContent = messageContent.substring(prefix.length());
+		List<String> args = Arrays
+				.stream(messageContent.split("\\s+"))
+				.filter(arg -> !arg.isBlank())
+				.collect(Collectors.toList());
 
-		List<String> args = Arrays.stream(messageContent.split("\\s+")).collect(Collectors.toList());
+
+		if(args.isEmpty())
+		{
+			return;
+		}
 		String command = args.get(0);
-		findCommand(prefix, command, args, event);
+
+		findCommand(prefix, command.strip(), args, event);
 	}
 
 	private boolean isBotMention(MessageReceivedEvent event)
 	{
 		String content = event.getMessage().getContentRaw();
 		long id = event.getJDA().getSelfUser().getIdLong();
-		return content.startsWith("<@" + id + ">") || content.startsWith("<!@" + id + ">");
+		return content.startsWith("<@" + id + ">") || content.startsWith("<@!" + id + ">");
 	}
 
 	private void findCommand(String prefix, String command, List<String> args, MessageReceivedEvent event)
 	{
+		if(command.isBlank() || command.startsWith(prefix))
+		{
+			return;
+		}
+
 		Command cmd = commandMap.get(command);
 		boolean containsBlacklist = BlacklistUtils.isBlacklistedPhrase(event, monke);
 

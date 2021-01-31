@@ -233,6 +233,20 @@ public class CommandEvent
 	}
 
 	/**
+	 * @return The {@link net.dv8tion.jda.api.entities.TextChannel TextChannel}.
+	 * @throws java.lang.IllegalStateException If the event did not occur in a text channel.
+	 */
+	@Nonnull
+	public TextChannel getTextChannel()
+	{
+		if(!isFromGuild())
+		{
+			throw new IllegalStateException("Event did not occur in a text channel.");
+		}
+		return event.getTextChannel();
+	}
+
+	/**
 	 * Replies to the user using the specified success message.
 	 *
 	 * @param successText The message to use.

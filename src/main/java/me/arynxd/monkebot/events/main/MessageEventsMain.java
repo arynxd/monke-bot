@@ -9,7 +9,6 @@ import me.arynxd.monkebot.util.BlacklistUtils;
 import me.arynxd.monkebot.util.CommandUtils;
 import me.arynxd.monkebot.util.DatabaseUtils;
 import me.arynxd.monkebot.util.EmbedUtils;
-import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -26,7 +25,7 @@ public class MessageEventsMain extends ListenerAdapter
 	@Override
 	public void onMessageReceived(MessageReceivedEvent event)
 	{
-		if(event.isFromGuild())
+		if(event.isFromGuild() && !event.getAuthor().isBot() && !event.isWebhookMessage())
 		{
 			Guild guild = event.getGuild();
 
@@ -35,40 +34,35 @@ public class MessageEventsMain extends ListenerAdapter
 				return;
 			}
 
-			if(!event.getAuthor().isBot())
-			{
-				MessageCache.getCache(guild).set(new CachedMessage(event.getMessage()));
-			}
+			MessageCache.getCache(guild).set(new CachedMessage(event.getMessage()));
 
-			if(!event.isWebhookMessage())
+			if(CommandUtils.getLevelUp(event, monke) != -1)
 			{
-				if(CommandUtils.getLevelUp(event, monke) != -1)
+				List<Role> newRoles = DatabaseUtils.getRoleForLevel(guild, CommandUtils.getLevelUp(event, monke), monke);
+				Member member = event.getMessage().getMentionedMembers().get(0);
+
+				if(!newRoles.isEmpty())
 				{
-					List<Role> newRoles = DatabaseUtils.getRoleForLevel(guild, CommandUtils.getLevelUp(event, monke), monke);
-					Member member = event.getMessage().getMentionedMembers().get(0);
-
-					if(!newRoles.isEmpty())
+					Role highest = null;
+					if(member.getRoles().isEmpty())
 					{
-						Role highest = null;
-						if(member.getRoles().isEmpty())
-						{
-							highest = event.getMessage().getMentionedMembers().get(0).getRoles().get(0);
-						}
+						highest = event.getMessage().getMentionedMembers().get(0).getRoles().get(0);
+					}
 
-						for(Role role : newRoles)
+					for(Role role : newRoles)
+					{
+						if(role != null)
 						{
-							if(role != null)
+							if(highest == null || highest.canInteract(role))
 							{
-								if(highest == null || highest.canInteract(role))
-								{
-									guild.addRoleToMember(member, role).queue();
-								}
+								guild.addRoleToMember(member, role).queue();
 							}
 						}
 					}
-					return;
 				}
+				return;
 			}
+
 		}
 
 		if(handleVote(event))

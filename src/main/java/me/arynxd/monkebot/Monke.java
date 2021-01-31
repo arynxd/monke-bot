@@ -20,6 +20,7 @@ import me.arynxd.monkebot.events.main.GuildEventsMain;
 import me.arynxd.monkebot.events.main.MessageEventsMain;
 import me.arynxd.monkebot.handlers.CommandHandler;
 import me.arynxd.monkebot.handlers.DatabaseHandler;
+import me.arynxd.monkebot.handlers.MusicHandler;
 import me.arynxd.monkebot.handlers.TaskHandler;
 import me.arynxd.monkebot.util.DatabaseUtils;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -35,21 +36,35 @@ import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder;
 import net.dv8tion.jda.api.sharding.ShardManager;
 import net.dv8tion.jda.api.utils.MemberCachePolicy;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
+import okhttp3.OkHttpClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class Monke extends ListenerAdapter
 {
+
 	private final DatabaseHandler databaseHandler;
 	private final CommandHandler commandHandler;
 	private final LocalDateTime startTimestamp;
 	private final List<EmbedBuilder> helpPages;
 	private final Configuration configuration;
+	private final MusicHandler musicHandler;
+	private final OkHttpClient okHttpClient;
 	private final TaskHandler taskHandler;
 	private final EventWaiter eventWaiter;
-	private final Logger logger;
 	private ShardManager shardManager;
+	private final Logger logger;
 	private JDA jda;
+
+	public OkHttpClient getOkHttpClient()
+	{
+		return okHttpClient;
+	}
+
+	public MusicHandler getMusicHandler()
+	{
+		return musicHandler;
+	}
 
 	public Monke()
 	{
@@ -61,6 +76,8 @@ public class Monke extends ListenerAdapter
 		this.helpPages = new ArrayList<>();
 		this.taskHandler = new TaskHandler();
 		this.eventWaiter = new EventWaiter();
+		this.okHttpClient = new OkHttpClient();
+		this.musicHandler = new MusicHandler(this);
 	}
 
 	public EventWaiter getEventWaiter()
@@ -88,6 +105,8 @@ public class Monke extends ListenerAdapter
 						CacheFlag.ROLE_TAGS,
 						CacheFlag.MEMBER_OVERRIDES)
 
+				.setHttpClient(okHttpClient)
+
 				.setMemberCachePolicy(MemberCachePolicy.NONE)
 				.setShardsTotal(-1)
 
@@ -104,7 +123,6 @@ public class Monke extends ListenerAdapter
 						new MessageEventsLogging(this),
 						new MemberEventsLogging(this)
 				)
-
 				.setActivity(Activity.listening(" your commands."))
 				.build();
 	}
@@ -133,6 +151,7 @@ public class Monke extends ListenerAdapter
 		{
 			DatabaseUtils.getExpiredTempbans(this).forEach(tempban -> Tempban.remove(tempban.getUserId(), this));
 			DatabaseUtils.getExpiredVotes(this).forEach(vote -> Vote.closeById(vote.getVoteId(), vote.getGuildId(), this));
+			getMusicHandler().cleanupPlayers();
 		}, TimeUnit.SECONDS, 15);
 	}
 

@@ -30,7 +30,7 @@ public class BlacklistUtils
 		}
 
 		Guild guild = event.getGuild();
-		String content = event.getMessage().getContentRaw();
+		String content = event.getMessage().getContentRaw().toLowerCase();
 		Member member = event.getMember();
 
 		if(member == null)
@@ -47,6 +47,7 @@ public class BlacklistUtils
 		{
 			return false;
 		}
+
 		try(Connection connection = monke.getDatabaseHandler().getConnection())
 		{
 			var context = monke.getDatabaseHandler().getContext(connection);
