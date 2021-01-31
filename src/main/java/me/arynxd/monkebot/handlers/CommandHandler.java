@@ -147,30 +147,31 @@ public class CommandHandler
 
 		if(isBotMention(event))
 		{
-			prefix = messageContent.substring(0, messageContent.indexOf(">"));
+			prefix = messageContent.substring(0, messageContent.indexOf(">") + 1);
 		}
 
-		if(!messageContent.startsWith(prefix))
+		if(containsBlacklist)
 		{
-			if(containsBlacklist)
-			{
-				deleteBlacklisted(event);
-			}
+			deleteBlacklisted(event);
 			return;
 		}
 
 		messageContent = messageContent.substring(prefix.length());
+		List<String> args = Arrays
+				.stream(messageContent.split("\\s+"))
+				.filter(arg -> !arg.isBlank())
+				.collect(Collectors.toList());
 
-		List<String> args = Arrays.stream(messageContent.split("\\s+")).collect(Collectors.toList());
 		String command = args.get(0);
-		findCommand(prefix, command, args, event);
+		
+		findCommand(prefix, command.strip(), args, event);
 	}
 
 	private boolean isBotMention(MessageReceivedEvent event)
 	{
 		String content = event.getMessage().getContentRaw();
 		long id = event.getJDA().getSelfUser().getIdLong();
-		return content.startsWith("<@" + id + ">") || content.startsWith("<!@" + id + ">");
+		return content.startsWith("<@" + id + ">") || content.startsWith("<@!" + id + ">");
 	}
 
 	private void findCommand(String prefix, String command, List<String> args, MessageReceivedEvent event)
@@ -179,6 +180,7 @@ public class CommandHandler
 		{
 			return;
 		}
+
 		Command cmd = commandMap.get(command);
 		boolean containsBlacklist = BlacklistUtils.isBlacklistedPhrase(event, monke);
 

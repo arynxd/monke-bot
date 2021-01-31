@@ -112,13 +112,9 @@ public class ReportCommandReactionAdd extends ListenerAdapter
 													.addField("Dealt with by", user.getAsMention(), true)
 													.setColor(Constants.EMBED_COLOUR)
 													.setTimestamp(Instant.now()).build())
-							).queue(null, error ->
-							{
-							});
+							).queue(null, error -> { });
 						}
 					}
-				}, error ->
-				{
-				});
+				}, error -> { });
 	}
 }
