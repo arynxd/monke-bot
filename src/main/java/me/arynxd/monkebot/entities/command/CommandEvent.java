@@ -233,6 +233,15 @@ public class CommandEvent
 	}
 
 	/**
+	 * @return The {@link net.dv8tion.jda.api.entities.TextChannel TextChannel}.
+	 */
+	@Nonnull
+	public TextChannel getTextChannel()
+	{
+		return event.getTextChannel();
+	}
+
+	/**
 	 * Replies to the user using the specified success message.
 	 *
 	 * @param successText The message to use.

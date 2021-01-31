@@ -35,6 +35,7 @@ import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder;
 import net.dv8tion.jda.api.sharding.ShardManager;
 import net.dv8tion.jda.api.utils.MemberCachePolicy;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
+import okhttp3.OkHttpClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -45,11 +46,17 @@ public class Monke extends ListenerAdapter
 	private final LocalDateTime startTimestamp;
 	private final List<EmbedBuilder> helpPages;
 	private final Configuration configuration;
+	private final OkHttpClient okHttpClient;
 	private final TaskHandler taskHandler;
 	private final EventWaiter eventWaiter;
-	private final Logger logger;
 	private ShardManager shardManager;
+	private final Logger logger;
 	private JDA jda;
+
+	public OkHttpClient getOkHttpClient()
+	{
+		return okHttpClient;
+	}
 
 	public Monke()
 	{
@@ -61,6 +68,7 @@ public class Monke extends ListenerAdapter
 		this.helpPages = new ArrayList<>();
 		this.taskHandler = new TaskHandler();
 		this.eventWaiter = new EventWaiter();
+		this.okHttpClient = new OkHttpClient();
 	}
 
 	public EventWaiter getEventWaiter()
@@ -87,6 +95,8 @@ public class Monke extends ListenerAdapter
 						CacheFlag.CLIENT_STATUS,
 						CacheFlag.ROLE_TAGS,
 						CacheFlag.MEMBER_OVERRIDES)
+
+				.setHttpClient(okHttpClient)
 
 				.setMemberCachePolicy(MemberCachePolicy.NONE)
 				.setShardsTotal(-1)

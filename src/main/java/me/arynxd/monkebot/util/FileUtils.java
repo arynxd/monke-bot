@@ -43,6 +43,18 @@ public class FileUtils
 		return icon;
 	}
 
+	public static InputStream getFromURL(String url)
+	{
+		try
+		{
+			return new URL(url).openStream();
+		}
+		catch(Exception exception)
+		{
+			return null;
+		}
+	}
+
 	public static String convertToString(InputStream inputStream)
 	{
 		InputStreamReader isReader = new InputStreamReader(inputStream);
