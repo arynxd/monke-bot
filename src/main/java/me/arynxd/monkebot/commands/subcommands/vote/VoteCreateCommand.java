@@ -13,7 +13,6 @@ import me.arynxd.monkebot.entities.database.Vote;
 import me.arynxd.monkebot.entities.exception.CommandException;
 import me.arynxd.monkebot.entities.exception.CommandInputException;
 import me.arynxd.monkebot.entities.exception.CommandSyntaxException;
-import me.arynxd.monkebot.util.ArrayUtils;
 import me.arynxd.monkebot.util.CommandChecks;
 import me.arynxd.monkebot.util.Parser;
 import net.dv8tion.jda.api.Permission;
@@ -39,7 +38,7 @@ public class VoteCreateCommand extends Command
 
 		List<String> options = new Parser(args.get(1), event).parseAsSlashArgs();
 		LocalDateTime expiry = new Parser(args.get(2), event).parseAsDuration();
-		String subject = ArrayUtils.arrayCompile(args.subList(3, args.size()), " ");
+		String subject = String.join(" ", args.subList(3, args.size()));
 		Guild guild = event.getGuild();
 		List<Role> roles = new ArrayList<>();
 		List<Long> users = new ArrayList<>();

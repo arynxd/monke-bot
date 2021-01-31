@@ -9,7 +9,7 @@ public abstract class CooldownHandler
 {
 	private static final Map<CooledCommand, Long> COOLDOWN_MAP = new ConcurrentHashMap<>(); //K = userId, guildId, command V = timestamp
 
-	private CooldownHandler() //TODO: Remove shit from the map
+	private CooldownHandler()
 	{
 		//Overrides the default, public, constructor
 	}
@@ -25,7 +25,12 @@ public abstract class CooldownHandler
 
 			if(cooledCommand.getUserId() == userId && cooledCommand.getGuildId() == guildId && cooledCommand.getCommand().equals(command))
 			{
-				return System.currentTimeMillis() <= expiry;
+				if(System.currentTimeMillis() <= expiry)
+				{
+					return true;
+				}
+				COOLDOWN_MAP.remove(cooledCommand);
+				return false;
 			}
 		}
 		return false;

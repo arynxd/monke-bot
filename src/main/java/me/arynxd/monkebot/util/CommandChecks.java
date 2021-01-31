@@ -45,6 +45,24 @@ public class CommandChecks
 		return false;
 	}
 
+	public static boolean inVoice(CommandEvent event, Consumer<CommandException> callback)
+	{
+		GuildVoiceState state = event.getMember().getVoiceState();
+		GuildVoiceState selfState = event.getSelfMember().getVoiceState();
+
+		if(state == null || selfState == null)
+		{
+			callback.accept(new CommandResultException("Something went wrong when finding your VC."));
+			return true;
+		}
+		else if(!selfState.inVoiceChannel())
+		{
+			callback.accept(new CommandResultException("I am not in a voice channel."));
+			return true;
+		}
+		return false;
+	}
+
 	public static boolean canSee(MessageChannel channel, Member selfMember, String name, Consumer<CommandException> callback)
 	{
 		if(!selfMember.hasPermission((GuildChannel) channel, Permission.VIEW_CHANNEL, Permission.MESSAGE_WRITE, Permission.MESSAGE_EMBED_LINKS))

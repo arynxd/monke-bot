@@ -16,7 +16,7 @@ public class MusicSkipCommand extends Command
 {
 	public MusicSkipCommand()
 	{
-		super("Skip", "Skips the queue forward by the given amount or 1 if none is specified.", "[none]");
+		super("Skip", "Skips the current song.", "[none]");
 		addAliases("skip");
 		addFlags(CommandFlag.GUILD_ONLY);
 	}

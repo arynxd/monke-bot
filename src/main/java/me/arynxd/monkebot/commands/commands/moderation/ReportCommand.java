@@ -47,7 +47,7 @@ public class ReportCommand extends Command
 		new Parser(args.get(0), event).parseAsUser(user ->
 		{
 			args.remove(0);
-			String reason = ArrayUtils.arrayCompile(args, " ");
+			String reason = String.join(" ", args);
 			String messageLink = StringUtils.getMessageLink(event.getMessage().getIdLong(), channel.getIdLong(), guild.getIdLong());
 
 			if(user.isBot())

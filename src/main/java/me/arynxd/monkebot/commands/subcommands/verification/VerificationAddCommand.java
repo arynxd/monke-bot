@@ -6,7 +6,6 @@ import me.arynxd.monkebot.entities.command.Command;
 import me.arynxd.monkebot.entities.command.CommandEvent;
 import me.arynxd.monkebot.entities.command.CommandFlag;
 import me.arynxd.monkebot.entities.exception.CommandException;
-import me.arynxd.monkebot.util.ArrayUtils;
 import me.arynxd.monkebot.util.CommandChecks;
 import me.arynxd.monkebot.util.Parser;
 import me.arynxd.monkebot.util.VerificationUtils;
@@ -31,7 +30,7 @@ public class VerificationAddCommand extends Command
 		new Parser(args.get(0), event).parseAsRole(
 				role ->
 				{
-					String phrase = ArrayUtils.arrayCompile(args.subList(1, args.size()), " ");
+					String phrase = String.join(" ", args.subList(1, args.size()));
 
 					if(VerificationUtils.addMapping(phrase, event.getGuildIdLong(), role.getIdLong(), event.getMonke()))
 					{

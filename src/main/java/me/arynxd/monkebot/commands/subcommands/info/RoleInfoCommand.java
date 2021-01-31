@@ -6,7 +6,6 @@ import me.arynxd.monkebot.entities.command.Command;
 import me.arynxd.monkebot.entities.command.CommandEvent;
 import me.arynxd.monkebot.entities.exception.CommandException;
 import me.arynxd.monkebot.entities.info.RoleInfo;
-import me.arynxd.monkebot.util.ArrayUtils;
 import me.arynxd.monkebot.util.EmbedUtils;
 import me.arynxd.monkebot.util.Parser;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -28,7 +27,7 @@ public class RoleInfoCommand extends Command
 		}
 		else
 		{
-			new Parser(ArrayUtils.arrayCompile(args.subList(0, args.size()), " "), event).parseAsRole(role ->
+			new Parser(String.join(" ", args), event).parseAsRole(role ->
 			{
 				RoleInfo roleInfo = new RoleInfo(role);
 

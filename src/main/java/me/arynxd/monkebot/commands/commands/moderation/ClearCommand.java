@@ -44,7 +44,7 @@ public class ClearCommand extends Command
 
 		if(amount.isPresent())
 		{
-			if(amount.getAsInt() > 51)
+			if(amount.getAsInt() > 50)
 			{
 				failure.accept(new CommandSyntaxException(this));
 				return;
@@ -56,11 +56,13 @@ public class ClearCommand extends Command
 				return;
 			}
 
-			channel.getIterableHistory().takeAsync(amount.getAsInt()).thenAccept(messages ->
+			channel.getIterableHistory()
+			.takeAsync(amount.getAsInt() + 1)
+			.thenAccept(messages ->
 			{
 				CooldownHandler.addCooldown(member, this);
 				channel.purgeMessages(messages);
-				event.replySuccess("Deleted " + (messages.size()) + " messages");
+				event.replySuccess("Deleted " + (messages.size() - 1) + " messages");
 				MessageCache cache = MessageCache.getCache(guild);
 				messages.stream().filter(cache::isInCache).forEach(cache::remove);
 			});

@@ -80,9 +80,9 @@ public class RedditPost
 	}
 
 	public String getTitle()
-{
-	return dataObject.hasKey("title")
-			? dataObject.getString("title")
-			: null;
-}
+	{
+		return dataObject.hasKey("title")
+				? dataObject.getString("title")
+				: null;
+	}
 }

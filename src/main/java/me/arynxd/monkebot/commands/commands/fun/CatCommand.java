@@ -17,7 +17,7 @@ public class CatCommand extends Command
 {
 	public CatCommand()
 	{
-		super("Cat", "Shows a cute cat", "[none]");
+		super("Cat", "Shows a cute cat.", "[none]");
 		addAliases("cat", "cutecat");
 	}
 	private static final List<String> SUBREDDITS = List.of("kittens", "Kitten", "cutecats", "catsnamedafterfood");

@@ -15,7 +15,6 @@ import me.arynxd.monkebot.entities.music.GuildMusicManager;
 import me.arynxd.monkebot.handlers.MusicHandler;
 import me.arynxd.monkebot.util.CommandChecks;
 import me.arynxd.monkebot.util.IOUtils;
-import me.arynxd.monkebot.util.StringUtils;
 import net.dv8tion.jda.api.entities.VoiceChannel;
 import org.jetbrains.annotations.NotNull;
 
@@ -24,7 +23,7 @@ public class MusicPlayCommand extends Command
 {
 	public MusicPlayCommand()
 	{
-		super("Play", "Plays music from Youtube or Soundcloud", "[song]");
+		super("Play", "Plays music from Youtube or Soundcloud.", "[song]");
 		addAliases("play");
 	}
 	@Override
