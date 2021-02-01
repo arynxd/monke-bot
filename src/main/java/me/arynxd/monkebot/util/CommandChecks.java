@@ -31,6 +31,7 @@ public class CommandChecks
 		else if(state.getChannel() == null)
 		{
 			callback.accept(new CommandResultException("You are not in a voice channel."));
+			return true;
 		}
 		else if(selfState.inVoiceChannel() && !state.getChannel().getMembers().contains(event.getSelfMember()))
 		{
