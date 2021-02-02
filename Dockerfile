@@ -3,8 +3,7 @@ WORKDIR /home/monkebot
 COPY . /home/gradle/
 
 RUN cd /home/gradle/ && ls -lah
-RUN cd /home/gradle/ &&\
-		cp /home/gradle/gradle.properties.example /home/gradle/gradle.properties &&\
+RUN cp /home/gradle/gradle.properties.example /home/gradle/gradle.properties &&\
 		gradle clean shadowJar &&\
 	 	cp /home/gradle/build/libs/Monke-*-all.jar /home/monkebot/Monke.jar &&\
 	  rm -rf /home/gradle/* &&\
