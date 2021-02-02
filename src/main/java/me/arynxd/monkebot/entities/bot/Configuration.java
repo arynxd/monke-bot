@@ -19,7 +19,8 @@ import org.slf4j.LoggerFactory;
  */
 public class Configuration
 {
-	public static final File CONFIG_FILE = new File("bot.cfg");
+	public static final File CONFIG_FOLDER = new File("config");
+	public static final File CONFIG_FILE = new File(CONFIG_FOLDER, "bot.cfg");
 	private static final Logger LOGGER = LoggerFactory.getLogger(Configuration.class);
 	private final Monke monke;
 	private final List<ConfigurationValue> configValues;
@@ -32,6 +33,7 @@ public class Configuration
 	public Configuration(@Nonnull Monke monke)
 	{
 		this.monke = monke;
+		initFolder();
 		initFile();
 		this.configValues = loadInitialValues();
 	}
@@ -55,6 +57,29 @@ public class Configuration
 		catch(Exception exception)
 		{
 			monke.getLogger().error("An exception occurred while creating the config file, abort.", exception);
+			System.exit(1);
+		}
+	}
+
+	/**
+	 * Try to create the 'config/' folder, {@code System.exit()} on error.
+	 */
+	private void initFolder()
+	{
+		try
+		{
+			if(CONFIG_FOLDER.mkdir())
+			{
+				LOGGER.debug("Created new config file.");
+			}
+			else
+			{
+				LOGGER.debug("Config file exists.");
+			}
+		}
+		catch(Exception exception)
+		{
+			monke.getLogger().error("An exception occurred while creating the config folder, abort.", exception);
 			System.exit(1);
 		}
 	}
