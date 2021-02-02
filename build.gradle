@@ -36,9 +36,6 @@ dependencies {
     implementation 'com.zaxxer:HikariCP:4.0.1'
     implementation 'org.jooq:jooq:3.14.6'
 }
-MONKE_DB_URL = System.getenv('MONKE_DB_URL')
-MONKE_DB_USER = System.getenv('MONKE_DB_USER')
-MONKE_DB_PASSWORD = System.getenv('MONKE_DB_PASSWORD')
 
 jooq {
     version = '3.14.4'
