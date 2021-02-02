@@ -19,8 +19,7 @@ import org.slf4j.LoggerFactory;
  */
 public class Configuration
 {
-	public static final File CONFIG_FOLDER = new File("config");
-	public static final File CONFIG_FILE = new File(CONFIG_FOLDER, "bot.cfg");
+	public static final File CONFIG_FILE = new File("bot.cfg");
 	private static final Logger LOGGER = LoggerFactory.getLogger(Configuration.class);
 	private final Monke monke;
 	private final List<ConfigurationValue> configValues;
@@ -33,24 +32,8 @@ public class Configuration
 	public Configuration(@Nonnull Monke monke)
 	{
 		this.monke = monke;
-		initFolder();
 		initFile();
 		this.configValues = loadInitialValues();
-	}
-
-	/**
-	 * Creates the 'config' folder if needed.
-	 */
-	private void initFolder()
-	{
-		if(CONFIG_FOLDER.mkdir())
-		{
-			LOGGER.debug("Created new config folder.");
-		}
-		else
-		{
-			LOGGER.debug("Config folder exists.");
-		}
 	}
 
 	/**

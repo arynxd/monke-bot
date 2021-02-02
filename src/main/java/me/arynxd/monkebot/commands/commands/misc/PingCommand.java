@@ -2,7 +2,6 @@ package me.arynxd.monkebot.commands.commands.misc;
 
 import java.util.List;
 import java.util.function.Consumer;
-import me.arynxd.monkebot.Constants;
 import me.arynxd.monkebot.entities.command.Command;
 import me.arynxd.monkebot.entities.command.CommandEvent;
 import me.arynxd.monkebot.entities.exception.CommandException;

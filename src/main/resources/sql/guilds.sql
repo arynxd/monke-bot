@@ -11,5 +11,6 @@ CREATE TABLE IF NOT EXISTS guilds
     suggestion_channel BIGINT NOT NULL DEFAULT -1,
     channel_suggestion_channel BIGINT NOT NULL DEFAULT -1,
     level_up_bot BIGINT NOT NULL DEFAULT -1,
-    prefix VARCHAR(5) NOT NULL DEFAULT '.'
+    prefered_language VARCHAR(10) NOT NULL DEFAULT 'en_US',
+    prefix VARCHAR(5) NOT NULL DEFAULT 'm!'
 );

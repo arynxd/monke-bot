@@ -45,19 +45,22 @@ public class MemeCommand extends Command
 				};
 		}
 
+		WebUtils.getPosts(event, subreddit,
+			posts ->
+			{
+				List<RedditPost> memes = posts
+					.stream()
+					.filter(post -> !post.isPinned() && !post.isStickied() && post.isMedia())
+					.collect(Collectors.toList());
 
-		List<RedditPost> memes = WebUtils.getPosts(event.getMonke(), subreddit)
-				.stream()
-				.filter(post -> !post.isPinned() && !post.isStickied() && post.isMedia())
-				.collect(Collectors.toList());
+				if(memes.isEmpty())
+				{
+					failure.accept(new CommandResultException("No posts were found."));
+					return;
+				}
 
-		if(memes.isEmpty())
-		{
-			failure.accept(new CommandResultException("No posts were found."));
-			return;
-		}
-
-		RedditPost post = memes.get(random.nextInt(memes.size()));
-		WebUtils.checkAndSendPost(event, post, failure);
+				RedditPost post = memes.get(random.nextInt(memes.size()));
+				WebUtils.checkAndSendPost(event, post, failure);
+			}, failure);
 	}
 }

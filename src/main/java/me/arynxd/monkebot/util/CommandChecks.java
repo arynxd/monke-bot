@@ -31,6 +31,7 @@ public class CommandChecks
 		else if(state.getChannel() == null)
 		{
 			callback.accept(new CommandResultException("You are not in a voice channel."));
+			return true;
 		}
 		else if(selfState.inVoiceChannel() && !state.getChannel().getMembers().contains(event.getSelfMember()))
 		{
@@ -40,6 +41,24 @@ public class CommandChecks
 		else if(!selfState.inVoiceChannel() && !event.getSelfMember().hasPermission(state.getChannel(), Permission.VIEW_CHANNEL, Permission.VOICE_SPEAK))
 		{
 			callback.accept(new CommandException("I cannot join / speak in your channel."));
+			return true;
+		}
+		return false;
+	}
+
+	public static boolean inVoice(CommandEvent event, Consumer<CommandException> callback)
+	{
+		GuildVoiceState state = event.getMember().getVoiceState();
+		GuildVoiceState selfState = event.getSelfMember().getVoiceState();
+
+		if(state == null || selfState == null)
+		{
+			callback.accept(new CommandResultException("Something went wrong when finding your VC."));
+			return true;
+		}
+		else if(!selfState.inVoiceChannel())
+		{
+			callback.accept(new CommandResultException("I am not in a voice channel."));
 			return true;
 		}
 		return false;

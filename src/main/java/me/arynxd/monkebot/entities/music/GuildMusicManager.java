@@ -70,4 +70,11 @@ public class GuildMusicManager
 		AudioManager manager = channel.getGuild().getAudioManager();
 		manager.openAudioConnection(channel);
 	}
+
+	public void kill(Guild guild)
+	{
+		leave(guild);
+		player.destroy();
+		scheduler.clear();
+	}
 }

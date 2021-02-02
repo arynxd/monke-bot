@@ -108,12 +108,58 @@ public class GuildConfig
 		}
 	}
 
+
 	/**
-	 * @return The self promotion role for this guild, -1 if it does not exist, or an error occurred.
+	 * Sets the preferred {@link me.arynxd.monkebot.entities.database.Language language} for this guild. for this guild.
+	 *
+	 * @param language The new {@link me.arynxd.monkebot.entities.database.Language language}.
 	 */
-	public long getPromoRole()
+	public void setLanguage(@Nonnull Language language)
 	{
-		return getLong(GUILDS.SELF_PROMO_ROLE);
+		try(Connection connection = monke.getDatabaseHandler().getConnection())
+		{
+			var context = monke.getDatabaseHandler().getContext(connection);
+			var query = context
+					.update(GUILDS)
+					.set(GUILDS.PREFERED_LANGUAGE, language.getLanguageCode())
+					.where(GUILDS.GUILD_ID.eq(guildId));
+
+			query.execute();
+		}
+		catch(Exception exception)
+		{
+			monke.getLogger().error("An SQL error occurred", exception);
+		}
+	}
+
+	/**
+	 * @return The preferred {@link me.arynxd.monkebot.entities.database.Language language} for this guild. Default en_US.
+	 */
+	@Nonnull
+	public Language getLanguage()
+	{
+		try(Connection connection = monke.getDatabaseHandler().getConnection())
+		{
+			var context = monke.getDatabaseHandler().getContext(connection);
+			var query = context
+					.select(GUILDS.PREFERED_LANGUAGE)
+					.from(GUILDS)
+					.where(GUILDS.GUILD_ID.eq(guildId));
+
+			String result = query.fetchOne(GUILDS.PREFERED_LANGUAGE);
+
+			if(result == null)
+			{
+				return Language.EN_US;
+			}
+			query.close();
+			return Language.valueOf(result.toUpperCase());
+		}
+		catch(Exception exception)
+		{
+			monke.getLogger().error("An SQL error occurred", exception);
+			return Language.EN_US;
+		}
 	}
 
 	/**
@@ -188,14 +234,6 @@ public class GuildConfig
 	public long getSuggestionChannel()
 	{
 		return getLong(GUILDS.SUGGESTION_CHANNEL);
-	}
-
-	/**
-	 * @return The suggestions channel for this guild, -1 if it does not exist, or an error occurred.
-	 */
-	public long getPromoChannel()
-	{
-		return getLong(GUILDS.SELF_PROMO_CHANNEL);
 	}
 
 	/**

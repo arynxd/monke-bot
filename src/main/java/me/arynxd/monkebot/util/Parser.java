@@ -119,6 +119,7 @@ public class Parser
 			if(value.getAsInt() == 0)
 			{
 				event.replyError("Enter a whole number greater than 0, eg: 1");
+				return OptionalInt.empty();
 			}
 			return value;
 		}

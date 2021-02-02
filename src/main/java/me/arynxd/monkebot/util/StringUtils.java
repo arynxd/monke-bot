@@ -1,8 +1,11 @@
 package me.arynxd.monkebot.util;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
+import java.util.Date;
 import me.arynxd.monkebot.entities.Emoji;
 
 public class StringUtils
@@ -85,5 +88,10 @@ public class StringUtils
 	public static String getUserAsMention(long userId)
 	{
 		return "<@!" + userId + ">";
+	}
+
+	public static String parseDuration(Duration duration)
+	{
+		return duration.toHoursPart() + "h : " + duration.toMinutesPart() + "m : " + duration.toSecondsPart() + "s";
 	}
 }

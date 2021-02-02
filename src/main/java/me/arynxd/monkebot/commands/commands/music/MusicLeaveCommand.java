@@ -24,6 +24,7 @@ public class MusicLeaveCommand extends Command
 	public void run(@NotNull List<String> args, @NotNull CommandEvent event, @NotNull Consumer<CommandException> failure)
 	{
 		if(CommandChecks.sharesVoice(event, failure)) return;
+		if(CommandChecks.inVoice(event, failure)) return;
 
 		MusicHandler musicHandler = event.getMonke().getMusicHandler();
 		GuildMusicManager manager = musicHandler.getGuildMusicManager(event.getGuild());

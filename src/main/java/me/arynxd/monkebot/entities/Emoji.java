@@ -100,11 +100,6 @@ public enum Emoji
 		return unicode;
 	}
 
-	public String getEmote()
-	{
-		return emote;
-	}
-
 	public String getAsReaction()
 	{
 		if(this.unicode.isBlank())

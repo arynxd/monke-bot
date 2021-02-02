@@ -10,7 +10,6 @@ import me.arynxd.monkebot.entities.command.CommandEvent;
 import me.arynxd.monkebot.entities.command.CommandFlag;
 import me.arynxd.monkebot.entities.database.GuildConfig;
 import me.arynxd.monkebot.entities.exception.CommandException;
-import me.arynxd.monkebot.util.ArrayUtils;
 import me.arynxd.monkebot.util.CommandChecks;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageChannel;
@@ -40,7 +39,7 @@ public class SuggestionCommand extends Command
 		if(CommandChecks.channelConfigured(suggestionChannel, "Suggestion channel", failure)) return;
 		suggestionChannel.sendMessage(new EmbedBuilder()
 				.setTitle("Suggestion:")
-				.setDescription(ArrayUtils.arrayCompile(args, " "))
+				.setDescription(String.join(" ", args))
 				.setColor(Constants.EMBED_COLOUR)
 				.setThumbnail(author.getAvatarUrl())
 				.setFooter("Suggested by: " + event.getAuthor().getAsTag() + " | ")

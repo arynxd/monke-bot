@@ -23,7 +23,7 @@ public class ShutdownCommand extends Command
 	{
 		event.getMonke().getDatabaseHandler().close();
 		event.getMonke().getTaskHandler().close();
-
+		event.getJDA().getGuilds().forEach(guild -> event.getMonke().getMusicHandler().getGuildMusicManager(guild).kill(guild));
 		event.getJDA().shutdown();
 
 		event.getMonke().getLogger().warn("-- Monke was shutdown using shutdown command.");

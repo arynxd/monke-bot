@@ -1,18 +1,18 @@
 package me.arynxd.monkebot.util;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
-import me.arynxd.monkebot.Monke;
 import me.arynxd.monkebot.entities.command.CommandEvent;
 import me.arynxd.monkebot.entities.exception.CommandException;
+import me.arynxd.monkebot.entities.exception.CommandResultException;
 import me.arynxd.monkebot.entities.json.RedditPost;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.utils.data.DataArray;
 import net.dv8tion.jda.api.utils.data.DataObject;
-import okhttp3.Request;
-import okhttp3.Response;
-import okhttp3.ResponseBody;
+import okhttp3.*;
+import org.jetbrains.annotations.NotNull;
 
 public class WebUtils
 {
@@ -21,21 +21,42 @@ public class WebUtils
 		//Overrides the default, public, constructor
 	}
 
-	public static List<RedditPost> getPosts(Monke monke, String subreddit)
+	public static void getPosts(CommandEvent event, String subreddit, Consumer<List<RedditPost>> success, Consumer<CommandException> failure)
 	{
 		Request request = new Request.Builder()
 				.url("https://www.reddit.com/r/" + subreddit + "/.json")
 				.build();
 
-		List<RedditPost> post = new ArrayList<>();
-		try(Response response = monke.getOkHttpClient().newCall(request).execute())
+
+		event.getMonke().getOkHttpClient().newCall(request).enqueue(new Callback()
 		{
-			ResponseBody responseBody = response.body();
-			if(responseBody != null)
+			@Override public void onFailure(@NotNull Call call, @NotNull IOException exception)
 			{
-				DataObject redditJson = DataObject.fromJson(responseBody.string());
-				if(redditJson.hasKey("data") && redditJson.getObject("data").hasKey("children"))
+				event.getMonke().getLogger().error("An OKHTTP error has occurred", exception);
+				failure.accept(new CommandResultException("Failed to fetch posts."));
+			}
+
+			@Override public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException
+			{
+				try (ResponseBody responseBody = response.body())
 				{
+					List<RedditPost> post = new ArrayList<>();
+
+					if(responseBody == null)
+					{
+						failure.accept(new CommandResultException("The retrieved posts were empty."));
+						return;
+					}
+
+					DataObject redditJson = DataObject.fromJson(responseBody.string());
+
+
+					if(!redditJson.hasKey("data") && !redditJson.getObject("data").hasKey("children"))
+					{
+						failure.accept(new CommandResultException("The data Reddit provided was corrupt."));
+						return;
+					}
+
 					DataArray memeArray = redditJson.getObject("data").getArray("children");
 
 					for(int i = 0; i < memeArray.length(); i++)
@@ -46,14 +67,17 @@ public class WebUtils
 							post.add(new RedditPost(meme.getObject("data")));
 						}
 					}
+
+					if(post.isEmpty())
+					{
+						failure.accept(new CommandResultException("Reddit provided no posts."));
+						return;
+					}
+
+					success.accept(post);
 				}
 			}
-		}
-		catch(Exception exception)
-		{
-			monke.getLogger().error("An OKHTTP error has occurred.", exception);
-		}
-		return post;
+		});
 	}
 
 	public static void checkAndSendPost(CommandEvent event, RedditPost post, Consumer<CommandException> failure)

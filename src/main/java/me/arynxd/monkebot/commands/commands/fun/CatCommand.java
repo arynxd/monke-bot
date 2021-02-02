@@ -17,7 +17,7 @@ public class CatCommand extends Command
 {
 	public CatCommand()
 	{
-		super("Cat", "Shows a cute cat", "[none]");
+		super("Cat", "Shows a cute cat.", "[none]");
 		addAliases("cat", "cutecat");
 	}
 	private static final List<String> SUBREDDITS = List.of("kittens", "Kitten", "cutecats", "catsnamedafterfood");
@@ -26,21 +26,24 @@ public class CatCommand extends Command
 	public void run(@NotNull List<String> args, @NotNull CommandEvent event, @NotNull Consumer<CommandException> failure)
 	{
 		Random random = new Random();
-		List<RedditPost> cats = WebUtils.getPosts(event.getMonke(), SUBREDDITS.get(random.nextInt(SUBREDDITS.size())))
-				.stream()
-				.filter(post -> !post.isPinned() && !post.isStickied() && post.isMedia())
-				.collect(Collectors.toList());
 
+		WebUtils.getPosts(event, SUBREDDITS.get(random.nextInt(SUBREDDITS.size())),
+			data ->
+			{
+				List<RedditPost> cats = data
+						.stream()
+						.filter(post -> !post.isPinned() && !post.isStickied() && post.isMedia())
+						.collect(Collectors.toList());
 
+				if(cats.isEmpty())
+				{
+					failure.accept(new CommandResultException("Couldn't find any cats :pensive:"));
+					return;
+				}
 
-		if(cats.isEmpty())
-		{
-			failure.accept(new CommandResultException("Couldn't find any cats :pensive:"));
-			return;
-		}
+				RedditPost post = cats.get(random.nextInt(cats.size() - 1));
 
-		RedditPost post = cats.get(random.nextInt(cats.size() - 1));
-
-		WebUtils.checkAndSendPost(event, post, failure);
+				WebUtils.checkAndSendPost(event, post, failure);
+			}, failure);
 	}
 }
