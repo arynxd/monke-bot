@@ -20,3 +20,4 @@
 #gradle
 build/
 .gradle
+gradle.properties
