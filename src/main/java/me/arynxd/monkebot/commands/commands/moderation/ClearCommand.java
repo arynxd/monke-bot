@@ -9,6 +9,7 @@ import me.arynxd.monkebot.entities.command.CommandEvent;
 import me.arynxd.monkebot.entities.command.CommandFlag;
 import me.arynxd.monkebot.entities.exception.CommandCooldownException;
 import me.arynxd.monkebot.entities.exception.CommandException;
+import me.arynxd.monkebot.entities.exception.CommandInputException;
 import me.arynxd.monkebot.entities.exception.CommandSyntaxException;
 import me.arynxd.monkebot.handlers.CooldownHandler;
 import me.arynxd.monkebot.util.CommandChecks;
@@ -46,7 +47,7 @@ public class ClearCommand extends Command
 		{
 			if(amount.getAsInt() > 50)
 			{
-				failure.accept(new CommandSyntaxException(this));
+				failure.accept(new CommandInputException("Enter an amount less than or equal to 50."));
 				return;
 			}
 
@@ -60,11 +61,14 @@ public class ClearCommand extends Command
 			.takeAsync(amount.getAsInt() + 1)
 			.thenAccept(messages ->
 			{
+				MessageCache cache = MessageCache.getCache(guild);
+				messages.stream()
+						.filter(cache::isInCache)
+						.forEach(cache::remove);
+
 				CooldownHandler.addCooldown(member, this);
 				channel.purgeMessages(messages);
-				event.replySuccess("Deleted " + (messages.size() - 1) + " messages");
-				MessageCache cache = MessageCache.getCache(guild);
-				messages.stream().filter(cache::isInCache).forEach(cache::remove);
+				event.replySuccess("Deleted " + (messages.size() - 1) + " messages.");
 			});
 		}
 	}
