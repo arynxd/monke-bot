@@ -1,7 +1,4 @@
-FROM openjdk:15-alpine
+FROM gradle:6.8.1-jdk15
 WORKDIR /home/monkebot
-
-RUN mkdir /tmp/monkebot/ && apk update && apk upgrade
-COPY ./* /tmp/monkebot/
-RUN /tmp/monkebot/gradlew clean shadowJar && cp /tmp/monkebot/build/libs/Monke-0.0.1-all.jar Monke.jar && rm -r /tmp/monkebot
-ENTRYPOINT java -jar Monke.jar
+COPY ./* /home/gradle/
+ENTRYPOINT gradle runShadow
