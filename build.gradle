@@ -45,7 +45,7 @@ jooq {
                 generationTool {
                     logging = org.jooq.meta.jaxb.Logging.WARN
                     jdbc {
-                        url = "jdbc:postgresql://${MONKE_DB_HOST}:${MONKE_DB_PORT}/${MONKE_DB_DATABASE}"
+                        url = MONKE_DB_URL
                         user = MONKE_DB_USER
                         password = MONKE_DB_PASSWORD
                         driver = 'org.postgresql.Driver'
