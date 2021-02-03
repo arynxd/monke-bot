@@ -109,7 +109,8 @@ public class DatabaseHandler
 		LOGGER.debug("Starting local HikariCP setup.");
 		HikariConfig hikariConfig = new HikariConfig();
 		Configuration configuration = monke.getConfig();
-		hikariConfig.setDriverClassName("org.postgresql.Driver");
+
+		hikariConfig.setDriverClassName(configuration.getString(ConfigOption.LOCALDRIVER));
 		hikariConfig.setJdbcUrl(configuration.getString(ConfigOption.LOCALURL));
 
 		hikariConfig.setUsername(monke.getConfig().getString(ConfigOption.LOCALUSERNAME));

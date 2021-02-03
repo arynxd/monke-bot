@@ -15,12 +15,13 @@ import org.jetbrains.annotations.NotNull;
 @SuppressWarnings("unused")
 public class CatCommand extends Command
 {
+	private static final List<String> SUBREDDITS = List.of("kittens", "Kitten", "cutecats", "catsnamedafterfood");
+
 	public CatCommand()
 	{
 		super("Cat", "Shows a cute cat.", "[none]");
 		addAliases("cat", "cutecat");
 	}
-	private static final List<String> SUBREDDITS = List.of("kittens", "Kitten", "cutecats", "catsnamedafterfood");
 
 	@Override
 	public void run(@NotNull List<String> args, @NotNull CommandEvent event, @NotNull Consumer<CommandException> failure)
@@ -28,22 +29,22 @@ public class CatCommand extends Command
 		Random random = new Random();
 
 		WebUtils.getPosts(event, SUBREDDITS.get(random.nextInt(SUBREDDITS.size())),
-			data ->
-			{
-				List<RedditPost> cats = data
-						.stream()
-						.filter(post -> !post.isPinned() && !post.isStickied() && post.isMedia())
-						.collect(Collectors.toList());
-
-				if(cats.isEmpty())
+				data ->
 				{
-					failure.accept(new CommandResultException("Couldn't find any cats :pensive:"));
-					return;
-				}
+					List<RedditPost> cats = data
+							.stream()
+							.filter(post -> !post.isPinned() && !post.isStickied() && post.isMedia())
+							.collect(Collectors.toList());
 
-				RedditPost post = cats.get(random.nextInt(cats.size() - 1));
+					if(cats.isEmpty())
+					{
+						failure.accept(new CommandResultException("Couldn't find any cats :pensive:"));
+						return;
+					}
 
-				WebUtils.checkAndSendPost(event, post, failure);
-			}, failure);
+					RedditPost post = cats.get(random.nextInt(cats.size() - 1));
+
+					WebUtils.checkAndSendPost(event, post, failure);
+				}, failure);
 	}
 }

@@ -123,6 +123,7 @@ public abstract class Command
 
 	/**
 	 * Submits a command for execution, catching all errors, acts as an internal shortcut to {@link #run(java.util.List, CommandEvent, java.util.function.Consumer)}
+	 *
 	 * @param event The event to run.
 	 */
 	private void execute(CommandEvent event)

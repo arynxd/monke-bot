@@ -6,13 +6,13 @@ public enum Language
 
 	private final String languageCode;
 
-	public String getLanguageCode()
-	{
-		return languageCode;
-	}
-
 	Language(String lanugageCode)
 	{
 		this.languageCode = lanugageCode;
+	}
+
+	public String getLanguageCode()
+	{
+		return languageCode;
 	}
 }

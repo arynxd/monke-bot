@@ -75,7 +75,7 @@ public class CommandHandler
 		return commandMap;
 	}
 
-	public void handle(MessageReceivedEvent event)
+	public void handleEvent(MessageReceivedEvent event)
 	{
 		if(event.getAuthor().isBot() || event.isWebhookMessage())
 		{
@@ -113,35 +113,9 @@ public class CommandHandler
 			prefix = Constants.DEFAULT_BOT_PREFIX;
 		}
 
-		if(!messageContent.startsWith(prefix))
-		{
-			return;
-		}
-
-		messageContent = messageContent.substring(prefix.length());
-
-		List<String> args = Arrays
-				.stream(messageContent.split("\\s+"))
-				.filter(arg -> !arg.isBlank())
-				.collect(Collectors.toList());
-
-		if(args.isEmpty())
-		{
-			return;
-		}
-
-		String command = args.get(0);
-		findCommand(prefix, command, args, event);
+		verifyPrefixAndSend(messageContent, prefix, event);
 	}
 
-	private void deleteBlacklisted(MessageReceivedEvent event)
-	{
-		EmbedUtils.sendError(event.getChannel(), "Your message contained a blacklisted phrase.");
-		if(event.getGuild().getSelfMember().hasPermission((GuildChannel) event.getChannel(), Permission.MESSAGE_MANAGE))
-		{
-			event.getMessage().delete().queue();
-		}
-	}
 
 	private void handleGuild(MessageReceivedEvent event)
 	{
@@ -159,36 +133,33 @@ public class CommandHandler
 			deleteBlacklisted(event);
 			return;
 		}
+		verifyPrefixAndSend(messageContent, prefix, event);
+	}
 
+	private void verifyPrefixAndSend(String messageContent, String prefix, MessageReceivedEvent event)
+	{
 		if(!messageContent.startsWith(prefix))
 		{
 			return;
 		}
 
 		messageContent = messageContent.substring(prefix.length());
+
 		List<String> args = Arrays
 				.stream(messageContent.split("\\s+"))
 				.filter(arg -> !arg.isBlank())
 				.collect(Collectors.toList());
 
-
 		if(args.isEmpty())
 		{
 			return;
 		}
+
 		String command = args.get(0);
-
-		findCommand(prefix, command.strip(), args, event);
+		getCommand(prefix, command.strip(), args, event);
 	}
 
-	private boolean isBotMention(MessageReceivedEvent event)
-	{
-		String content = event.getMessage().getContentRaw();
-		long id = event.getJDA().getSelfUser().getIdLong();
-		return content.startsWith("<@" + id + ">") || content.startsWith("<@!" + id + ">");
-	}
-
-	private void findCommand(String prefix, String command, List<String> args, MessageReceivedEvent event)
+	private void getCommand(String prefix, String command, List<String> args, MessageReceivedEvent event)
 	{
 		if(command.isBlank() || command.startsWith(prefix))
 		{
@@ -237,5 +208,22 @@ public class CommandHandler
 				.ifPresentOrElse(
 						child -> child.process(new CommandEvent(event, monke, child, args.subList(1, args.size()))),
 						() -> cmd.process(commandEvent));
+	}
+
+	private void deleteBlacklisted(MessageReceivedEvent event)
+	{
+		EmbedUtils.sendError(event.getChannel(), "Your message contained a blacklisted phrase.");
+		if(event.getGuild().getSelfMember().hasPermission((GuildChannel) event.getChannel(), Permission.MESSAGE_MANAGE))
+		{
+			event.getMessage().delete().queue();
+		}
+	}
+
+
+	private boolean isBotMention(MessageReceivedEvent event)
+	{
+		String content = event.getMessage().getContentRaw();
+		long id = event.getJDA().getSelfUser().getIdLong();
+		return content.startsWith("<@" + id + ">") || content.startsWith("<@!" + id + ">");
 	}
 }

@@ -51,24 +51,24 @@ public class ReactionRoleAddCommand extends Command
 		{
 			new Parser(args.get(1), event).parseAsTextChannel(
 					channel -> channel.retrieveMessageById(messageId.getAsLong()).queue(
-					message -> new Parser(args.get(2), event).parseAsRole(
-						role ->
-						{
-							if(!event.getSelfMember().canInteract(role) || !event.getMember().canInteract(role))
-							{
-								failure.accept(new CommandHierarchyException(this));
-								return;
-							}
-
-							message.addReaction(emote).queue(
-									success ->
+							message -> new Parser(args.get(2), event).parseAsRole(
+									role ->
 									{
-										new ReactionRole(message.getIdLong(), role.getIdLong(), event.getGuild().getIdLong(), emote, event.getMonke()).add();
-										event.replySuccess("Reaction role added.");
-									},
-									error -> failure.accept(new CommandInputException("I could not add reaction `" + event.getMessage().getEmotes().get(0).getName() + "`")));
-						}),
-								error -> failure.accept(new CommandInputException("Message with ID " + messageId.getAsLong() + " not found in channel " + channel.getAsMention()))));
+										if(!event.getSelfMember().canInteract(role) || !event.getMember().canInteract(role))
+										{
+											failure.accept(new CommandHierarchyException(this));
+											return;
+										}
+
+										message.addReaction(emote).queue(
+												success ->
+												{
+													new ReactionRole(message.getIdLong(), role.getIdLong(), event.getGuild().getIdLong(), emote, event.getMonke()).add();
+													event.replySuccess("Reaction role added.");
+												},
+												error -> failure.accept(new CommandInputException("I could not add reaction `" + event.getMessage().getEmotes().get(0).getName() + "`")));
+									}),
+							error -> failure.accept(new CommandInputException("Message with ID " + messageId.getAsLong() + " not found in channel " + channel.getAsMention()))));
 		}
 	}
 }

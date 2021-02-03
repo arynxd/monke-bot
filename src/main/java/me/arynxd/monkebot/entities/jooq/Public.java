@@ -7,6 +7,8 @@ package me.arynxd.monkebot.entities.jooq;
 import java.util.Arrays;
 import java.util.List;
 
+import me.arynxd.monkebot.entities.jooq.tables.Reports;
+import me.arynxd.monkebot.entities.jooq.tables.WordBlacklists;
 import org.jooq.Catalog;
 import org.jooq.Sequence;
 import org.jooq.Table;
@@ -15,13 +17,11 @@ import me.arynxd.monkebot.entities.jooq.tables.Guilds;
 import me.arynxd.monkebot.entities.jooq.tables.Levels;
 import me.arynxd.monkebot.entities.jooq.tables.ReactionRoles;
 import me.arynxd.monkebot.entities.jooq.tables.Reminders;
-import me.arynxd.monkebot.entities.jooq.tables.Reports;
 import me.arynxd.monkebot.entities.jooq.tables.Roles;
 import me.arynxd.monkebot.entities.jooq.tables.Tempbans;
 import me.arynxd.monkebot.entities.jooq.tables.Verification;
 import me.arynxd.monkebot.entities.jooq.tables.Votes;
 import me.arynxd.monkebot.entities.jooq.tables.Warnings;
-import me.arynxd.monkebot.entities.jooq.tables.WordBlacklists;
 import org.jooq.impl.SchemaImpl;
 
 

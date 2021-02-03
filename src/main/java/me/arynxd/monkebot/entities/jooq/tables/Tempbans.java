@@ -8,6 +8,8 @@ import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
+import me.arynxd.monkebot.entities.jooq.Keys;
+import me.arynxd.monkebot.entities.jooq.Public;
 import me.arynxd.monkebot.entities.jooq.tables.records.TempbansRecord;
 import org.jooq.Field;
 import org.jooq.ForeignKey;
@@ -20,8 +22,6 @@ import org.jooq.Table;
 import org.jooq.TableField;
 import org.jooq.TableOptions;
 import org.jooq.UniqueKey;
-import me.arynxd.monkebot.entities.jooq.Keys;
-import me.arynxd.monkebot.entities.jooq.Public;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
 import org.jooq.impl.TableImpl;

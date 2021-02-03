@@ -4,11 +4,11 @@
 package me.arynxd.monkebot.entities.jooq.tables.records;
 
 
+import me.arynxd.monkebot.entities.jooq.tables.WordBlacklists;
 import org.jooq.Field;
 import org.jooq.Record1;
 import org.jooq.Record3;
 import org.jooq.Row3;
-import me.arynxd.monkebot.entities.jooq.tables.WordBlacklists;
 import org.jooq.impl.UpdatableRecordImpl;
 
 

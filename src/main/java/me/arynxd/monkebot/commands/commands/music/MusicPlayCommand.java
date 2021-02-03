@@ -11,7 +11,7 @@ import me.arynxd.monkebot.entities.command.CommandEvent;
 import me.arynxd.monkebot.entities.command.CommandFlag;
 import me.arynxd.monkebot.entities.exception.CommandException;
 import me.arynxd.monkebot.entities.exception.CommandResultException;
-import me.arynxd.monkebot.entities.music.GuildMusicManager;
+import me.arynxd.monkebot.entities.music.GuildMusicHandler;
 import me.arynxd.monkebot.handlers.MusicHandler;
 import me.arynxd.monkebot.util.CommandChecks;
 import me.arynxd.monkebot.util.IOUtils;
@@ -26,6 +26,7 @@ public class MusicPlayCommand extends Command
 		super("Play", "Plays music from Youtube or Soundcloud.", "[song]");
 		addAliases("play");
 	}
+
 	@Override
 	public void run(@NotNull List<String> args, @NotNull CommandEvent event, @NotNull Consumer<CommandException> failure)
 	{
@@ -33,8 +34,8 @@ public class MusicPlayCommand extends Command
 		if(CommandChecks.sharesVoice(event, failure)) return;
 
 		MusicHandler musicHandler = event.getMonke().getMusicHandler();
-		GuildMusicManager manager = musicHandler.getGuildMusicManager(event.getGuild());
-		VoiceChannel channel = event.getMember().getVoiceState().getChannel();
+		GuildMusicHandler manager = musicHandler.getGuildMusicManager(event.getGuild());
+		VoiceChannel channel = event.getMember().getVoiceState().getChannel(); //Safe due to CommandChecks
 		String query = String.join("", args);
 		addFlags(CommandFlag.GUILD_ONLY);
 
@@ -49,7 +50,7 @@ public class MusicPlayCommand extends Command
 			public void trackLoaded(AudioTrack track)
 			{
 				event.replySuccess("Added **" + track.getInfo().title + "** to the queue.");
-				manager.play(channel, track);
+				manager.play(channel, track); //Safe due to CommandChecks
 			}
 
 			@Override
@@ -58,12 +59,12 @@ public class MusicPlayCommand extends Command
 				if(playlist.isSearchResult())
 				{
 					event.replySuccess("Added **" + playlist.getTracks().get(0).getInfo().title + "** to the queue.");
-					manager.play(channel, playlist.getTracks().get(0));
+					manager.play(channel, playlist.getTracks().get(0)); //Safe due to CommandChecks
 				}
 				else
 				{
 					event.replySuccess("Added " + playlist.getTracks().size() + " tracks to the queue.");
-					manager.playAll(channel, playlist.getTracks());
+					manager.playAll(channel, playlist.getTracks()); //Safe due to CommandChecks
 				}
 			}
 

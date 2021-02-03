@@ -5,7 +5,7 @@ import java.util.function.Consumer;
 import me.arynxd.monkebot.entities.command.Command;
 import me.arynxd.monkebot.entities.command.CommandEvent;
 import me.arynxd.monkebot.entities.exception.CommandException;
-import me.arynxd.monkebot.entities.music.GuildMusicManager;
+import me.arynxd.monkebot.entities.music.GuildMusicHandler;
 import me.arynxd.monkebot.handlers.MusicHandler;
 import me.arynxd.monkebot.util.CommandChecks;
 import net.dv8tion.jda.api.entities.VoiceChannel;
@@ -26,7 +26,7 @@ public class MusicJoinCommand extends Command
 		if(CommandChecks.sharesVoice(event, failure)) return;
 
 		MusicHandler musicHandler = event.getMonke().getMusicHandler();
-		GuildMusicManager manager = musicHandler.getGuildMusicManager(event.getGuild());
+		GuildMusicHandler manager = musicHandler.getGuildMusicManager(event.getGuild());
 		VoiceChannel channel = event.getMember().getVoiceState().getChannel();
 		manager.join(channel);
 	}

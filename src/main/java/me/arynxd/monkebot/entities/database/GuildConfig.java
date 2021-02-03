@@ -108,30 +108,6 @@ public class GuildConfig
 		}
 	}
 
-
-	/**
-	 * Sets the preferred {@link me.arynxd.monkebot.entities.database.Language language} for this guild. for this guild.
-	 *
-	 * @param language The new {@link me.arynxd.monkebot.entities.database.Language language}.
-	 */
-	public void setLanguage(@Nonnull Language language)
-	{
-		try(Connection connection = monke.getDatabaseHandler().getConnection())
-		{
-			var context = monke.getDatabaseHandler().getContext(connection);
-			var query = context
-					.update(GUILDS)
-					.set(GUILDS.PREFERED_LANGUAGE, language.getLanguageCode())
-					.where(GUILDS.GUILD_ID.eq(guildId));
-
-			query.execute();
-		}
-		catch(Exception exception)
-		{
-			monke.getLogger().error("An SQL error occurred", exception);
-		}
-	}
-
 	/**
 	 * @return The preferred {@link me.arynxd.monkebot.entities.database.Language language} for this guild. Default en_US.
 	 */
@@ -159,6 +135,29 @@ public class GuildConfig
 		{
 			monke.getLogger().error("An SQL error occurred", exception);
 			return Language.EN_US;
+		}
+	}
+
+	/**
+	 * Sets the preferred {@link me.arynxd.monkebot.entities.database.Language language} for this guild. for this guild.
+	 *
+	 * @param language The new {@link me.arynxd.monkebot.entities.database.Language language}.
+	 */
+	public void setLanguage(@Nonnull Language language)
+	{
+		try(Connection connection = monke.getDatabaseHandler().getConnection())
+		{
+			var context = monke.getDatabaseHandler().getContext(connection);
+			var query = context
+					.update(GUILDS)
+					.set(GUILDS.PREFERED_LANGUAGE, language.getLanguageCode())
+					.where(GUILDS.GUILD_ID.eq(guildId));
+
+			query.execute();
+		}
+		catch(Exception exception)
+		{
+			monke.getLogger().error("An SQL error occurred", exception);
 		}
 	}
 

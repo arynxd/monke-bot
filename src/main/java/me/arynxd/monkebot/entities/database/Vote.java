@@ -158,7 +158,8 @@ public class Vote
 					message.editMessage(newEmbed.build()).queue();
 				}
 				, error ->
-				{});
+				{
+				});
 	}
 
 	private static void clearDM(long userId, long messageId, Monke monke)

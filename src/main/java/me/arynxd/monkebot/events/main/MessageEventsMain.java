@@ -9,7 +9,10 @@ import me.arynxd.monkebot.util.BlacklistUtils;
 import me.arynxd.monkebot.util.CommandUtils;
 import me.arynxd.monkebot.util.DatabaseUtils;
 import me.arynxd.monkebot.util.EmbedUtils;
-import net.dv8tion.jda.api.entities.*;
+import net.dv8tion.jda.api.entities.ChannelType;
+import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
@@ -70,7 +73,7 @@ public class MessageEventsMain extends ListenerAdapter
 			return;
 		}
 
-		monke.getCommandHandler().handle(event);
+		monke.getCommandHandler().handleEvent(event);
 	}
 
 	private boolean handleVote(MessageReceivedEvent event)

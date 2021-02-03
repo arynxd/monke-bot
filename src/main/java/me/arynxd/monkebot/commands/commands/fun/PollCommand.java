@@ -28,13 +28,13 @@ public class PollCommand extends Command
 	@Override
 	public void run(@NotNull List<String> args, @NotNull CommandEvent event, @NotNull Consumer<CommandException> failure)
 	{
-		if(CommandChecks.argsSizeMatches(event, 1, failure)) return;
+		if(CommandChecks.argsSizeSubceeds(event, 1, failure)) return;
 
 		StringBuilder options = new StringBuilder();
 		MessageChannel channel = event.getChannel();
 		User author = event.getAuthor();
 		List<String> reactions = new ArrayList<>();
-		List<String> slashArgs = new Parser(args.get(0), event).parseAsSlashArgs();
+		List<String> slashArgs = new Parser(String.join(" ", args), event).parseAsSlashArgs();
 
 		if(CommandChecks.argsSizeSubceeds(slashArgs, event, 3, failure)) return;
 		String topic = slashArgs.get(0);

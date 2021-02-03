@@ -5,7 +5,7 @@ import java.util.function.Consumer;
 import me.arynxd.monkebot.entities.command.Command;
 import me.arynxd.monkebot.entities.command.CommandEvent;
 import me.arynxd.monkebot.entities.exception.CommandException;
-import me.arynxd.monkebot.entities.music.GuildMusicManager;
+import me.arynxd.monkebot.entities.music.GuildMusicHandler;
 import me.arynxd.monkebot.handlers.MusicHandler;
 import me.arynxd.monkebot.util.CommandChecks;
 import org.jetbrains.annotations.NotNull;
@@ -25,7 +25,7 @@ public class MusicWipeCommand extends Command
 		if(CommandChecks.sharesVoice(event, failure)) return;
 
 		MusicHandler musicHandler = event.getMonke().getMusicHandler();
-		GuildMusicManager manager = musicHandler.getGuildMusicManager(event.getGuild());
+		GuildMusicHandler manager = musicHandler.getGuildMusicManager(event.getGuild());
 		manager.getScheduler().clear();
 
 		event.replySuccess("Cleared the queue!");

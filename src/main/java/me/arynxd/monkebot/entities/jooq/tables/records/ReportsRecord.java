@@ -6,11 +6,11 @@ package me.arynxd.monkebot.entities.jooq.tables.records;
 
 import java.time.LocalDateTime;
 
+import me.arynxd.monkebot.entities.jooq.tables.Reports;
 import org.jooq.Field;
 import org.jooq.Record1;
 import org.jooq.Record9;
 import org.jooq.Row9;
-import me.arynxd.monkebot.entities.jooq.tables.Reports;
 import org.jooq.impl.UpdatableRecordImpl;
 
 

@@ -7,7 +7,7 @@ import me.arynxd.monkebot.entities.command.Command;
 import me.arynxd.monkebot.entities.command.CommandEvent;
 import me.arynxd.monkebot.entities.exception.CommandException;
 import me.arynxd.monkebot.entities.exception.CommandInputException;
-import me.arynxd.monkebot.entities.music.GuildMusicManager;
+import me.arynxd.monkebot.entities.music.GuildMusicHandler;
 import me.arynxd.monkebot.handlers.MusicHandler;
 import me.arynxd.monkebot.util.CommandChecks;
 import me.arynxd.monkebot.util.Parser;
@@ -18,7 +18,7 @@ public class MusicVolumeCommand extends Command
 {
 	public MusicVolumeCommand()
 	{
-		super("Volume", "Sets the music volume", "[volume {100}]");
+		super("Volume", "Sets the music volume", "<volume {100}>");
 		addAliases("volume");
 	}
 
@@ -26,10 +26,15 @@ public class MusicVolumeCommand extends Command
 	public void run(@NotNull List<String> args, @NotNull CommandEvent event, @NotNull Consumer<CommandException> failure)
 	{
 		if(CommandChecks.sharesVoice(event, failure)) return;
-		if(CommandChecks.argsEmpty(event, failure)) return;
 
 		MusicHandler musicHandler = event.getMonke().getMusicHandler();
-		GuildMusicManager manager = musicHandler.getGuildMusicManager(event.getGuild());
+		GuildMusicHandler manager = musicHandler.getGuildMusicManager(event.getGuild());
+
+		if(args.isEmpty())
+		{
+			event.replySuccess("The volume is " + manager.getPlayer().getVolume());
+			return;
+		}
 
 		OptionalInt volume = new Parser(args.get(0), event).parseAsUnsignedInt();
 
