@@ -7,7 +7,7 @@ import net.dv8tion.jda.api.entities.Message;
 /**
  * Represents a message in the {@link MessageCache cache}.
  */
-public class CachedMessage
+public class CachedMessage implements ICacheableEntity<Long, CachedMessage>
 {
 	private final OffsetDateTime timeCreated;
 	private final String contentRaw;
@@ -68,9 +68,17 @@ public class CachedMessage
 	/**
 	 * @return The message Id for this {@link CachedMessage message}.
 	 */
+	@Override
 	@Nonnull
-	public Long getIdLong()
+	public Long getKey()
 	{
 		return id;
+	}
+
+
+	@Override
+	public CachedMessage getData()
+	{
+		return this;
 	}
 }

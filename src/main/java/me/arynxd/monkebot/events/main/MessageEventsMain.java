@@ -37,7 +37,7 @@ public class MessageEventsMain extends ListenerAdapter
 				return;
 			}
 
-			MessageCache.getCache(guild).set(new CachedMessage(event.getMessage()));
+			MessageCache.getCache(guild.getIdLong()).put(new CachedMessage(event.getMessage()));
 
 			if(CommandUtils.getLevelUp(event, monke) != -1)
 			{

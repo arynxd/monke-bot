@@ -3,6 +3,7 @@ package me.arynxd.monkebot.commands.commands.moderation;
 import java.util.List;
 import java.util.OptionalInt;
 import java.util.function.Consumer;
+import me.arynxd.monkebot.entities.cache.CachedMessage;
 import me.arynxd.monkebot.entities.cache.MessageCache;
 import me.arynxd.monkebot.entities.command.Command;
 import me.arynxd.monkebot.entities.command.CommandEvent;
@@ -60,9 +61,10 @@ public class ClearCommand extends Command
 					.takeAsync(amount.getAsInt() + 1)
 					.thenAccept(messages ->
 					{
-						MessageCache cache = MessageCache.getCache(guild);
+						MessageCache cache = MessageCache.getCache(guild.getIdLong());
 						messages.stream()
-								.filter(cache::isInCache)
+								.map(CachedMessage::new)
+								.filter(message -> cache.isCached(message.getKey()))
 								.forEach(cache::remove);
 
 						CooldownHandler.addCooldown(member, this);

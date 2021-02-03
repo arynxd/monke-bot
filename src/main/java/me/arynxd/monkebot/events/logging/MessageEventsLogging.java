@@ -34,7 +34,7 @@ public class MessageEventsLogging extends ListenerAdapter
 		{
 			MessageCache cache = MessageCache.getCache(event.getGuild().getIdLong());
 
-			if(cache.isInCache(event.getMessage()))
+			if(cache.isCached(event.getMessage().getIdLong()))
 			{
 				Message newMessage = event.getMessage();
 				CachedMessage oldMessage = cache.get(event.getMessageIdLong());
@@ -77,9 +77,9 @@ public class MessageEventsLogging extends ListenerAdapter
 	{
 		if(event.getChannelType().equals(ChannelType.TEXT))
 		{
-			MessageCache cache = MessageCache.getCache(event.getGuild());
+			MessageCache cache = MessageCache.getCache(event.getGuild().getIdLong());
 
-			if(cache.isInCache(event.getMessageIdLong()))
+			if(cache.isCached(event.getMessageIdLong()))
 			{
 				CachedMessage message = cache.get(event.getMessageIdLong());
 				Guild guild = event.getGuild();

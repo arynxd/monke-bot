@@ -6,10 +6,11 @@ import net.dv8tion.jda.api.entities.User;
 /**
  * Represents an author for a {@link CachedMessage message} in the {@link MessageCache}.
  */
-public class CachedAuthor
+public class CachedAuthor implements ICacheableEntity<Long, CachedAuthor>
 {
 	private final boolean isBot;
 	private final String mentionable;
+	private final long id;
 
 	/**
 	 * Constructs a {@link CachedAuthor author} from a {@link net.dv8tion.jda.api.entities.User user}.
@@ -20,6 +21,7 @@ public class CachedAuthor
 	{
 		this.isBot = user.isBot();
 		this.mentionable = user.getAsMention();
+		this.id = user.getIdLong();
 	}
 
 	/**
@@ -38,5 +40,17 @@ public class CachedAuthor
 	public String getAsMention()
 	{
 		return mentionable;
+	}
+
+	@Override
+	public Long getKey()
+	{
+		return id;
+	}
+
+	@Override
+	public CachedAuthor getData()
+	{
+		return this;
 	}
 }
