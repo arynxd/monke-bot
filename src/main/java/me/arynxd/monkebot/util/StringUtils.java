@@ -92,4 +92,62 @@ public class StringUtils
 	{
 		return duration.toHoursPart() + "h : " + duration.toMinutesPart() + "m : " + duration.toSecondsPart() + "s";
 	}
+
+
+	public static String prettyPrintJSON(String json)
+	{
+		StringBuilder jsonBuilder = new StringBuilder();
+		int indentLevel = 0;
+		boolean inQuote = false;
+
+		for(char jsonChar : json.toCharArray())
+		{
+			switch(jsonChar)
+			{
+				case '"':
+					inQuote = !inQuote;
+					jsonBuilder.append(jsonChar);
+					break;
+
+				case ' ':
+					if(inQuote)
+					{
+						jsonBuilder.append(jsonChar);
+					}
+					break;
+
+				case '{':
+				case '[':
+					jsonBuilder.append(jsonChar);
+					indentLevel++;
+					indentSection(indentLevel, jsonBuilder);
+					break;
+
+				case '}':
+				case ']':
+					indentLevel--;
+					indentSection(indentLevel, jsonBuilder);
+					jsonBuilder.append(jsonChar);
+					break;
+
+				case ',':
+					jsonBuilder.append(jsonChar);
+					if(!inQuote)
+					{
+						indentSection(indentLevel, jsonBuilder);
+					}
+					break;
+
+				default:
+					jsonBuilder.append(jsonChar);
+			}
+		}
+		return jsonBuilder.toString();
+	}
+
+	private static void indentSection(int indentLevel, StringBuilder stringBuilder)
+	{
+		stringBuilder.append("\n");
+		stringBuilder.append("    ".repeat(Math.max(0, indentLevel)));
+	}
 }
