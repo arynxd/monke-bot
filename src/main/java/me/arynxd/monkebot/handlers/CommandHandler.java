@@ -8,10 +8,10 @@ import java.util.*;
 import java.util.stream.Collectors;
 import me.arynxd.monkebot.Constants;
 import me.arynxd.monkebot.Monke;
+import me.arynxd.monkebot.entities.cache.GuildSettingsCache;
 import me.arynxd.monkebot.entities.command.Command;
 import me.arynxd.monkebot.entities.command.CommandEvent;
 import me.arynxd.monkebot.entities.command.CommandFlag;
-import me.arynxd.monkebot.entities.database.GuildConfig;
 import me.arynxd.monkebot.util.BlacklistUtils;
 import me.arynxd.monkebot.util.EmbedUtils;
 import net.dv8tion.jda.api.Permission;
@@ -119,7 +119,7 @@ public class CommandHandler
 
 	private void handleGuild(MessageReceivedEvent event)
 	{
-		String prefix = new GuildConfig(event.getGuild(), monke).getPrefix();
+		String prefix = GuildSettingsCache.getCache(event.getGuild().getIdLong(), monke).getPrefix();
 		String messageContent = event.getMessage().getContentRaw();
 		boolean containsBlacklist = BlacklistUtils.isBlacklistedPhrase(event, monke);
 

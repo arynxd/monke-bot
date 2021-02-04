@@ -3,8 +3,8 @@ package me.arynxd.monkebot.util;
 import java.util.ArrayList;
 import java.util.List;
 import me.arynxd.monkebot.Monke;
+import me.arynxd.monkebot.entities.cache.GuildSettingsCache;
 import me.arynxd.monkebot.entities.command.CommandEvent;
-import me.arynxd.monkebot.entities.database.GuildConfig;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
@@ -20,7 +20,7 @@ public class CommandUtils
 
 	public static boolean isValidCommand(String message, long guildId, Monke monke)
 	{
-		return message.startsWith(new GuildConfig(guildId, monke).getPrefix()) || message.startsWith("<@" + monke.getSelfUser().getId() + ">") || message.startsWith("<@!" + monke.getSelfUser().getId() + ">");
+		return message.startsWith(GuildSettingsCache.getCache(guildId, monke).getPrefix()) || message.startsWith("<@" + monke.getSelfUser().getId() + ">") || message.startsWith("<@!" + monke.getSelfUser().getId() + ">");
 	}
 
 	public static void interactionCheck(User user1, User user2, CommandEvent ctx, Runnable onSuccess)
@@ -49,7 +49,7 @@ public class CommandUtils
 	{
 		Guild guild = event.getGuild();
 		Member member = event.getMember();
-		long levelBot = new GuildConfig(guild.getIdLong(), monke).getLevelUpBot();
+		long levelBot = GuildSettingsCache.getCache(event.getGuild().getIdLong(), monke).getLevelUpBot();
 
 		if(member == null || levelBot != member.getIdLong())
 		{

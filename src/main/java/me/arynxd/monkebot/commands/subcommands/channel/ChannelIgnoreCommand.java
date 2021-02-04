@@ -6,6 +6,7 @@ import java.util.function.Consumer;
 import me.arynxd.monkebot.entities.command.Command;
 import me.arynxd.monkebot.entities.command.CommandEvent;
 import me.arynxd.monkebot.entities.exception.CommandException;
+import me.arynxd.monkebot.entities.exception.CommandInputException;
 import me.arynxd.monkebot.entities.exception.CommandResultException;
 import me.arynxd.monkebot.util.BlacklistUtils;
 import me.arynxd.monkebot.util.CommandChecks;
@@ -29,6 +30,12 @@ public class ChannelIgnoreCommand extends Command
 		new Parser(args.get(0), event).parseAsTextChannel(
 				channel ->
 				{
+					if(channel.equals(event.getTextChannel()))
+					{
+						failure.accept(new CommandInputException("You cannot ignore me in the channel where you issued the command."));
+						return;
+					}
+
 					Optional<Boolean> bool = new Parser(args.get(1), event).parseAsBoolean();
 
 					if(bool.isPresent())

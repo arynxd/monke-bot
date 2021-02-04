@@ -2,13 +2,11 @@ package me.arynxd.monkebot.entities.cache;
 
 public class CachedGuildSetting implements ICacheableEntity<String, CachedGuildSetting>
 {
-	private final Long guildId;
 	private final String key;
 	private final String value;
 
-	public CachedGuildSetting(Long guildId, String key, String value) //Getters and setters here, will be lazy loaded
+	public CachedGuildSetting(String key, String value)
 	{
-		this.guildId = guildId;
 		this.key = key;
 		this.value = value;
 	}

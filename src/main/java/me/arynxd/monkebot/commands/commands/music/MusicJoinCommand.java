@@ -29,5 +29,6 @@ public class MusicJoinCommand extends Command
 		GuildMusicHandler manager = musicHandler.getGuildMusicManager(event.getGuild());
 		VoiceChannel channel = event.getMember().getVoiceState().getChannel();
 		manager.join(channel);
+		event.replySuccess("Joined " + channel.getName());
 	}
 }

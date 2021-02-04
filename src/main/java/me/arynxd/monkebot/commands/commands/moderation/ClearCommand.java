@@ -25,7 +25,7 @@ public class ClearCommand extends Command
 {
 	public ClearCommand()
 	{
-		super("Clear", "Clears messages from the current channel", "[amount {50}]");
+		super("Clear", "Clears messages from the current channel.", "[amount {50}]");
 		addAliases("clear", "purge");
 		addMemberPermissions(Permission.MESSAGE_MANAGE);
 		addSelfPermissions(Permission.MESSAGE_MANAGE);

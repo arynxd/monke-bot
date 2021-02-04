@@ -12,9 +12,6 @@ import net.dv8tion.jda.api.entities.Role;
 
 import static me.arynxd.monkebot.entities.jooq.tables.ReactionRoles.REACTION_ROLES;
 
-/**
- * Controls ReactionRoles.
- */
 public class ReactionRole
 {
 	private final long messageId;
@@ -23,15 +20,6 @@ public class ReactionRole
 	private final Monke igsqbot;
 	private final long guildId;
 
-	/**
-	 * Constructs a new reaction role.
-	 *
-	 * @param messageId The messageId.
-	 * @param roleId    The roleId.
-	 * @param guildId   The guildId.
-	 * @param emote     The emote / emoji.
-	 * @param monke     The {@link me.arynxd.monkebot.Monke monke} instance.
-	 */
 	public ReactionRole(@Nonnull Long messageId, @Nonnull Long roleId, @Nonnull Long guildId, @Nonnull String emote, @Nonnull Monke monke)
 	{
 		this.messageId = messageId;
@@ -41,15 +29,8 @@ public class ReactionRole
 		this.igsqbot = monke;
 	}
 
-	/**
-	 * Gets all reaction roles associated with a messageId.
-	 *
-	 * @param messageId The messageId.
-	 * @param igsqbot   The {@link me.arynxd.monkebot.Monke igsqbot} instance.
-	 * @return The reaction roles.
-	 */
-	@Nonnull
-	public static List<ReactionRole> getByMessageId(@Nonnull Long messageId, @Nonnull Monke igsqbot)
+	public static @Nonnull
+	List<ReactionRole> getByMessageId(@Nonnull Long messageId, @Nonnull Monke igsqbot)
 	{
 		try(Connection connection = igsqbot.getDatabaseHandler().getConnection())
 		{
@@ -82,11 +63,6 @@ public class ReactionRole
 		}
 	}
 
-	/**
-	 * Adds this reaction role to the database.
-	 *
-	 * @see #getByMessageId(Long, me.arynxd.monkebot.Monke)
-	 */
 	public void add()
 	{
 		try(Connection connection = igsqbot.getDatabaseHandler().getConnection())
@@ -104,50 +80,31 @@ public class ReactionRole
 		}
 	}
 
-	/**
-	 * @return The messageId.
-	 */
-	@Nonnull
-	public Long getMessageId()
+	public @Nonnull
+	Long getMessageId()
 	{
 		return messageId;
 	}
 
-	/**
-	 * @return The roleId.
-	 */
-	@Nonnull
-	public Long getRoleId()
+	public @Nonnull
+	Long getRoleId()
 	{
 		return roleId;
 	}
 
-	/**
-	 * @return The emote / emoji.
-	 */
-	@Nonnull
-	public String getEmote()
+	public @Nonnull
+	String getEmote()
 	{
 		return emote;
 	}
 
-	/**
-	 * @return The guildId.
-	 */
-	@Nonnull
-	public Long getGuildId()
+	public @Nonnull
+	Long getGuildId()
 	{
 		return guildId;
 	}
 
-	/**
-	 * Adds the {@link net.dv8tion.jda.api.entities.Role role} to the given member.
-	 * <p>
-	 * This will not succeed if the role or guild is null.
-	 *
-	 * @param member The member to apply the role to.
-	 */
-	public void addRole(Member member)
+	public void addRole(@Nonnull Member member)
 	{
 		Guild guild = igsqbot.getShardManager().getGuildById(guildId);
 		if(guild != null)
@@ -160,14 +117,7 @@ public class ReactionRole
 		}
 	}
 
-	/**
-	 * Remove the {@link net.dv8tion.jda.api.entities.Role role} from the given member.
-	 * <p>
-	 * This will not succeed if the role or guild is null.
-	 *
-	 * @param member The member to remove the role from.
-	 */
-	public void removeRole(Member member)
+	public void removeRole(@Nonnull Member member)
 	{
 		Guild guild = igsqbot.getShardManager().getGuildById(guildId);
 		if(guild != null)
@@ -180,9 +130,6 @@ public class ReactionRole
 		}
 	}
 
-	/**
-	 * Removes this reaction role from the database.
-	 */
 	public void remove()
 	{
 		try(Connection connection = igsqbot.getDatabaseHandler().getConnection())
@@ -199,11 +146,8 @@ public class ReactionRole
 		}
 	}
 
-	/**
-	 * @return If this reaction role exists in the database.
-	 */
-	@Nonnull
-	public Boolean isPresent()
+	public @Nonnull
+	Boolean isPresent()
 	{
 		try(Connection connection = igsqbot.getDatabaseHandler().getConnection())
 		{

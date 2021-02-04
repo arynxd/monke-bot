@@ -12,11 +12,6 @@ import me.arynxd.monkebot.Monke;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/**
- * Configuration file handler for the {@link me.arynxd.monkebot.Monke bot}
- *
- * @see #getString(ConfigOption)
- */
 public class Configuration
 {
 	public static final File CONFIG_FOLDER = new File("config");
@@ -25,11 +20,6 @@ public class Configuration
 	private final Monke monke;
 	private final List<ConfigurationValue> configValues;
 
-	/**
-	 * Constructs a new {@link Configuration configuraton handler}
-	 *
-	 * @param monke The {@link me.arynxd.monkebot.Monke monke} instance.
-	 */
 	public Configuration(@Nonnull Monke monke)
 	{
 		this.monke = monke;
@@ -38,9 +28,6 @@ public class Configuration
 		this.configValues = loadInitialValues();
 	}
 
-	/**
-	 * Try to create the 'config/bot.cfg' file, {@code System.exit()} on error.
-	 */
 	private void initFile()
 	{
 		try
@@ -61,9 +48,6 @@ public class Configuration
 		}
 	}
 
-	/**
-	 * Try to create the 'config/' folder, {@code System.exit()} on error.
-	 */
 	private void initFolder()
 	{
 		try
@@ -84,11 +68,6 @@ public class Configuration
 		}
 	}
 
-	/**
-	 * Load the initial state of the 'config/bot.cfg' file.
-	 *
-	 * @return The config values.
-	 */
 	private List<ConfigurationValue> loadInitialValues()
 	{
 		List<ConfigurationValue> values = new ArrayList<>();
@@ -114,12 +93,6 @@ public class Configuration
 		}
 	}
 
-	/**
-	 * Apply the default values from {@link ConfigOption options} if the key does not exist.
-	 *
-	 * @param loadedValues The loaded values to apply the defaults to.
-	 * @return The new values
-	 */
 	private List<ConfigurationValue> applyDefaults(List<ConfigurationValue> loadedValues)
 	{
 		for(ConfigOption configOption : ConfigOption.values())
@@ -133,11 +106,6 @@ public class Configuration
 		return Collections.unmodifiableList(loadedValues);
 	}
 
-	/**
-	 * Save the current config options to file.
-	 *
-	 * @param configValues The options to save.
-	 */
 	private void save(List<ConfigurationValue> configValues)
 	{
 		StringBuilder stringBuilder = new StringBuilder();
@@ -161,15 +129,8 @@ public class Configuration
 		}
 	}
 
-	/**
-	 * Gets a {@link ConfigOption option} from the loaded list
-	 * <p>This IS a Threadsafe operation.
-	 *
-	 * @param configOption The config option to load.
-	 * @return The retrieved option, or the default.
-	 */
-	@Nonnull
-	public String getString(ConfigOption configOption)
+	public @Nonnull
+	String getString(ConfigOption configOption)
 	{
 		synchronized(configValues)
 		{
@@ -184,9 +145,6 @@ public class Configuration
 		}
 	}
 
-	/**
-	 * Represents a key value pair in the {@link me.arynxd.monkebot.Monke bot's} {@link Configuration configuration}.
-	 */
 	private static class ConfigurationValue
 	{
 		private String key;

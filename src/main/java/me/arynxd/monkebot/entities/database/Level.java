@@ -11,9 +11,6 @@ import net.dv8tion.jda.api.entities.Role;
 
 import static me.arynxd.monkebot.entities.jooq.tables.Levels.LEVELS;
 
-/**
- * Controls {@link net.dv8tion.jda.api.entities.Role role} assigning level-ups for {@link net.dv8tion.jda.api.entities.Guild guilds}.
- */
 public class Level
 {
 	private Level()
@@ -21,14 +18,6 @@ public class Level
 		//Overrides the default, public, constructor
 	}
 
-	/**
-	 * Adds a new level and {@link net.dv8tion.jda.api.entities.Role role} pair for the given guildId.
-	 *
-	 * @param role    The {@link net.dv8tion.jda.api.entities.Role role}.
-	 * @param level   The level.
-	 * @param guildId The guildId.
-	 * @param igsqbot The {@link me.arynxd.monkebot.Monke monke} instance.
-	 */
 	public static void addLevel(@Nonnull Role role, @Nonnull Integer level, @Nonnull Long guildId, @Nonnull Monke igsqbot)
 	{
 		try(Connection connection = igsqbot.getDatabaseHandler().getConnection())
@@ -47,17 +36,8 @@ public class Level
 		}
 	}
 
-	/**
-	 * Removes a new level and {@link net.dv8tion.jda.api.entities.Role role} pair for the given guildId.
-	 *
-	 * @param role    The {@link net.dv8tion.jda.api.entities.Role role}.
-	 * @param level   The level.
-	 * @param guildId The guildId.
-	 * @param igsqbot The {@link me.arynxd.monkebot.Monke igsqbot} instance.
-	 * @return {@code true} if successful, {@code false} otherwise.
-	 */
-	@Nonnull
-	public static Boolean removeLevel(@Nonnull Role role, @Nonnull Integer level, @Nonnull Long guildId, @Nonnull Monke igsqbot)
+	public static @Nonnull
+	Boolean removeLevel(@Nonnull Role role, @Nonnull Integer level, @Nonnull Long guildId, @Nonnull Monke igsqbot)
 	{
 		try(Connection connection = igsqbot.getDatabaseHandler().getConnection())
 		{
@@ -75,18 +55,10 @@ public class Level
 			igsqbot.getLogger().error("An SQL error occurred", exception);
 			return false;
 		}
-
 	}
 
-	/**
-	 * Gets all level and {@link net.dv8tion.jda.api.entities.Role role} pairs for a guildId.
-	 *
-	 * @param guildId The guildId.
-	 * @param igsqbot The {@link me.arynxd.monkebot.Monke igsqbot} instance.
-	 * @return The levels.
-	 */
-	@Nonnull
-	public static List<Levels> getLevels(@Nonnull Long guildId, @Nonnull Monke igsqbot)
+	public static @Nonnull
+	List<Levels> getLevels(@Nonnull Long guildId, @Nonnull Monke igsqbot)
 	{
 		List<Levels> result = new ArrayList<>();
 		try(Connection connection = igsqbot.getDatabaseHandler().getConnection())

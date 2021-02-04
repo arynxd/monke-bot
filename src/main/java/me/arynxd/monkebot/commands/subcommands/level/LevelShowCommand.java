@@ -2,10 +2,10 @@ package me.arynxd.monkebot.commands.subcommands.level;
 
 import java.util.List;
 import java.util.function.Consumer;
+import me.arynxd.monkebot.entities.cache.GuildSettingsCache;
 import me.arynxd.monkebot.entities.command.Command;
 import me.arynxd.monkebot.entities.command.CommandEvent;
 import me.arynxd.monkebot.entities.command.CommandFlag;
-import me.arynxd.monkebot.entities.database.GuildConfig;
 import me.arynxd.monkebot.entities.database.Level;
 import me.arynxd.monkebot.entities.exception.CommandException;
 import me.arynxd.monkebot.entities.jooq.tables.pojos.Levels;
@@ -26,7 +26,7 @@ public class LevelShowCommand extends Command
 	@Override
 	public void run(@NotNull List<String> args, @NotNull CommandEvent event, @NotNull Consumer<CommandException> failure)
 	{
-		User levelBot = event.getMonke().getShardManager().getUserById(new GuildConfig(event).getLevelUpBot());
+		User levelBot = event.getMonke().getShardManager().getUserById(GuildSettingsCache.getCache(event.getGuildIdLong(), event.getMonke()).getLevelUpBot());
 		if(CommandChecks.userConfigured(levelBot, "Level up bot", failure)) return;
 		List<Levels> levelList = Level.getLevels(event.getGuildIdLong(), event.getMonke());
 

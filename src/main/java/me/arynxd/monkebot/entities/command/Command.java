@@ -9,12 +9,6 @@ import me.arynxd.monkebot.entities.exception.*;
 import me.arynxd.monkebot.util.EmbedUtils;
 import net.dv8tion.jda.api.Permission;
 
-/**
- * A class representing a command for use in the {@link me.arynxd.monkebot.handlers.CommandHandler CommandHandler}.
- *
- * @see #process(CommandEvent)
- * @see #run(java.util.List, CommandEvent, java.util.function.Consumer)
- */
 public abstract class Command
 {
 	private final Command parent;
@@ -23,26 +17,14 @@ public abstract class Command
 	private final String syntax;
 	private final List<Command> children;
 	private final List<String> aliases;
-	/**
-	 * The {@link net.dv8tion.jda.api.Permission permissions} required by the {@link net.dv8tion.jda.api.entities.Member author} to execute this {@link Command command}.
-	 */
+
 	private final List<Permission> memberRequiredPermissions;
-	/**
-	 * The {@link net.dv8tion.jda.api.Permission permissions} required by the {@link net.dv8tion.jda.api.entities.Member self member} to execute this {@link Command command}.
-	 */
+
 	private final List<Permission> selfRequiredPermissions;
 	private final List<CommandFlag> flags;
 	private boolean isDisabled;
 	private long cooldown;
 
-	/**
-	 * Constructs a new Command.
-	 *
-	 * @param parent      The parent of this Command.
-	 * @param name        The name of this command. This will be the one, and only, invoking {@link java.lang.String String} for a subcommand.
-	 * @param description The description of this command.
-	 * @param syntax      The syntax of this command.
-	 */
 	protected Command(@Nullable Command parent, @Nonnull String name, @Nonnull String description, @Nonnull String syntax)
 	{
 		this.parent = parent;
@@ -58,13 +40,6 @@ public abstract class Command
 		this.flags = new ArrayList<>();
 	}
 
-	/**
-	 * Constructs a new Command.
-	 *
-	 * @param name        The name of this command. This will be the one, and only, invoking {@link java.lang.String String} for a subcommand.
-	 * @param description The description of this command.
-	 * @param syntax      The syntax of this command.
-	 */
 	protected Command(@Nonnull String name, @Nonnull String description, @Nonnull String syntax)
 	{
 		this.parent = null;
@@ -80,16 +55,7 @@ public abstract class Command
 		this.flags = new ArrayList<>();
 	}
 
-	/**
-	 * Processes this {@link Command command} for execution.
-	 * <p>
-	 * This will consider the {@link CommandFlag flags}, {@link #selfRequiredPermissions} and {@link #memberRequiredPermissions} of this {@link Command command}
-	 * <p>
-	 * This will only {@link #run(java.util.List, CommandEvent, java.util.function.Consumer) run} the command if all checks pass.
-	 *
-	 * @param event The command event to process with.
-	 */
-	public void process(CommandEvent event)
+	public void process(@Nonnull CommandEvent event)
 	{
 		if(hasFlag(CommandFlag.GUILD_ONLY) && !event.isFromGuild())
 		{
@@ -121,12 +87,7 @@ public abstract class Command
 		}
 	}
 
-	/**
-	 * Submits a command for execution, catching all errors, acts as an internal shortcut to {@link #run(java.util.List, CommandEvent, java.util.function.Consumer)}
-	 *
-	 * @param event The event to run.
-	 */
-	private void execute(CommandEvent event)
+	private void execute(@Nonnull CommandEvent event)
 	{
 		if(hasFlag(CommandFlag.AUTO_DELETE_MESSAGE) && event.selfPermissionCheck(Permission.MESSAGE_MANAGE))
 		{
@@ -170,187 +131,98 @@ public abstract class Command
 		});
 	}
 
-	/**
-	 * @return Whether this {@link Command command} has any children attached to it.
-	 * @see #getChildren()
-	 * @see #addChildren(Command...)
-	 */
-	@Nonnull
-	public Boolean hasChildren()
+	public @Nonnull
+	Boolean hasChildren()
 	{
 		return !getChildren().isEmpty();
 	}
 
-	/**
-	 * @return Whether this {@link Command command} has a parent attached to it.
-	 */
-	@Nonnull
-	public Boolean hasParent()
+	public @Nonnull
+	Boolean hasParent()
 	{
 		return parent != null;
 	}
 
-	/**
-	 * Submit this command for execution. This implies all {@link #process(CommandEvent) proccessing} steps have completed successfully.
-	 *
-	 * @param args    The arguments supplied to the {@link Command command}.
-	 * @param event   The {@link CommandEvent event} for this {@link Command command}
-	 * @param failure The {@link java.util.function.Consumer callback} to use in the case of execution failure.
-	 */
 	public abstract void run(@Nonnull List<String> args, @Nonnull CommandEvent event, @Nonnull Consumer<CommandException> failure);
 
-	/**
-	 * @return The cooldown for this {@link Command command}.
-	 * <p>
-	 * Will return 0 if none is set.
-	 * @see #setCooldown(Long)
-	 */
-	@Nonnull
-	public Long getCooldown()
+	public @Nonnull
+	Long getCooldown()
 	{
 		return cooldown;
 	}
 
-	/**
-	 * Sets the cooldown for this {@link Command command}.
-	 *
-	 * @param millis The new cooldown.
-	 * @see #getCooldown()
-	 */
 	public void setCooldown(@Nonnull Long millis)
 	{
 		this.cooldown = millis;
 	}
 
-	/**
-	 * @return Whether this {@link Command command} is disabled.
-	 * @see #setDisabled(Boolean)
-	 */
 	public boolean isDisabled()
 	{
 		return isDisabled;
 	}
 
-	/**
-	 * Sets the disabled state of this {@link Command command}.
-	 *
-	 * @param state The new state.
-	 */
-	public void setDisabled(@Nonnull Boolean state)
+	public void setDisabled(@Nonnull Boolean newState)
 	{
-		isDisabled = state;
+		isDisabled = newState;
 	}
 
-	/**
-	 * @return The parent to this {@link Command command} or <code>null</code> if it does not exist.
-	 * @see #hasParent()
-	 */
-	@Nullable
-	public Command getParent()
+	public @Nullable
+	Command getParent()
 	{
 		return parent;
 	}
 
-	/**
-	 * @return The name of this {@link Command command}.
-	 */
-	@Nonnull
-	public String getName()
+	public @Nonnull
+	String getName()
 	{
 		return name;
 	}
 
-	/**
-	 * @return The description of this {@link Command command}.
-	 */
-	@Nonnull
-	public String getDescription()
+	public @Nonnull
+	String getDescription()
 	{
 		return description;
 	}
 
-	/**
-	 * @return The syntax of this {@link Command command}.
-	 */
-	@Nonnull
-	public String getSyntax()
+	public @Nonnull
+	String getSyntax()
 	{
 		return syntax;
 	}
 
-	/**
-	 * @return The children of this {@link Command command}.
-	 * @see #addChildren(Command...)
-	 * @see #hasChildren()
-	 */
-	@Nonnull
-	public List<Command> getChildren()
+	public @Nonnull
+	List<Command> getChildren()
 	{
 		return children;
 	}
 
-	/**
-	 * @return The aliases of this {@link Command command}.
-	 * @see #addAliases(String...)
-	 */
-	@Nonnull
-	public List<String> getAliases()
+	public @Nonnull
+	List<String> getAliases()
 	{
 		return aliases;
 	}
 
-	/**
-	 * Adds children to this {@link Command command}.
-	 *
-	 * @param children The children to add.
-	 * @see #getChildren()
-	 * @see #hasChildren()
-	 */
 	public void addChildren(@Nonnull Command... children)
 	{
 		this.children.addAll(List.of(children));
 	}
 
-	/**
-	 * Adds aliases to this {@link Command command}.
-	 *
-	 * @param aliases The aliases to add.
-	 * @see #getAliases()
-	 */
 	public void addAliases(@Nonnull String... aliases)
 	{
 		this.aliases.addAll(List.of(aliases));
 	}
 
-	/**
-	 * Gets the {@link net.dv8tion.jda.api.Permission permissions} required by the {@link Command command} {@link net.dv8tion.jda.api.entities.Member author} to execute.
-	 *
-	 * @return The permissions.
-	 * @see #addMemberPermissions(net.dv8tion.jda.api.Permission...)
-	 */
-	@Nonnull
-	public List<Permission> getMemberRequiredPermissions()
+	public @Nonnull
+	List<Permission> getMemberRequiredPermissions()
 	{
 		return memberRequiredPermissions;
 	}
 
-	/**
-	 * Adds {@link net.dv8tion.jda.api.Permission permissions} required by the {@link Command command} {@link net.dv8tion.jda.api.entities.Member author} to execute.
-	 *
-	 * @param permissions The permissions to add.
-	 * @see #getMemberRequiredPermissions()
-	 */
 	public void addMemberPermissions(@Nonnull Permission... permissions)
 	{
 		this.memberRequiredPermissions.addAll(List.of(permissions));
 	}
 
-	/**
-	 * Adds {@link net.dv8tion.jda.api.Permission permissions} required by the {@link net.dv8tion.jda.api.entities.Member self user} to execute the {@link Command command}.
-	 *
-	 * @param permissions The permissions to add.
-	 * @see #getSelfRequiredPermissions()
-	 */
 	public void addSelfPermissions(@Nonnull Permission... permissions)
 	{
 		this.selfRequiredPermissions.addAll(List.of(permissions));

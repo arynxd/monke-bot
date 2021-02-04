@@ -36,14 +36,14 @@ public class EmbedUtils
 		if(ctx.isChild())
 		{
 			sendDeletingEmbed(ctx.getChannel(), new EmbedBuilder()
-					.setDescription(Emoji.FAILURE.getAsChat() + "A syntax error occurred:\n`" + ctx.getPrefix() + cmd.getParent().getAliases().get(0) + " " + cmd.getName() + " " + cmd.getSyntax() + "`")
+					.setDescription(Emoji.FAILURE.getAsChat() + "You entered something wrong:\n`" + ctx.getPrefix() + cmd.getParent().getAliases().get(0) + " " + cmd.getName() + " " + cmd.getSyntax() + "`")
 					.setTimestamp(Instant.now())
 					.setColor(Color.RED), 30000);
 		}
 		else
 		{
 			sendDeletingEmbed(ctx.getChannel(), new EmbedBuilder()
-					.setDescription(Emoji.FAILURE.getAsChat() + "A syntax error occurred:\n`" + ctx.getPrefix() + cmd.getAliases().get(0) + " " + cmd.getSyntax() + "`")
+					.setDescription(Emoji.FAILURE.getAsChat() + "You entered something wrong:\n`" + ctx.getPrefix() + cmd.getAliases().get(0) + " " + cmd.getSyntax() + "`")
 					.setTimestamp(Instant.now())
 					.setColor(Color.RED), 20000);
 		}

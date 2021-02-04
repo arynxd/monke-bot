@@ -1,8 +1,5 @@
 package me.arynxd.monkebot.entities.bot;
 
-/**
- * An enum containing all possible {@link Configuration configuration} options
- */
 public enum ConfigOption
 {
 	TOKEN("token", "token"),

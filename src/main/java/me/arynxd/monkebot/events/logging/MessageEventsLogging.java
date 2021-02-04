@@ -5,8 +5,8 @@ import java.time.format.DateTimeFormatter;
 import me.arynxd.monkebot.Constants;
 import me.arynxd.monkebot.Monke;
 import me.arynxd.monkebot.entities.cache.CachedMessage;
+import me.arynxd.monkebot.entities.cache.GuildSettingsCache;
 import me.arynxd.monkebot.entities.cache.MessageCache;
-import me.arynxd.monkebot.entities.database.GuildConfig;
 import me.arynxd.monkebot.util.CommandUtils;
 import me.arynxd.monkebot.util.StringUtils;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -42,7 +42,7 @@ public class MessageEventsLogging extends ListenerAdapter
 				String oldContent = oldMessage.getContentRaw();
 				String newContent = newMessage.getContentRaw();
 				Guild guild = event.getGuild();
-				MessageChannel logChannel = guild.getTextChannelById(new GuildConfig(guild, monke).getLogChannel());
+				MessageChannel logChannel = guild.getTextChannelById(GuildSettingsCache.getCache(guild.getIdLong(), monke).getLogChannel());
 
 				if(logChannel != null)
 				{
@@ -85,7 +85,7 @@ public class MessageEventsLogging extends ListenerAdapter
 				Guild guild = event.getGuild();
 				MessageChannel channel = event.getChannel();
 				String content = message.getContentRaw();
-				MessageChannel logChannel = guild.getTextChannelById(new GuildConfig(guild, monke).getLogChannel());
+				MessageChannel logChannel = guild.getTextChannelById(GuildSettingsCache.getCache(guild.getIdLong(), monke).getLogChannel());
 
 				if(logChannel != null)
 				{
