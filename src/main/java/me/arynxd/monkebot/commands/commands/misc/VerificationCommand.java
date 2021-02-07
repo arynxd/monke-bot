@@ -14,10 +14,10 @@ import me.arynxd.monkebot.commands.subcommands.verification.VerificationAddComma
 import me.arynxd.monkebot.commands.subcommands.verification.VerificationRemoveCommand;
 import me.arynxd.monkebot.commands.subcommands.verification.VerificationShowCommand;
 import me.arynxd.monkebot.entities.Emoji;
+import me.arynxd.monkebot.entities.cache.GuildSettingsCache;
 import me.arynxd.monkebot.entities.command.Command;
 import me.arynxd.monkebot.entities.command.CommandEvent;
 import me.arynxd.monkebot.entities.command.CommandFlag;
-import me.arynxd.monkebot.entities.database.GuildConfig;
 import me.arynxd.monkebot.entities.exception.CommandException;
 import me.arynxd.monkebot.entities.exception.CommandResultException;
 import me.arynxd.monkebot.util.CommandChecks;
@@ -53,8 +53,8 @@ public class VerificationCommand extends Command
 
 		MessageChannel channel = commandEvent.getChannel();
 		Guild guild = commandEvent.getGuild();
-		Role verifiedRole = guild.getRoleById(new GuildConfig(commandEvent).getVerifiedRole());
-		Role unverifiedRole = guild.getRoleById(new GuildConfig(commandEvent).getUnverifiedRole());
+		Role verifiedRole = guild.getRoleById(GuildSettingsCache.getCache(commandEvent.getGuildIdLong(), commandEvent.getMonke()).getVerifiedRole());
+		Role unverifiedRole = guild.getRoleById(GuildSettingsCache.getCache(commandEvent.getGuildIdLong(), commandEvent.getMonke()).getUnverifiedRole());
 
 		if(CommandChecks.roleConfigured(verifiedRole, "Verified role", failure)) return;
 
@@ -125,7 +125,11 @@ public class VerificationCommand extends Command
 																});
 																channel.purgeMessages(messages);
 
-																MessageChannel welcomeChannel = guild.getTextChannelById(new GuildConfig(commandEvent).getWelcomeChannel());
+																MessageChannel welcomeChannel = guild.getTextChannelById(GuildSettingsCache.getCache(commandEvent.getGuildIdLong(), commandEvent.getMonke()).getWelcomeChannel());
+																if(welcomeChannel == null)
+																{
+																	commandEvent.replyError("Welcome channel not setup, no welcome message will be sent.");
+																}
 																if(welcomeChannel != null)
 																{
 																	welcomeChannel.sendMessage(new EmbedBuilder()
@@ -136,10 +140,7 @@ public class VerificationCommand extends Command
 																			.setTimestamp(Instant.now())
 																			.build()).queue();
 																}
-																else
-																{
-																	commandEvent.replyError("Welcome channel not setup, no welcome message will be sent.");
-																}
+
 
 																roles.add(verifiedRole);
 																if(unverifiedRole != null)

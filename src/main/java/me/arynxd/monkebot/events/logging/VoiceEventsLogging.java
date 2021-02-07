@@ -3,7 +3,7 @@ package me.arynxd.monkebot.events.logging;
 import java.time.Instant;
 import me.arynxd.monkebot.Constants;
 import me.arynxd.monkebot.Monke;
-import me.arynxd.monkebot.entities.database.GuildConfig;
+import me.arynxd.monkebot.entities.cache.GuildSettingsCache;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
@@ -30,7 +30,7 @@ public class VoiceEventsLogging extends ListenerAdapter
 		VoiceChannel oldChannel = event.getChannelLeft();
 		VoiceChannel newChannel = event.getChannelJoined();
 		Member member = event.getMember();
-		MessageChannel logChannel = guild.getTextChannelById(new GuildConfig(guild, monke).getLogChannel());
+		MessageChannel logChannel = guild.getTextChannelById(GuildSettingsCache.getCache(guild.getIdLong(), monke).getLogChannel());
 
 		if(logChannel != null)
 		{
@@ -52,7 +52,7 @@ public class VoiceEventsLogging extends ListenerAdapter
 		VoiceChannel channel = event.getChannelLeft();
 		Member member = event.getMember();
 		Guild guild = event.getGuild();
-		MessageChannel logChannel = guild.getTextChannelById(new GuildConfig(guild, monke).getLogChannel());
+		MessageChannel logChannel = guild.getTextChannelById(GuildSettingsCache.getCache(guild.getIdLong(), monke).getLogChannel());
 
 		if(logChannel != null)
 		{
@@ -73,7 +73,7 @@ public class VoiceEventsLogging extends ListenerAdapter
 		VoiceChannel channel = event.getChannelJoined();
 		Member member = event.getMember();
 		Guild guild = event.getGuild();
-		MessageChannel logChannel = guild.getTextChannelById(new GuildConfig(guild, monke).getLogChannel());
+		MessageChannel logChannel = guild.getTextChannelById(GuildSettingsCache.getCache(guild.getIdLong(), monke).getLogChannel());
 
 		if(logChannel != null)
 		{

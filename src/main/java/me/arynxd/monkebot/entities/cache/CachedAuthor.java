@@ -3,40 +3,42 @@ package me.arynxd.monkebot.entities.cache;
 import javax.annotation.Nonnull;
 import net.dv8tion.jda.api.entities.User;
 
-/**
- * Represents an author for a {@link CachedMessage message} in the {@link MessageCache}.
- */
-public class CachedAuthor
+public class CachedAuthor implements ICacheableEntity<Long, CachedAuthor>
 {
 	private final boolean isBot;
 	private final String mentionable;
+	private final long id;
 
-	/**
-	 * Constructs a {@link CachedAuthor author} from a {@link net.dv8tion.jda.api.entities.User user}.
-	 *
-	 * @param user The {@link net.dv8tion.jda.api.entities.User user} to construct from.
-	 */
 	public CachedAuthor(@Nonnull User user)
 	{
 		this.isBot = user.isBot();
 		this.mentionable = user.getAsMention();
+		this.id = user.getIdLong();
 	}
 
-	/**
-	 * @return Whether this {@link CachedAuthor author} is a bot user.
-	 */
-	@Nonnull
-	public Boolean isBot()
+	public @Nonnull
+	Boolean isBot()
 	{
 		return isBot;
 	}
 
-	/**
-	 * @return This {@link CachedAuthor author} as a mention.
-	 */
-	@Nonnull
-	public String getAsMention()
+	public @Nonnull
+	String getAsMention()
 	{
 		return mentionable;
+	}
+
+	@Override
+	public @Nonnull
+	Long getKey()
+	{
+		return id;
+	}
+
+	@Override
+	public @Nonnull
+	CachedAuthor getData()
+	{
+		return this;
 	}
 }

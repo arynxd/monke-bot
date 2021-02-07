@@ -4,7 +4,7 @@ import java.time.Instant;
 import java.time.format.DateTimeFormatter;
 import me.arynxd.monkebot.Constants;
 import me.arynxd.monkebot.Monke;
-import me.arynxd.monkebot.entities.database.GuildConfig;
+import me.arynxd.monkebot.entities.cache.GuildSettingsCache;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
@@ -28,7 +28,7 @@ public class MemberEventsLogging extends ListenerAdapter
 	{
 		Guild guild = event.getGuild();
 		User user = event.getUser();
-		MessageChannel logChannel = guild.getTextChannelById(new GuildConfig(guild, monke).getLogChannel());
+		MessageChannel logChannel = guild.getTextChannelById(GuildSettingsCache.getCache(guild.getIdLong(), monke).getLogChannel());
 
 		if(logChannel != null)
 		{
@@ -48,7 +48,7 @@ public class MemberEventsLogging extends ListenerAdapter
 		Member member = event.getMember();
 
 
-		MessageChannel logChannel = guild.getTextChannelById(new GuildConfig(guild, monke).getLogChannel());
+		MessageChannel logChannel = guild.getTextChannelById(GuildSettingsCache.getCache(guild.getIdLong(), monke).getLogChannel());
 
 		if(logChannel != null)
 		{

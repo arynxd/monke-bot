@@ -3,10 +3,10 @@ package me.arynxd.monkebot.commands.commands.moderation;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.function.Consumer;
+import me.arynxd.monkebot.entities.cache.GuildSettingsCache;
 import me.arynxd.monkebot.entities.command.Command;
 import me.arynxd.monkebot.entities.command.CommandEvent;
 import me.arynxd.monkebot.entities.command.CommandFlag;
-import me.arynxd.monkebot.entities.database.GuildConfig;
 import me.arynxd.monkebot.entities.database.Tempban;
 import me.arynxd.monkebot.entities.exception.CommandException;
 import me.arynxd.monkebot.entities.exception.CommandHierarchyException;
@@ -55,7 +55,7 @@ public class TempbanCommand extends Command
 			LocalDateTime muteTime = new Parser(args.get(1), event).parseAsDuration();
 			User selfUser = event.getMonke().getSelfUser();
 			Guild guild = event.getGuild();
-			Role tempBanRole = guild.getRoleById(new GuildConfig(guild.getIdLong(), event.getMonke()).getTempBanRole());
+			Role tempBanRole = guild.getRoleById(GuildSettingsCache.getCache(event.getGuildIdLong(), event.getMonke()).getTempBanRole());
 
 			if(CommandChecks.roleConfigured(tempBanRole, "Tempban role", failure)) return;
 

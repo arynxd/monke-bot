@@ -5,10 +5,10 @@ import java.util.List;
 import java.util.function.Consumer;
 import me.arynxd.monkebot.Constants;
 import me.arynxd.monkebot.entities.Emoji;
+import me.arynxd.monkebot.entities.cache.GuildSettingsCache;
 import me.arynxd.monkebot.entities.command.Command;
 import me.arynxd.monkebot.entities.command.CommandEvent;
 import me.arynxd.monkebot.entities.command.CommandFlag;
-import me.arynxd.monkebot.entities.database.GuildConfig;
 import me.arynxd.monkebot.entities.exception.CommandException;
 import me.arynxd.monkebot.util.CommandChecks;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -33,8 +33,8 @@ public class SuggestionCommand extends Command
 		if(CommandChecks.argsEmbedCompatible(event, failure)) return;
 
 		User author = event.getAuthor();
-		GuildConfig guildConfig = new GuildConfig(event);
-		MessageChannel suggestionChannel = event.getGuild().getTextChannelById(guildConfig.getSuggestionChannel());
+		GuildSettingsCache config = GuildSettingsCache.getCache(event.getGuildIdLong(), event.getMonke());
+		MessageChannel suggestionChannel = event.getGuild().getTextChannelById(config.getSuggestionChannel());
 
 		if(CommandChecks.channelConfigured(suggestionChannel, "Suggestion channel", failure)) return;
 		suggestionChannel.sendMessage(new EmbedBuilder()

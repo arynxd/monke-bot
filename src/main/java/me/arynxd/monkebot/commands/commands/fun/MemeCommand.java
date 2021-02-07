@@ -17,9 +17,10 @@ public class MemeCommand extends Command
 {
 	public MemeCommand()
 	{
-		super("Meme" ,"Shows the best memes from Reddit.", "[discord / wholesome / dank / irl / facebook / karen / blursed]");
+		super("Meme", "Shows the best memes from Reddit.", "[discord / wholesome / dank / irl / facebook / karen / blursed]");
 		addAliases("meme");
 	}
+
 	@Override
 	public void run(@NotNull List<String> args, @NotNull CommandEvent event, @NotNull Consumer<CommandException> failure)
 	{
@@ -33,34 +34,34 @@ public class MemeCommand extends Command
 		else
 		{
 			subreddit = switch(args.get(0))
-				{
-					case "wholesome" -> "wholesomememes";
-					case "dank" -> "dankmemes";
-					case "irl" -> "me_irl";
-					case "facebook" -> "terriblefacebookmemes";
-					case "karen" -> "karen";
-					case "blursed" -> "blursedimages";
-					case "discord" -> "discord_irl";
-					default -> "memes";
-				};
+					{
+						case "wholesome" -> "wholesomememes";
+						case "dank" -> "dankmemes";
+						case "irl" -> "me_irl";
+						case "facebook" -> "terriblefacebookmemes";
+						case "karen" -> "karen";
+						case "blursed" -> "blursedimages";
+						case "discord" -> "discord_irl";
+						default -> "memes";
+					};
 		}
 
 		WebUtils.getPosts(event, subreddit,
-			posts ->
-			{
-				List<RedditPost> memes = posts
-					.stream()
-					.filter(post -> !post.isPinned() && !post.isStickied() && post.isMedia())
-					.collect(Collectors.toList());
-
-				if(memes.isEmpty())
+				posts ->
 				{
-					failure.accept(new CommandResultException("No posts were found."));
-					return;
-				}
+					List<RedditPost> memes = posts
+							.stream()
+							.filter(post -> !post.isPinned() && !post.isStickied() && post.isMedia())
+							.collect(Collectors.toList());
 
-				RedditPost post = memes.get(random.nextInt(memes.size()));
-				WebUtils.checkAndSendPost(event, post, failure);
-			}, failure);
+					if(memes.isEmpty())
+					{
+						failure.accept(new CommandResultException("No posts were found."));
+						return;
+					}
+
+					RedditPost post = memes.get(random.nextInt(memes.size()));
+					WebUtils.checkAndSendPost(event, post, failure);
+				}, failure);
 	}
 }

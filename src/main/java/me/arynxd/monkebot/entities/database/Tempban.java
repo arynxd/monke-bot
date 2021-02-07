@@ -14,6 +14,11 @@ import static me.arynxd.monkebot.entities.jooq.tables.Tempbans.TEMPBANS;
 
 public class Tempban
 {
+	private Tempban()
+	{
+		//Overrides the default, public, constructor
+	}
+
 	public static boolean remove(long userId, Monke monke)
 	{
 		try(Connection connection = monke.getDatabaseHandler().getConnection())

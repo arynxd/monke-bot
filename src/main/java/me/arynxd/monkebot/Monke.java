@@ -52,19 +52,9 @@ public class Monke extends ListenerAdapter
 	private final OkHttpClient okHttpClient;
 	private final TaskHandler taskHandler;
 	private final EventWaiter eventWaiter;
-	private ShardManager shardManager;
 	private final Logger logger;
+	private ShardManager shardManager;
 	private JDA jda;
-
-	public OkHttpClient getOkHttpClient()
-	{
-		return okHttpClient;
-	}
-
-	public MusicHandler getMusicHandler()
-	{
-		return musicHandler;
-	}
 
 	public Monke()
 	{
@@ -78,6 +68,16 @@ public class Monke extends ListenerAdapter
 		this.eventWaiter = new EventWaiter();
 		this.okHttpClient = new OkHttpClient();
 		this.musicHandler = new MusicHandler(this);
+	}
+
+	public OkHttpClient getOkHttpClient()
+	{
+		return okHttpClient;
+	}
+
+	public MusicHandler getMusicHandler()
+	{
+		return musicHandler;
 	}
 
 	public EventWaiter getEventWaiter()
@@ -176,18 +176,6 @@ public class Monke extends ListenerAdapter
 			throw new UnsupportedOperationException("Cannot register guilds without a shard manager.");
 		}
 		for(Guild guild : shardManager.getGuilds())
-		{
-			DatabaseUtils.registerGuild(guild, this);
-		}
-	}
-
-	public void registerGuilds()
-	{
-		if(this.shardManager == null)
-		{
-			throw new UnsupportedOperationException("Cannot register guilds without a shard manager.");
-		}
-		for(Guild guild : this.shardManager.getGuilds())
 		{
 			DatabaseUtils.registerGuild(guild, this);
 		}

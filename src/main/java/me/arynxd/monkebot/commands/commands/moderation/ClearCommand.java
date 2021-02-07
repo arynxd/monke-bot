@@ -3,6 +3,7 @@ package me.arynxd.monkebot.commands.commands.moderation;
 import java.util.List;
 import java.util.OptionalInt;
 import java.util.function.Consumer;
+import me.arynxd.monkebot.entities.cache.CachedMessage;
 import me.arynxd.monkebot.entities.cache.MessageCache;
 import me.arynxd.monkebot.entities.command.Command;
 import me.arynxd.monkebot.entities.command.CommandEvent;
@@ -10,7 +11,6 @@ import me.arynxd.monkebot.entities.command.CommandFlag;
 import me.arynxd.monkebot.entities.exception.CommandCooldownException;
 import me.arynxd.monkebot.entities.exception.CommandException;
 import me.arynxd.monkebot.entities.exception.CommandInputException;
-import me.arynxd.monkebot.entities.exception.CommandSyntaxException;
 import me.arynxd.monkebot.handlers.CooldownHandler;
 import me.arynxd.monkebot.util.CommandChecks;
 import me.arynxd.monkebot.util.Parser;
@@ -25,7 +25,7 @@ public class ClearCommand extends Command
 {
 	public ClearCommand()
 	{
-		super("Clear", "Clears messages from the current channel", "[amount {50}]");
+		super("Clear", "Clears messages from the current channel.", "[amount {50}]");
 		addAliases("clear", "purge");
 		addMemberPermissions(Permission.MESSAGE_MANAGE);
 		addSelfPermissions(Permission.MESSAGE_MANAGE);
@@ -58,18 +58,19 @@ public class ClearCommand extends Command
 			}
 
 			channel.getIterableHistory()
-			.takeAsync(amount.getAsInt() + 1)
-			.thenAccept(messages ->
-			{
-				MessageCache cache = MessageCache.getCache(guild);
-				messages.stream()
-						.filter(cache::isInCache)
-						.forEach(cache::remove);
+					.takeAsync(amount.getAsInt() + 1)
+					.thenAccept(messages ->
+					{
+						MessageCache cache = MessageCache.getCache(guild.getIdLong());
+						messages.stream()
+								.map(CachedMessage::new)
+								.filter(message -> cache.isCached(message.getKey()))
+								.forEach(cache::remove);
 
-				CooldownHandler.addCooldown(member, this);
-				channel.purgeMessages(messages);
-				event.replySuccess("Deleted " + (messages.size() - 1) + " messages.");
-			});
+						CooldownHandler.addCooldown(member, this);
+						channel.purgeMessages(messages);
+						event.replySuccess("Deleted " + (messages.size() - 1) + " messages.");
+					});
 		}
 	}
 }

@@ -9,7 +9,7 @@ import me.arynxd.monkebot.entities.command.CommandEvent;
 import me.arynxd.monkebot.entities.command.CommandFlag;
 import me.arynxd.monkebot.entities.exception.CommandException;
 import me.arynxd.monkebot.entities.exception.CommandResultException;
-import me.arynxd.monkebot.entities.music.GuildMusicManager;
+import me.arynxd.monkebot.entities.music.GuildMusicHandler;
 import me.arynxd.monkebot.handlers.MusicHandler;
 import me.arynxd.monkebot.util.CommandChecks;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -31,10 +31,10 @@ public class MusicQueueCommand extends Command
 		if(CommandChecks.sharesVoice(event, failure)) return;
 
 		MusicHandler musicHandler = event.getMonke().getMusicHandler();
-		GuildMusicManager manager = musicHandler.getGuildMusicManager(event.getGuild());
+		GuildMusicHandler manager = musicHandler.getGuildMusicManager(event.getGuild());
 		AudioTrack currentTrack = manager.getPlayer().getPlayingTrack();
 
-		List<String> tracks= manager.getScheduler().getQueue()
+		List<String> tracks = manager.getScheduler().getQueue()
 				.stream()
 				.map(track -> track.getInfo().title + " by " + track.getInfo().author)
 				.collect(Collectors.toList());

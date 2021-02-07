@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import me.arynxd.monkebot.Constants;
 import me.arynxd.monkebot.Monke;
+import me.arynxd.monkebot.entities.cache.GuildSettingsCache;
 import me.arynxd.monkebot.entities.command.CommandEvent;
 import me.arynxd.monkebot.entities.jooq.Tables;
 import me.arynxd.monkebot.entities.jooq.tables.records.VotesRecord;
@@ -44,7 +45,7 @@ public class Vote
 	{
 		try(Connection connection = ctx.getMonke().getDatabaseHandler().getConnection())
 		{
-			MessageChannel voteChannel = ctx.getGuild().getTextChannelById(new GuildConfig(ctx).getVoteChannel());
+			MessageChannel voteChannel = ctx.getGuild().getTextChannelById(GuildSettingsCache.getCache(ctx.getGuildIdLong(), ctx.getMonke()).getVoteChannel());
 
 			if(voteChannel == null)
 			{
@@ -117,7 +118,7 @@ public class Vote
 				return;
 			}
 
-			MessageChannel voteChannel = monke.getShardManager().getTextChannelById(new GuildConfig(guildId, monke).getVoteChannel());
+			MessageChannel voteChannel = monke.getShardManager().getTextChannelById(GuildSettingsCache.getCache(guildId, monke).getVoteChannel());
 
 			if(voteChannel == null)
 			{
@@ -158,7 +159,8 @@ public class Vote
 					message.editMessage(newEmbed.build()).queue();
 				}
 				, error ->
-				{});
+				{
+				});
 	}
 
 	private static void clearDM(long userId, long messageId, Monke monke)
@@ -244,7 +246,7 @@ public class Vote
 
 	public void start()
 	{
-		MessageChannel voteChannel = ctx.getGuild().getTextChannelById(new GuildConfig(ctx).getVoteChannel());
+		MessageChannel voteChannel = ctx.getGuild().getTextChannelById(GuildSettingsCache.getCache(ctx.getGuildIdLong(), ctx.getMonke()).getVoteChannel());
 
 		if(voteChannel == null)
 		{

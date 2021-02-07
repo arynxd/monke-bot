@@ -4,7 +4,7 @@ import java.awt.*;
 
 public class Constants
 {
-	public static final String DEFAULT_BOT_PREFIX = ".";
+	public static final String DEFAULT_BOT_PREFIX = "m!";
 
 	public static final Color EMBED_COLOUR = new Color(104, 89, 133);
 

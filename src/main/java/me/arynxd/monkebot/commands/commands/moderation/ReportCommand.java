@@ -5,15 +5,18 @@ import java.util.List;
 import java.util.function.Consumer;
 import me.arynxd.monkebot.Constants;
 import me.arynxd.monkebot.entities.Emoji;
+import me.arynxd.monkebot.entities.cache.GuildSettingsCache;
 import me.arynxd.monkebot.entities.command.Command;
 import me.arynxd.monkebot.entities.command.CommandEvent;
 import me.arynxd.monkebot.entities.command.CommandFlag;
-import me.arynxd.monkebot.entities.database.GuildConfig;
 import me.arynxd.monkebot.entities.database.Report;
 import me.arynxd.monkebot.entities.exception.CommandException;
 import me.arynxd.monkebot.entities.exception.CommandHierarchyException;
 import me.arynxd.monkebot.entities.exception.CommandInputException;
-import me.arynxd.monkebot.util.*;
+import me.arynxd.monkebot.util.CommandChecks;
+import me.arynxd.monkebot.util.Parser;
+import me.arynxd.monkebot.util.StringUtils;
+import me.arynxd.monkebot.util.UserUtils;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
@@ -26,7 +29,7 @@ public class ReportCommand extends Command
 {
 	public ReportCommand()
 	{
-		super("Report", "Reports a member for a reason", "[user] [reason]");
+		super("Report", "Reports a member for a reason.", "[user] [reason]");
 		addAliases("report");
 		addFlags(CommandFlag.GUILD_ONLY, CommandFlag.AUTO_DELETE_MESSAGE);
 	}
@@ -39,7 +42,7 @@ public class ReportCommand extends Command
 		MessageChannel channel = event.getChannel();
 		User author = event.getAuthor();
 		Guild guild = event.getGuild();
-		MessageChannel reportChannel = guild.getTextChannelById(new GuildConfig(event).getReportChannel());
+		MessageChannel reportChannel = guild.getTextChannelById(GuildSettingsCache.getCache(event.getGuildIdLong(), event.getMonke()).getReportChannel());
 
 		if(CommandChecks.channelConfigured(reportChannel, "Report channel", failure)) return;
 		if(CommandChecks.canSee(reportChannel, event.getSelfMember(), "Report channel", failure)) return;

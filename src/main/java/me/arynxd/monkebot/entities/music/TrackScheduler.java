@@ -40,18 +40,6 @@ public class TrackScheduler extends AudioEventAdapter
 		player.startTrack(queue.poll(), false);
 	}
 
-	public boolean skipMany(int amount)
-	{
-		if(amount >= queue.size())
-		{
-			return false;
-		}
-
-		queue.subList(amount, queue.size());
-		player.startTrack(queue.poll(), false);
-		return true;
-	}
-
 	@Override
 	public void onTrackEnd(AudioPlayer player, AudioTrack track, AudioTrackEndReason endReason)
 	{

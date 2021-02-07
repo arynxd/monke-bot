@@ -30,15 +30,17 @@ public class WebUtils
 
 		event.getMonke().getOkHttpClient().newCall(request).enqueue(new Callback()
 		{
-			@Override public void onFailure(@NotNull Call call, @NotNull IOException exception)
+			@Override
+			public void onFailure(@NotNull Call call, @NotNull IOException exception)
 			{
 				event.getMonke().getLogger().error("An OKHTTP error has occurred", exception);
 				failure.accept(new CommandResultException("Failed to fetch posts."));
 			}
 
-			@Override public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException
+			@Override
+			public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException
 			{
-				try (ResponseBody responseBody = response.body())
+				try(ResponseBody responseBody = response.body())
 				{
 					List<RedditPost> post = new ArrayList<>();
 

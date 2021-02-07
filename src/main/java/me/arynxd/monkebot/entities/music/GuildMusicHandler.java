@@ -8,12 +8,12 @@ import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.VoiceChannel;
 import net.dv8tion.jda.api.managers.AudioManager;
 
-public class GuildMusicManager
+public class GuildMusicHandler
 {
 	private final AudioPlayer player;
 	private final TrackScheduler scheduler;
 
-	public GuildMusicManager(AudioPlayerManager manager)
+	public GuildMusicHandler(AudioPlayerManager manager)
 	{
 		player = manager.createPlayer();
 		scheduler = new TrackScheduler(player);

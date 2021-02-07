@@ -3,10 +3,10 @@ package me.arynxd.monkebot.commands.commands.misc;
 import java.util.List;
 import java.util.function.Consumer;
 import me.arynxd.monkebot.Constants;
+import me.arynxd.monkebot.entities.cache.GuildSettingsCache;
 import me.arynxd.monkebot.entities.command.Command;
 import me.arynxd.monkebot.entities.command.CommandEvent;
 import me.arynxd.monkebot.entities.command.CommandFlag;
-import me.arynxd.monkebot.entities.database.GuildConfig;
 import me.arynxd.monkebot.entities.exception.CommandException;
 import me.arynxd.monkebot.entities.exception.CommandInputException;
 import me.arynxd.monkebot.util.EmbedUtils;
@@ -30,12 +30,12 @@ public class PrefixCommand extends Command
 	public void run(@NotNull List<String> args, @NotNull CommandEvent event, @NotNull Consumer<CommandException> failure)
 	{
 		MessageChannel channel = event.getChannel();
-		GuildConfig guildConfig = new GuildConfig(event);
+		GuildSettingsCache config = GuildSettingsCache.getCache(event.getGuildIdLong(), event.getMonke());
 
 		if(args.isEmpty())
 		{
 			EmbedUtils.sendDeletingEmbed(channel, new EmbedBuilder()
-					.setDescription("My prefix for this server is `" + guildConfig.getPrefix() + "`.")
+					.setDescription("My prefix for this server is `" + config.getPrefix() + "`.")
 					.setColor(Constants.EMBED_COLOUR), 30000);
 			return;
 		}
@@ -48,7 +48,7 @@ public class PrefixCommand extends Command
 
 		if(event.isDeveloper())
 		{
-			guildConfig.setPrefix(args.get(0));
+			config.setPrefix(args.get(0));
 			event.replySuccess("My new prefix is `" + args.get(0) + "`");
 			return;
 		}
@@ -59,7 +59,7 @@ public class PrefixCommand extends Command
 			return;
 		}
 
-		guildConfig.setPrefix(args.get(0));
+		config.setPrefix(args.get(0));
 		event.replySuccess("My new prefix is `" + args.get(0) + "`");
 	}
 
@@ -75,9 +75,9 @@ public class PrefixCommand extends Command
 		@Override
 		public void run(@NotNull List<String> args, @NotNull CommandEvent event, @NotNull Consumer<CommandException> failure)
 		{
-			GuildConfig guildConfig = new GuildConfig(event);
+			GuildSettingsCache config = GuildSettingsCache.getCache(event.getGuildIdLong(), event.getMonke());
 			event.replySuccess("Reset my prefix to `" + Constants.DEFAULT_BOT_PREFIX + "`");
-			guildConfig.setPrefix(Constants.DEFAULT_BOT_PREFIX);
+			config.setPrefix(Constants.DEFAULT_BOT_PREFIX);
 		}
 	}
 }

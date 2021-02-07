@@ -2,10 +2,10 @@ package me.arynxd.monkebot.commands.subcommands.level;
 
 import java.util.List;
 import java.util.function.Consumer;
+import me.arynxd.monkebot.entities.cache.GuildSettingsCache;
 import me.arynxd.monkebot.entities.command.Command;
 import me.arynxd.monkebot.entities.command.CommandEvent;
 import me.arynxd.monkebot.entities.command.CommandFlag;
-import me.arynxd.monkebot.entities.database.GuildConfig;
 import me.arynxd.monkebot.entities.exception.CommandException;
 import me.arynxd.monkebot.util.CommandChecks;
 import me.arynxd.monkebot.util.Parser;
@@ -27,7 +27,7 @@ public class LevelBotCommand extends Command
 		new Parser(args.get(0), event).parseAsUser(
 				user ->
 				{
-					new GuildConfig(event).setLevelUpBot(user.getIdLong());
+					GuildSettingsCache.getCache(event.getGuildIdLong(), event.getMonke()).setLevelUpBot(user.getIdLong());
 					event.replySuccess("New level up bot is " + user.getAsMention());
 				});
 	}

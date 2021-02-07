@@ -10,7 +10,7 @@ import me.arynxd.monkebot.entities.command.CommandEvent;
 import me.arynxd.monkebot.entities.command.CommandFlag;
 import me.arynxd.monkebot.entities.exception.CommandException;
 import me.arynxd.monkebot.entities.exception.CommandResultException;
-import me.arynxd.monkebot.entities.music.GuildMusicManager;
+import me.arynxd.monkebot.entities.music.GuildMusicHandler;
 import me.arynxd.monkebot.handlers.MusicHandler;
 import me.arynxd.monkebot.util.CommandChecks;
 import me.arynxd.monkebot.util.StringUtils;
@@ -33,7 +33,7 @@ public class MusicNowPlayingCommand extends Command
 		if(CommandChecks.sharesVoice(event, failure)) return;
 
 		MusicHandler musicHandler = event.getMonke().getMusicHandler();
-		GuildMusicManager manager = musicHandler.getGuildMusicManager(event.getGuild());
+		GuildMusicHandler manager = musicHandler.getGuildMusicManager(event.getGuild());
 
 		AudioTrack currentTrack = manager.getPlayer().getPlayingTrack();
 
@@ -50,8 +50,8 @@ public class MusicNowPlayingCommand extends Command
 				.setTitle("Now playing for " + event.getGuild().getName())
 				.setDescription(
 						"[" + currentTrack.getInfo().title + "](" + currentTrack.getInfo().uri + ")" +
-						"\n**Author**: " + currentTrack.getInfo().author +
-						"\n**Position**: " + StringUtils.parseDuration(passed) +
-						"\n**Length**: " + StringUtils.parseDuration(length)));
+								"\n**Author**: " + currentTrack.getInfo().author +
+								"\n**Position**: " + StringUtils.parseDuration(passed) +
+								"\n**Length**: " + StringUtils.parseDuration(length)));
 	}
 }

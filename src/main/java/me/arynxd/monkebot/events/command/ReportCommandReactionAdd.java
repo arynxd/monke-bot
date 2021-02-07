@@ -7,7 +7,7 @@ import java.util.List;
 import me.arynxd.monkebot.Constants;
 import me.arynxd.monkebot.Monke;
 import me.arynxd.monkebot.entities.Emoji;
-import me.arynxd.monkebot.entities.database.GuildConfig;
+import me.arynxd.monkebot.entities.cache.GuildSettingsCache;
 import me.arynxd.monkebot.entities.database.Report;
 import me.arynxd.monkebot.util.EmbedUtils;
 import me.arynxd.monkebot.util.StringUtils;
@@ -41,7 +41,7 @@ public class ReportCommandReactionAdd extends ListenerAdapter
 
 		Guild guild = event.getGuild();
 
-		MessageChannel reportChannel = guild.getTextChannelById(new GuildConfig(guild.getIdLong(), monke).getReportChannel());
+		MessageChannel reportChannel = guild.getTextChannelById(GuildSettingsCache.getCache(guild.getIdLong(), monke).getReportChannel());
 
 		if(reportChannel == null)
 		{
@@ -112,9 +112,13 @@ public class ReportCommandReactionAdd extends ListenerAdapter
 													.addField("Dealt with by", user.getAsMention(), true)
 													.setColor(Constants.EMBED_COLOUR)
 													.setTimestamp(Instant.now()).build())
-							).queue(null, error -> { });
+							).queue(null, error ->
+							{
+							});
 						}
 					}
-				}, error -> { });
+				}, error ->
+				{
+				});
 	}
 }

@@ -8,9 +8,6 @@ public class CommandException extends RuntimeException
 	private final String text;
 	private final Command command;
 
-	/**
-	 * Supertype for all CommandException
-	 */
 	public CommandException(Command command)
 	{
 		super("An exception occurred in command " + command.getName(), null, true, false);
@@ -18,9 +15,6 @@ public class CommandException extends RuntimeException
 		this.command = command;
 	}
 
-	/**
-	 * Supertype for all CommandException
-	 */
 	public CommandException(String text)
 	{
 		super(text, null, true, false);

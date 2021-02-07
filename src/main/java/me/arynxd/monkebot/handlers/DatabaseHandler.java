@@ -91,7 +91,7 @@ public class DatabaseHandler
 	{
 		try
 		{
-			InputStream file = DatabaseHandler.class.getClassLoader().getResourceAsStream("sql/" + table + ".sql");
+			InputStream file = IOUtils.getResourceFile("sql/" + table + ".sql");
 			if(file == null)
 			{
 				throw new NullPointerException("File for table '" + table + "' not found");
@@ -109,7 +109,8 @@ public class DatabaseHandler
 		LOGGER.debug("Starting local HikariCP setup.");
 		HikariConfig hikariConfig = new HikariConfig();
 		Configuration configuration = monke.getConfig();
-		hikariConfig.setDriverClassName("org.postgresql.Driver");
+
+		hikariConfig.setDriverClassName(configuration.getString(ConfigOption.LOCALDRIVER));
 		hikariConfig.setJdbcUrl(configuration.getString(ConfigOption.LOCALURL));
 
 		hikariConfig.setUsername(monke.getConfig().getString(ConfigOption.LOCALUSERNAME));

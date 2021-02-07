@@ -5,8 +5,8 @@ import java.time.format.DateTimeFormatter;
 import me.arynxd.monkebot.Constants;
 import me.arynxd.monkebot.Monke;
 import me.arynxd.monkebot.entities.cache.CachedMessage;
+import me.arynxd.monkebot.entities.cache.GuildSettingsCache;
 import me.arynxd.monkebot.entities.cache.MessageCache;
-import me.arynxd.monkebot.entities.database.GuildConfig;
 import me.arynxd.monkebot.util.CommandUtils;
 import me.arynxd.monkebot.util.StringUtils;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -34,7 +34,7 @@ public class MessageEventsLogging extends ListenerAdapter
 		{
 			MessageCache cache = MessageCache.getCache(event.getGuild().getIdLong());
 
-			if(cache.isInCache(event.getMessage()))
+			if(cache.isCached(event.getMessage().getIdLong()))
 			{
 				Message newMessage = event.getMessage();
 				CachedMessage oldMessage = cache.get(event.getMessageIdLong());
@@ -42,7 +42,7 @@ public class MessageEventsLogging extends ListenerAdapter
 				String oldContent = oldMessage.getContentRaw();
 				String newContent = newMessage.getContentRaw();
 				Guild guild = event.getGuild();
-				MessageChannel logChannel = guild.getTextChannelById(new GuildConfig(guild, monke).getLogChannel());
+				MessageChannel logChannel = guild.getTextChannelById(GuildSettingsCache.getCache(guild.getIdLong(), monke).getLogChannel());
 
 				if(logChannel != null)
 				{
@@ -77,15 +77,15 @@ public class MessageEventsLogging extends ListenerAdapter
 	{
 		if(event.getChannelType().equals(ChannelType.TEXT))
 		{
-			MessageCache cache = MessageCache.getCache(event.getGuild());
+			MessageCache cache = MessageCache.getCache(event.getGuild().getIdLong());
 
-			if(cache.isInCache(event.getMessageIdLong()))
+			if(cache.isCached(event.getMessageIdLong()))
 			{
 				CachedMessage message = cache.get(event.getMessageIdLong());
 				Guild guild = event.getGuild();
 				MessageChannel channel = event.getChannel();
 				String content = message.getContentRaw();
-				MessageChannel logChannel = guild.getTextChannelById(new GuildConfig(guild, monke).getLogChannel());
+				MessageChannel logChannel = guild.getTextChannelById(GuildSettingsCache.getCache(guild.getIdLong(), monke).getLogChannel());
 
 				if(logChannel != null)
 				{
