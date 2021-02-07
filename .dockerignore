@@ -1,0 +1,9 @@
+README.md
+config/
+build/
+.idea/
+.gradle/
+.github/
+.git/
+.gitignore
+gradle.properties
