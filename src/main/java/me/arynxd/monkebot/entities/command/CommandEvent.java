@@ -35,14 +35,12 @@ public class CommandEvent
 		this.args = args;
 	}
 
-	public @Nonnull
-	List<String> getArgs()
+	public @Nonnull List<String> getArgs()
 	{
 		return args;
 	}
 
-	public @Nonnull
-	String getPrefix()
+	public @Nonnull String getPrefix()
 	{
 		if(!isFromGuild())
 		{
@@ -210,8 +208,7 @@ public class CommandEvent
 		getChannel().sendMessage(embed.setColor(Constants.EMBED_COLOUR).setTimestamp(Instant.now()).build()).queue();
 	}
 
-	public @Nonnull
-	Boolean selfPermissionCheck(List<Permission> permissions)
+	public @Nonnull Boolean selfPermissionCheck(List<Permission> permissions)
 	{
 		return event.getGuild().getSelfMember().hasPermission(permissions);
 	}

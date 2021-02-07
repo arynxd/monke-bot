@@ -91,7 +91,7 @@ public class DatabaseHandler
 	{
 		try
 		{
-			InputStream file = DatabaseHandler.class.getClassLoader().getResourceAsStream("sql/" + table + ".sql");
+			InputStream file = IOUtils.getResourceFile("sql/" + table + ".sql");
 			if(file == null)
 			{
 				throw new NullPointerException("File for table '" + table + "' not found");

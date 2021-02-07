@@ -228,46 +228,23 @@ public abstract class Command
 		this.selfRequiredPermissions.addAll(List.of(permissions));
 	}
 
-	/**
-	 * Gets the {@link net.dv8tion.jda.api.Permission permissions} required by the {@link net.dv8tion.jda.api.entities.Member self user} to execute the {@link Command command}.
-	 *
-	 * @see #getSelfRequiredPermissions()
-	 */
 	@Nonnull
 	public List<Permission> getSelfRequiredPermissions()
 	{
 		return selfRequiredPermissions;
 	}
 
-	/**
-	 * @return The {@link CommandFlag flags} for this {@link Command command}.
-	 * @see #addFlags(CommandFlag...)
-	 * @see #hasFlag(CommandFlag)
-	 */
 	@Nonnull
 	public List<CommandFlag> getFlags()
 	{
 		return flags;
 	}
 
-	/**
-	 * Adds {@link CommandFlag flags} to this {@link Command command}.
-	 *
-	 * @param flags The flags to add.
-	 * @see #getFlags()
-	 * @see #hasFlag(CommandFlag)
-	 */
 	public void addFlags(@Nonnull CommandFlag... flags)
 	{
 		this.flags.addAll(List.of(flags));
 	}
 
-	/**
-	 * @param flag The flag to check for.
-	 * @return Whether this {@link Command command} has the flag.
-	 * @see #getFlags()
-	 * @see #addFlags(CommandFlag...)
-	 */
 	public boolean hasFlag(@Nonnull CommandFlag flag)
 	{
 		return this.flags.contains(flag);
