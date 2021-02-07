@@ -1,5 +1,4 @@
-FROM openjdk:15
+FROM openjdk:15-alpine
 WORKDIR /home/monkebot/
 COPY build/libs/Monke-all.jar Monke.jar
-RUN apk update && apk upgrade
 ENTRYPOINT java -jar Monke.jar
