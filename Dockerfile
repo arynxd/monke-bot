@@ -1,12 +1,5 @@
-FROM gradle:6.8.1-jdk15
-WORKDIR /home/monkebot
-COPY . /home/gradle/
-
-RUN cd /home/gradle/ &&\
-		cp /home/gradle/gradle.properties.example /home/gradle/gradle.properties &&\
-		gradle shadowJar &&\
-	 	cp /home/gradle/build/libs/Monke-*-all.jar /home/monkebot/Monke.jar &&\
-	  rm -rf /home/gradle/* &&\
-		cd /home/monkebot
-
+FROM openjdk:15
+WORKDIR /home/monkebot/
+COPY build/libs/Monke-all.jar Monke.jar
+RUN apk update && apk upgrade
 ENTRYPOINT java -jar Monke.jar
