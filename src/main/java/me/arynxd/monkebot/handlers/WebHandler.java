@@ -10,22 +10,13 @@ import me.arynxd.monkebot.web.invite.InviteDiscordRoute;
 import me.arynxd.monkebot.web.shards.ShardsRoute;
 import net.dv8tion.jda.api.utils.data.DataObject;
 
-import static io.javalin.apibuilder.ApiBuilder.*;
+import static io.javalin.apibuilder.ApiBuilder.get;
+import static io.javalin.apibuilder.ApiBuilder.path;
 
 public class WebHandler
 {
 	private final Monke monke;
 	private final Javalin javalin;
-
-	public Monke getMonke()
-	{
-		return monke;
-	}
-
-	public Javalin getJavalin()
-	{
-		return javalin;
-	}
 
 	public WebHandler(Monke monke)
 	{
@@ -38,14 +29,24 @@ public class WebHandler
 					path("/info", () -> get(new InfoRoute(this)));
 
 					path("/invite", () ->
-						{
-							get(new InviteBotRoute(this));
-							path("/bot", () -> get(new InviteBotRoute(this)));
-							path("/discord", () -> get(new InviteDiscordRoute(this)));
-						});
+					{
+						get(new InviteBotRoute(this));
+						path("/bot", () -> get(new InviteBotRoute(this)));
+						path("/discord", () -> get(new InviteDiscordRoute(this)));
+					});
 
 					path("/health", () -> get(ctx -> ctx.result("Healthy")));
 				}).start(4444);
+	}
+
+	public Monke getMonke()
+	{
+		return monke;
+	}
+
+	public Javalin getJavalin()
+	{
+		return javalin;
 	}
 
 	public void ok(Context context, DataObject payload)

@@ -5,7 +5,6 @@ import java.util.List;
 import me.arynxd.monkebot.Monke;
 import me.arynxd.monkebot.entities.cache.GuildSettingsCache;
 import me.arynxd.monkebot.entities.command.CommandEvent;
-import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;

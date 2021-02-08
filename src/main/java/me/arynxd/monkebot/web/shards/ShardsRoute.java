@@ -24,12 +24,12 @@ public class ShardsRoute implements Handler
 				.put("shards", DataArray.fromCollection(
 						webHandler.getMonke().getShardManager().getShardCache().stream().map(
 								shard -> DataObject.empty()
-									.put("id", shard.getShardInfo().getShardId())
-									.put("guilds", shard.getGuildCache().size())
-									.put("status", shard.getStatus().name())
-									.put("ping", shard.getGatewayPing())
+										.put("id", shard.getShardInfo().getShardId())
+										.put("guilds", shard.getGuildCache().size())
+										.put("status", shard.getStatus().name())
+										.put("ping", shard.getGatewayPing())
 
-				).collect(Collectors.toList())))
+						).collect(Collectors.toList())))
 		);
 	}
 }

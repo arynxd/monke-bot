@@ -50,14 +50,9 @@ public class Monke extends ListenerAdapter
 	private final TaskHandler taskHandler;
 	private final EventWaiter eventWaiter;
 	private final WebHandler webHandler;
-	private ShardManager shardManager;
+	private final PrometheusHandler prometheusHandler;
 	private final Logger logger;
-
-	public WebHandler getWebHandler()
-	{
-		return webHandler;
-	}
-
+	private ShardManager shardManager;
 	private JDA jda;
 
 	public Monke()
@@ -73,6 +68,17 @@ public class Monke extends ListenerAdapter
 		this.okHttpClient = new OkHttpClient();
 		this.musicHandler = new MusicHandler(this);
 		this.webHandler = new WebHandler(this);
+		this.prometheusHandler = new PrometheusHandler(this);
+	}
+
+	public WebHandler getWebHandler()
+	{
+		return webHandler;
+	}
+
+	public PrometheusHandler getPrometheusHandler()
+	{
+		return prometheusHandler;
 	}
 
 	public OkHttpClient getOkHttpClient()
@@ -118,6 +124,7 @@ public class Monke extends ListenerAdapter
 				.addEventListeners(
 						this,
 						eventWaiter,
+						prometheusHandler,
 
 						new MessageEventsMain(this),
 						new GuildEventsMain(this),

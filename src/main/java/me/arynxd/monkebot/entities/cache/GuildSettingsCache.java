@@ -94,12 +94,14 @@ public class GuildSettingsCache implements ICache<String, CachedGuildSetting>
 		values.forEach(this::remove);
 	}
 
-	public @Nonnull Long getLogChannel()
+	public @Nonnull
+	Long getLogChannel()
 	{
 		return cacheGetLong("logchannel", GUILDS.LOG_CHANNEL);
 	}
 
-	public @Nonnull Long getLevelUpBot()
+	public @Nonnull
+	Long getLevelUpBot()
 	{
 		return cacheGetLong("levelupbot", GUILDS.LEVEL_UP_BOT);
 	}
@@ -109,47 +111,56 @@ public class GuildSettingsCache implements ICache<String, CachedGuildSetting>
 		cachePut("levelupbot", GUILDS.LEVEL_UP_BOT, newId);
 	}
 
-	public @Nonnull Long getUnverifiedRole()
+	public @Nonnull
+	Long getUnverifiedRole()
 	{
 		return cacheGetLong("unverifiedrole", GUILDS.UNVERIFIED_ROLE);
 	}
 
-	public @Nonnull Long getReportChannel()
+	public @Nonnull
+	Long getReportChannel()
 	{
 		return cacheGetLong("reportchannel", GUILDS.REPORT_CHANNEL);
 	}
 
-	public @Nonnull Long getWelcomeChannel()
+	public @Nonnull
+	Long getWelcomeChannel()
 	{
 		return cacheGetLong("welcomechannel", GUILDS.WELCOME_CHANNEL);
 	}
 
-	public @Nonnull Long getVoteChannel()
+	public @Nonnull
+	Long getVoteChannel()
 	{
 		return cacheGetLong("votechannel", GUILDS.VOTE_CHANNEL);
 	}
 
-	public @Nonnull Long getTempBanRole()
+	public @Nonnull
+	Long getTempBanRole()
 	{
 		return cacheGetLong("tempbanrole", GUILDS.MUTED_ROLE);
 	}
 
-	public @Nonnull Long getSuggestionChannel()
+	public @Nonnull
+	Long getSuggestionChannel()
 	{
 		return cacheGetLong("suggestionchannel", GUILDS.SUGGESTION_CHANNEL);
 	}
 
-	public @Nonnull Long getChannelSuggestionChannel()
+	public @Nonnull
+	Long getChannelSuggestionChannel()
 	{
 		return cacheGetLong("channelsuggestionchannel", GUILDS.CHANNEL_SUGGESTION_CHANNEL);
 	}
 
-	public @Nonnull Long getVerifiedRole()
+	public @Nonnull
+	Long getVerifiedRole()
 	{
 		return cacheGetLong("verifiedrole", GUILDS.VERIFIED_ROLE);
 	}
 
-	public @Nonnull Language getLanguage()
+	public @Nonnull
+	Language getLanguage()
 	{
 		String language = cacheGetString("language", GUILDS.PREFERED_LANGUAGE);
 		if(language == null)
@@ -164,7 +175,8 @@ public class GuildSettingsCache implements ICache<String, CachedGuildSetting>
 		setField(GUILDS.PREFERED_LANGUAGE, newLanguage.getLanguageCode());
 	}
 
-	public @Nonnull String getPrefix()
+	public @Nonnull
+	String getPrefix()
 	{
 		String prefix = cacheGetString("prefix", GUILDS.PREFIX);
 		if(prefix == null)
