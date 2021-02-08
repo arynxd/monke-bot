@@ -71,5 +71,10 @@ public class MusicHandler
 			}
 		});
 	}
+
+	public int getPlayers()
+	{
+		return musicHandlers.size();
+	}
 }
 

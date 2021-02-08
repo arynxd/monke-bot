@@ -17,7 +17,7 @@ public class GuildSettingsCache implements ICache<String, CachedGuildSetting>
 {
 	private static final Map<Long, GuildSettingsCache> GUILD_CACHES = new ConcurrentHashMap<>();
 
-	private static final Map<String, CachedGuildSetting> cachedValues = new ConcurrentHashMap<>();
+	private final Map<String, CachedGuildSetting> cachedValues = new ConcurrentHashMap<>();
 
 	private final Monke monke;
 	private final Long guildId;
@@ -94,7 +94,8 @@ public class GuildSettingsCache implements ICache<String, CachedGuildSetting>
 		values.forEach(this::remove);
 	}
 
-	public Long getLogChannel()
+	public @Nonnull
+	Long getLogChannel()
 	{
 		return cacheGetLong("logchannel", GUILDS.LOG_CHANNEL);
 	}
@@ -244,7 +245,7 @@ public class GuildSettingsCache implements ICache<String, CachedGuildSetting>
 		try(Connection connection = monke.getDatabaseHandler().getConnection())
 		{
 			var context = monke.getDatabaseHandler().getContext(connection);
-			context.update(me.arynxd.monkebot.entities.jooq.Tables.GUILDS).set(field, value).where(GUILDS.GUILD_ID.eq(guildId)).execute();
+			context.update(GUILDS).set(field, value).where(GUILDS.GUILD_ID.eq(guildId)).execute();
 		}
 		catch(Exception exception)
 		{

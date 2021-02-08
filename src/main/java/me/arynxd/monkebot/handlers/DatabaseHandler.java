@@ -108,13 +108,13 @@ public class DatabaseHandler
 	{
 		LOGGER.debug("Starting local HikariCP setup.");
 		HikariConfig hikariConfig = new HikariConfig();
-		Configuration configuration = monke.getConfig();
+		Configuration configuration = monke.getConfiguration();
 
 		hikariConfig.setDriverClassName(configuration.getString(ConfigOption.LOCALDRIVER));
 		hikariConfig.setJdbcUrl(configuration.getString(ConfigOption.LOCALURL));
 
-		hikariConfig.setUsername(monke.getConfig().getString(ConfigOption.LOCALUSERNAME));
-		hikariConfig.setPassword(monke.getConfig().getString(ConfigOption.LOCALPASSWORD));
+		hikariConfig.setUsername(monke.getConfiguration().getString(ConfigOption.LOCALUSERNAME));
+		hikariConfig.setPassword(monke.getConfiguration().getString(ConfigOption.LOCALPASSWORD));
 
 		hikariConfig.setMaximumPoolSize(30);
 		hikariConfig.setMinimumIdle(10);

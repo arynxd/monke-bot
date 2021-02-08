@@ -35,12 +35,14 @@ public class CommandEvent
 		this.args = args;
 	}
 
-	public @Nonnull List<String> getArgs()
+	public @Nonnull
+	List<String> getArgs()
 	{
 		return args;
 	}
 
-	public @Nonnull String getPrefix()
+	public @Nonnull
+	String getPrefix()
 	{
 		if(!isFromGuild())
 		{
@@ -175,7 +177,7 @@ public class CommandEvent
 	public @Nonnull
 	Boolean isDeveloper()
 	{
-		return List.of(monke.getConfig().getString(ConfigOption.PRIVILEGEDUSERS).split(",")).contains(getAuthor().getId());
+		return List.of(monke.getConfiguration().getString(ConfigOption.PRIVILEGEDUSERS).split(",")).contains(getAuthor().getId());
 	}
 
 	public @Nonnull
@@ -208,7 +210,8 @@ public class CommandEvent
 		getChannel().sendMessage(embed.setColor(Constants.EMBED_COLOUR).setTimestamp(Instant.now()).build()).queue();
 	}
 
-	public @Nonnull Boolean selfPermissionCheck(List<Permission> permissions)
+	public @Nonnull
+	Boolean selfPermissionCheck(List<Permission> permissions)
 	{
 		return event.getGuild().getSelfMember().hasPermission(permissions);
 	}
