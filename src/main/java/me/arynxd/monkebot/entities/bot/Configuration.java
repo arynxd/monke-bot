@@ -7,8 +7,8 @@ import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import javax.annotation.Nonnull;
 import me.arynxd.monkebot.Monke;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,7 +20,7 @@ public class Configuration
 	private final Monke monke;
 	private final List<ConfigurationValue> configValues;
 
-	public Configuration(@Nonnull Monke monke)
+	public Configuration(@NotNull Monke monke)
 	{
 		this.monke = monke;
 		initFolder();
@@ -129,8 +129,7 @@ public class Configuration
 		}
 	}
 
-	public @Nonnull
-	String getString(ConfigOption configOption)
+	public @NotNull String getString(ConfigOption configOption)
 	{
 		synchronized(configValues)
 		{

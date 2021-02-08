@@ -3,11 +3,11 @@ package me.arynxd.monkebot.entities.database;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
-import javax.annotation.Nonnull;
 import me.arynxd.monkebot.Monke;
 import me.arynxd.monkebot.entities.jooq.Tables;
 import me.arynxd.monkebot.entities.jooq.tables.pojos.Levels;
 import net.dv8tion.jda.api.entities.Role;
+import org.jetbrains.annotations.NotNull;
 
 import static me.arynxd.monkebot.entities.jooq.tables.Levels.LEVELS;
 
@@ -18,7 +18,7 @@ public class Level
 		//Overrides the default, public, constructor
 	}
 
-	public static void addLevel(@Nonnull Role role, @Nonnull Integer level, @Nonnull Long guildId, @Nonnull Monke igsqbot)
+	public static void addLevel(@NotNull Role role, @NotNull Integer level, @NotNull Long guildId, @NotNull Monke igsqbot)
 	{
 		try(Connection connection = igsqbot.getDatabaseHandler().getConnection())
 		{
@@ -36,8 +36,7 @@ public class Level
 		}
 	}
 
-	public static @Nonnull
-	Boolean removeLevel(@Nonnull Role role, @Nonnull Integer level, @Nonnull Long guildId, @Nonnull Monke igsqbot)
+	public static @NotNull Boolean removeLevel(@NotNull Role role, @NotNull Integer level, @NotNull Long guildId, @NotNull Monke igsqbot)
 	{
 		try(Connection connection = igsqbot.getDatabaseHandler().getConnection())
 		{
@@ -57,8 +56,7 @@ public class Level
 		}
 	}
 
-	public static @Nonnull
-	List<Levels> getLevels(@Nonnull Long guildId, @Nonnull Monke igsqbot)
+	public static @NotNull List<Levels> getLevels(@NotNull Long guildId, @NotNull Monke igsqbot)
 	{
 		List<Levels> result = new ArrayList<>();
 		try(Connection connection = igsqbot.getDatabaseHandler().getConnection())

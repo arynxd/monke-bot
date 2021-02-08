@@ -3,11 +3,11 @@ package me.arynxd.monkebot.entities.command;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import me.arynxd.monkebot.entities.exception.*;
 import me.arynxd.monkebot.util.EmbedUtils;
 import net.dv8tion.jda.api.Permission;
+import org.jetbrains.annotations.NotNull;
 
 public abstract class Command
 {
@@ -25,7 +25,7 @@ public abstract class Command
 	private boolean isDisabled;
 	private long cooldown;
 
-	protected Command(@Nullable Command parent, @Nonnull String name, @Nonnull String description, @Nonnull String syntax)
+	protected Command(@Nullable Command parent, @NotNull String name, @NotNull String description, @NotNull String syntax)
 	{
 		this.parent = parent;
 		this.name = name;
@@ -40,7 +40,7 @@ public abstract class Command
 		this.flags = new ArrayList<>();
 	}
 
-	protected Command(@Nonnull String name, @Nonnull String description, @Nonnull String syntax)
+	protected Command(@NotNull String name, @NotNull String description, @NotNull String syntax)
 	{
 		this.parent = null;
 		this.name = name;
@@ -55,7 +55,7 @@ public abstract class Command
 		this.flags = new ArrayList<>();
 	}
 
-	public void process(@Nonnull CommandEvent event)
+	public void process(@NotNull CommandEvent event)
 	{
 		if(hasFlag(CommandFlag.GUILD_ONLY) && !event.isFromGuild())
 		{
@@ -87,7 +87,7 @@ public abstract class Command
 		}
 	}
 
-	private void execute(@Nonnull CommandEvent event)
+	private void execute(@NotNull CommandEvent event)
 	{
 		if(hasFlag(CommandFlag.AUTO_DELETE_MESSAGE) && event.selfPermissionCheck(Permission.MESSAGE_MANAGE))
 		{
@@ -131,27 +131,24 @@ public abstract class Command
 		});
 	}
 
-	public @Nonnull
-	Boolean hasChildren()
+	public @NotNull Boolean hasChildren()
 	{
 		return !getChildren().isEmpty();
 	}
 
-	public @Nonnull
-	Boolean hasParent()
+	public @NotNull Boolean hasParent()
 	{
 		return parent != null;
 	}
 
-	public abstract void run(@Nonnull List<String> args, @Nonnull CommandEvent event, @Nonnull Consumer<CommandException> failure);
+	public abstract void run(@NotNull List<String> args, @NotNull CommandEvent event, @NotNull Consumer<CommandException> failure);
 
-	public @Nonnull
-	Long getCooldown()
+	public @NotNull Long getCooldown()
 	{
 		return cooldown;
 	}
 
-	public void setCooldown(@Nonnull Long millis)
+	public void setCooldown(@NotNull Long millis)
 	{
 		this.cooldown = millis;
 	}
@@ -161,91 +158,83 @@ public abstract class Command
 		return isDisabled;
 	}
 
-	public void setDisabled(@Nonnull Boolean newState)
+	public void setDisabled(@NotNull Boolean newState)
 	{
 		isDisabled = newState;
 	}
 
-	public @Nullable
-	Command getParent()
+	public @Nullable Command getParent()
 	{
 		return parent;
 	}
 
-	public @Nonnull
-	String getName()
+	public @NotNull String getName()
 	{
 		return name;
 	}
 
-	public @Nonnull
-	String getDescription()
+	public @NotNull String getDescription()
 	{
 		return description;
 	}
 
-	public @Nonnull
-	String getSyntax()
+	public @NotNull String getSyntax()
 	{
 		return syntax;
 	}
 
-	public @Nonnull
-	List<Command> getChildren()
+	public @NotNull List<Command> getChildren()
 	{
 		return children;
 	}
 
-	public @Nonnull
-	List<String> getAliases()
+	public @NotNull List<String> getAliases()
 	{
 		return aliases;
 	}
 
-	public void addChildren(@Nonnull Command... children)
+	public void addChildren(@NotNull Command... children)
 	{
 		this.children.addAll(List.of(children));
 	}
 
-	public void addAliases(@Nonnull String... aliases)
+	public void addAliases(@NotNull String... aliases)
 	{
 		this.aliases.addAll(List.of(aliases));
 	}
 
-	public @Nonnull
-	List<Permission> getMemberRequiredPermissions()
+	public @NotNull List<Permission> getMemberRequiredPermissions()
 	{
 		return memberRequiredPermissions;
 	}
 
-	public void addMemberPermissions(@Nonnull Permission... permissions)
+	public void addMemberPermissions(@NotNull Permission... permissions)
 	{
 		this.memberRequiredPermissions.addAll(List.of(permissions));
 	}
 
-	public void addSelfPermissions(@Nonnull Permission... permissions)
+	public void addSelfPermissions(@NotNull Permission... permissions)
 	{
 		this.selfRequiredPermissions.addAll(List.of(permissions));
 	}
 
-	@Nonnull
-	public List<Permission> getSelfRequiredPermissions()
+	public @NotNull List<Permission> getSelfRequiredPermissions()
 	{
 		return selfRequiredPermissions;
 	}
 
-	@Nonnull
-	public List<CommandFlag> getFlags()
+
+	public @NotNull List<CommandFlag> getFlags()
 	{
 		return flags;
 	}
 
-	public void addFlags(@Nonnull CommandFlag... flags)
+	public void addFlags(@NotNull CommandFlag... flags)
 	{
 		this.flags.addAll(List.of(flags));
 	}
 
-	public boolean hasFlag(@Nonnull CommandFlag flag)
+	public boolean hasFlag(@NotNull CommandFlag flag)
 	{
 		return this.flags.contains(flag);
 	}

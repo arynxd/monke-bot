@@ -3,7 +3,6 @@ package me.arynxd.monkebot.commands.commands.developer;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Consumer;
-import javax.annotation.Nonnull;
 import me.arynxd.monkebot.entities.command.Command;
 import me.arynxd.monkebot.entities.command.CommandEvent;
 import me.arynxd.monkebot.entities.command.CommandFlag;
@@ -15,6 +14,7 @@ import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.internal.requests.RestActionImpl;
 import net.dv8tion.jda.internal.requests.Route;
+import org.jetbrains.annotations.NotNull;
 
 @SuppressWarnings("unused")
 public class JsonCommand extends Command
@@ -27,7 +27,7 @@ public class JsonCommand extends Command
 	}
 
 	@Override
-	public void run(@Nonnull List<String> args, @Nonnull CommandEvent event, @Nonnull Consumer<CommandException> failure)
+	public void run(@NotNull List<String> args, @NotNull CommandEvent event, @NotNull Consumer<CommandException> failure)
 	{
 		if(CommandChecks.argsEmpty(event, failure)) return;
 

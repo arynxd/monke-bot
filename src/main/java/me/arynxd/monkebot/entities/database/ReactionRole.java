@@ -4,11 +4,11 @@ import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import javax.annotation.Nonnull;
 import me.arynxd.monkebot.Monke;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
+import org.jetbrains.annotations.NotNull;
 
 import static me.arynxd.monkebot.entities.jooq.tables.ReactionRoles.REACTION_ROLES;
 
@@ -20,7 +20,7 @@ public class ReactionRole
 	private final Monke igsqbot;
 	private final long guildId;
 
-	public ReactionRole(@Nonnull Long messageId, @Nonnull Long roleId, @Nonnull Long guildId, @Nonnull String emote, @Nonnull Monke monke)
+	public ReactionRole(@NotNull Long messageId, @NotNull Long roleId, @NotNull Long guildId, @NotNull String emote, @NotNull Monke monke)
 	{
 		this.messageId = messageId;
 		this.roleId = roleId;
@@ -29,8 +29,7 @@ public class ReactionRole
 		this.igsqbot = monke;
 	}
 
-	public static @Nonnull
-	List<ReactionRole> getByMessageId(@Nonnull Long messageId, @Nonnull Monke igsqbot)
+	public static @NotNull List<ReactionRole> getByMessageId(@NotNull Long messageId, @NotNull Monke igsqbot)
 	{
 		try(Connection connection = igsqbot.getDatabaseHandler().getConnection())
 		{
@@ -80,31 +79,27 @@ public class ReactionRole
 		}
 	}
 
-	public @Nonnull
-	Long getMessageId()
+	public @NotNull Long getMessageId()
 	{
 		return messageId;
 	}
 
-	public @Nonnull
-	Long getRoleId()
+	public @NotNull Long getRoleId()
 	{
 		return roleId;
 	}
 
-	public @Nonnull
-	String getEmote()
+	public @NotNull String getEmote()
 	{
 		return emote;
 	}
 
-	public @Nonnull
-	Long getGuildId()
+	public @NotNull Long getGuildId()
 	{
 		return guildId;
 	}
 
-	public void addRole(@Nonnull Member member)
+	public void addRole(@NotNull Member member)
 	{
 		Guild guild = igsqbot.getShardManager().getGuildById(guildId);
 		if(guild != null)
@@ -117,7 +112,7 @@ public class ReactionRole
 		}
 	}
 
-	public void removeRole(@Nonnull Member member)
+	public void removeRole(@NotNull Member member)
 	{
 		Guild guild = igsqbot.getShardManager().getGuildById(guildId);
 		if(guild != null)
@@ -146,8 +141,7 @@ public class ReactionRole
 		}
 	}
 
-	public @Nonnull
-	Boolean isPresent()
+	public @NotNull Boolean isPresent()
 	{
 		try(Connection connection = igsqbot.getDatabaseHandler().getConnection())
 		{

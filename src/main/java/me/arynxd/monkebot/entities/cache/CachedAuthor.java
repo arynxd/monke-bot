@@ -1,7 +1,7 @@
 package me.arynxd.monkebot.entities.cache;
 
-import javax.annotation.Nonnull;
 import net.dv8tion.jda.api.entities.User;
+import org.jetbrains.annotations.NotNull;
 
 public class CachedAuthor implements ICacheableEntity<Long, CachedAuthor>
 {
@@ -9,35 +9,31 @@ public class CachedAuthor implements ICacheableEntity<Long, CachedAuthor>
 	private final String mentionable;
 	private final long id;
 
-	public CachedAuthor(@Nonnull User user)
+	public CachedAuthor(@NotNull User user)
 	{
 		this.isBot = user.isBot();
 		this.mentionable = user.getAsMention();
 		this.id = user.getIdLong();
 	}
 
-	public @Nonnull
-	Boolean isBot()
+	public @NotNull Boolean isBot()
 	{
 		return isBot;
 	}
 
-	public @Nonnull
-	String getAsMention()
+	public @NotNull String getAsMention()
 	{
 		return mentionable;
 	}
 
 	@Override
-	public @Nonnull
-	Long getKey()
+	public @NotNull Long getKey()
 	{
 		return id;
 	}
 
 	@Override
-	public @Nonnull
-	CachedAuthor getData()
+	public @NotNull CachedAuthor getData()
 	{
 		return this;
 	}

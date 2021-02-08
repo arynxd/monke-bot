@@ -91,6 +91,11 @@ public class CommandHandler
 
 		if(event.isFromGuild())
 		{
+			if(!event.getTextChannel().canTalk())
+			{
+				return;
+			}
+
 			handleGuild(event);
 		}
 		else

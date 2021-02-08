@@ -25,6 +25,11 @@ public class StringUtils
 		}
 	}
 
+	public static String plurify(int number)
+	{
+		return number == 1 ? "" : "s";
+	}
+
 	public static String parseToEmote(int number)
 	{
 		return switch(number)

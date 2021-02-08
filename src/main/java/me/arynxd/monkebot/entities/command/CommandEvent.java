@@ -4,7 +4,6 @@ import java.time.Instant;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
-import javax.annotation.Nonnull;
 import me.arynxd.monkebot.Constants;
 import me.arynxd.monkebot.Monke;
 import me.arynxd.monkebot.entities.Emoji;
@@ -16,6 +15,7 @@ import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,7 +27,7 @@ public class CommandEvent
 	private final Command command;
 	private final List<String> args;
 
-	public CommandEvent(@Nonnull MessageReceivedEvent event, @Nonnull Monke monke, @Nonnull Command command, @Nonnull List<String> args)
+	public CommandEvent(@NotNull MessageReceivedEvent event, @NotNull Monke monke, @NotNull Command command, @NotNull List<String> args)
 	{
 		this.event = event;
 		this.monke = monke;
@@ -35,14 +35,12 @@ public class CommandEvent
 		this.args = args;
 	}
 
-	public @Nonnull
-	List<String> getArgs()
+	public @NotNull List<String> getArgs()
 	{
 		return args;
 	}
 
-	public @Nonnull
-	String getPrefix()
+	public @NotNull String getPrefix()
 	{
 		if(!isFromGuild())
 		{
@@ -54,8 +52,7 @@ public class CommandEvent
 		}
 	}
 
-	public @Nonnull
-	Member getSelfMember()
+	public @NotNull Member getSelfMember()
 	{
 		return getGuild().getSelfMember();
 	}
@@ -76,32 +73,27 @@ public class CommandEvent
 				error -> LOGGER.debug("A command exception occurred", error));
 	}
 
-	public @Nonnull
-	Monke getMonke()
+	public @NotNull Monke getMonke()
 	{
 		return monke;
 	}
 
-	public @Nonnull
-	Command getCommand()
+	public @NotNull Command getCommand()
 	{
 		return command;
 	}
 
-	public @Nonnull
-	MessageChannel getChannel()
+	public @NotNull MessageChannel getChannel()
 	{
 		return event.getChannel();
 	}
 
-	public @Nonnull
-	Message getMessage()
+	public @NotNull Message getMessage()
 	{
 		return event.getMessage();
 	}
 
-	public @Nonnull
-	Guild getGuild()
+	public @NotNull Guild getGuild()
 	{
 		if(event.isFromGuild())
 		{
@@ -110,44 +102,37 @@ public class CommandEvent
 		throw new IllegalStateException("Cannot get the guild of a private channel.");
 	}
 
-	public @Nonnull
-	Long getGuildIdLong()
+	public @NotNull Long getGuildIdLong()
 	{
 		return getGuild().getIdLong();
 	}
 
-	public @Nonnull
-	User getAuthor()
+	public @NotNull User getAuthor()
 	{
 		return event.getAuthor();
 	}
 
-	public @Nonnull
-	JDA getJDA()
+	public @NotNull JDA getJDA()
 	{
 		return event.getJDA();
 	}
 
-	public @Nonnull
-	Boolean isChild()
+	public @NotNull Boolean isChild()
 	{
 		return command.getParent() != null;
 	}
 
-	public @Nonnull
-	ChannelType getChannelType()
+	public @NotNull ChannelType getChannelType()
 	{
 		return event.getChannelType();
 	}
 
-	public @Nonnull
-	MessageReceivedEvent getEvent()
+	public @NotNull MessageReceivedEvent getEvent()
 	{
 		return event;
 	}
 
-	public @Nonnull
-	Member getMember()
+	public @NotNull Member getMember()
 	{
 		return Objects.requireNonNull(event.getMember());
 	}
@@ -158,8 +143,7 @@ public class CommandEvent
 		EmbedUtils.sendError(getChannel(), errorText);
 	}
 
-	public @Nonnull
-	TextChannel getTextChannel()
+	public @NotNull TextChannel getTextChannel()
 	{
 		if(!isFromGuild())
 		{
@@ -174,32 +158,27 @@ public class CommandEvent
 		EmbedUtils.sendSuccess(getChannel(), successText);
 	}
 
-	public @Nonnull
-	Boolean isDeveloper()
+	public @NotNull Boolean isDeveloper()
 	{
 		return List.of(monke.getConfiguration().getString(ConfigOption.PRIVILEGEDUSERS).split(",")).contains(getAuthor().getId());
 	}
 
-	public @Nonnull
-	Boolean isFromGuild()
+	public @NotNull Boolean isFromGuild()
 	{
 		return event.isFromGuild();
 	}
 
-	public @Nonnull
-	Boolean memberPermissionCheck(List<Permission> permissions)
+	public @NotNull Boolean memberPermissionCheck(List<Permission> permissions)
 	{
 		return (event.getMember() != null && event.getMember().hasPermission((GuildChannel) event.getChannel(), permissions));
 	}
 
-	public @Nonnull
-	Boolean memberPermissionCheck(Permission... permissions)
+	public @NotNull Boolean memberPermissionCheck(Permission... permissions)
 	{
 		return (event.getMember() != null && event.getMember().hasPermission((GuildChannel) event.getChannel(), permissions));
 	}
 
-	public @Nonnull
-	Boolean selfPermissionCheck(Permission... permissions)
+	public @NotNull Boolean selfPermissionCheck(Permission... permissions)
 	{
 		return event.getGuild().getSelfMember().hasPermission(permissions);
 	}
@@ -210,8 +189,7 @@ public class CommandEvent
 		getChannel().sendMessage(embed.setColor(Constants.EMBED_COLOUR).setTimestamp(Instant.now()).build()).queue();
 	}
 
-	public @Nonnull
-	Boolean selfPermissionCheck(List<Permission> permissions)
+	public @NotNull Boolean selfPermissionCheck(List<Permission> permissions)
 	{
 		return event.getGuild().getSelfMember().hasPermission(permissions);
 	}

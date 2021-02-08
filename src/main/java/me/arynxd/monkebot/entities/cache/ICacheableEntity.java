@@ -1,8 +1,10 @@
 package me.arynxd.monkebot.entities.cache;
 
+import org.jetbrains.annotations.NotNull;
+
 public interface ICacheableEntity<K, V>
 {
-	K getKey();
+	@NotNull K getKey();
 
-	V getData();
+	@NotNull V getData();
 }
