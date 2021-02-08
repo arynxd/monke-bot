@@ -175,7 +175,7 @@ public class CommandEvent
 	public @Nonnull
 	Boolean isDeveloper()
 	{
-		return List.of(monke.getConfig().getString(ConfigOption.PRIVILEGEDUSERS).split(",")).contains(getAuthor().getId());
+		return List.of(monke.getConfiguration().getString(ConfigOption.PRIVILEGEDUSERS).split(",")).contains(getAuthor().getId());
 	}
 
 	public @Nonnull

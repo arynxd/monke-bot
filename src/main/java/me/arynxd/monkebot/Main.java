@@ -14,7 +14,7 @@ public class Main
 		LOGGER.debug("Beginning startup sequence.");
 		try
 		{
-			bot.getConfig();
+			bot.getConfiguration();
 			bot.build();
 			LOGGER.debug("Bot built successfully.");
 		}

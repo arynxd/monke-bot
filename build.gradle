@@ -20,6 +20,9 @@ dependencies {
     implementation 'ch.qos.logback:logback-classic:1.2.3'
     implementation 'net.jodah:expiringmap:0.5.9'
 
+    //Frontend
+    implementation "io.javalin:javalin:3.12.0"
+
     //Eval
     implementation 'org.codehaus.groovy:groovy-jsr223:3.0.7'
 

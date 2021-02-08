@@ -18,10 +18,7 @@ import me.arynxd.monkebot.events.logging.MessageEventsLogging;
 import me.arynxd.monkebot.events.logging.VoiceEventsLogging;
 import me.arynxd.monkebot.events.main.GuildEventsMain;
 import me.arynxd.monkebot.events.main.MessageEventsMain;
-import me.arynxd.monkebot.handlers.CommandHandler;
-import me.arynxd.monkebot.handlers.DatabaseHandler;
-import me.arynxd.monkebot.handlers.MusicHandler;
-import me.arynxd.monkebot.handlers.TaskHandler;
+import me.arynxd.monkebot.handlers.*;
 import me.arynxd.monkebot.util.DatabaseUtils;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
@@ -52,8 +49,15 @@ public class Monke extends ListenerAdapter
 	private final OkHttpClient okHttpClient;
 	private final TaskHandler taskHandler;
 	private final EventWaiter eventWaiter;
-	private final Logger logger;
+	private final WebHandler webHandler;
 	private ShardManager shardManager;
+	private final Logger logger;
+
+	public WebHandler getWebHandler()
+	{
+		return webHandler;
+	}
+
 	private JDA jda;
 
 	public Monke()
@@ -68,6 +72,7 @@ public class Monke extends ListenerAdapter
 		this.eventWaiter = new EventWaiter();
 		this.okHttpClient = new OkHttpClient();
 		this.musicHandler = new MusicHandler(this);
+		this.webHandler = new WebHandler(this);
 	}
 
 	public OkHttpClient getOkHttpClient()
@@ -88,7 +93,7 @@ public class Monke extends ListenerAdapter
 	public void build() throws LoginException
 	{
 		this.shardManager = DefaultShardManagerBuilder
-				.create(getConfig().getString(ConfigOption.TOKEN),
+				.create(getConfiguration().getString(ConfigOption.TOKEN),
 						GatewayIntent.GUILD_MEMBERS,
 
 						GatewayIntent.DIRECT_MESSAGES,
@@ -235,7 +240,7 @@ public class Monke extends ListenerAdapter
 		return this.shardManager;
 	}
 
-	public Configuration getConfig()
+	public Configuration getConfiguration()
 	{
 		return this.configuration;
 	}
