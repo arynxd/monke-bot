@@ -54,9 +54,9 @@ public class MusicQueueCommand extends Command
 			trackString += "In the queue: \n" + String.join("\n\n", tracks);
 		}
 
-		if(size > 0)
+		if(size >= 4)
 		{
-			trackString += "\n\n[" + (size - 4) + " more tracks]";
+			trackString += "\n\n[" + (size - 5) + " more tracks]";
 		}
 
 		if(trackString.isBlank())

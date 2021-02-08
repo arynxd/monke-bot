@@ -47,7 +47,6 @@ public class CommandUtils
 
 	public static int getLevelUp(MessageReceivedEvent event, Monke monke)
 	{
-		Guild guild = event.getGuild();
 		Member member = event.getMember();
 		long levelBot = GuildSettingsCache.getCache(event.getGuild().getIdLong(), monke).getLevelUpBot();
 
