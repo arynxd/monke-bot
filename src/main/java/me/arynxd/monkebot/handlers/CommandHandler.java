@@ -8,7 +8,6 @@ import java.util.*;
 import java.util.stream.Collectors;
 import me.arynxd.monkebot.Constants;
 import me.arynxd.monkebot.Monke;
-import me.arynxd.monkebot.entities.bot.Metrics;
 import me.arynxd.monkebot.entities.cache.GuildSettingsCache;
 import me.arynxd.monkebot.entities.command.Command;
 import me.arynxd.monkebot.entities.command.CommandEvent;
@@ -189,7 +188,6 @@ public class CommandHandler
 
 		args.remove(0);
 		CommandEvent commandEvent = new CommandEvent(event, monke, cmd, args);
-		Metrics.COMMAND_COUNTER.labels(cmd.getName()).inc();
 
 		if(!cmd.hasChildren())
 		{
