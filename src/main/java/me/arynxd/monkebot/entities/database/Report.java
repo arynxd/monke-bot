@@ -15,16 +15,16 @@ public class Report
 	private final long reportedUserId;
 	private final String reason;
 	private final Monke monke;
-	private final long reporteeUserId;
+	private final long reportingUserId;
 
-	private Report(long messageId, long commandMessageId, long channelId, long guildId, long reportedUserId, long reporteeUserId, String reason, Monke monke)
+	private Report(long messageId, long commandMessageId, long channelId, long guildId, long reportedUserId, long reportingUserId, String reason, Monke monke)
 	{
 		this.messageId = messageId;
 		this.commandMessageId = commandMessageId;
 		this.channelId = channelId;
 		this.guildId = guildId;
 		this.reportedUserId = reportedUserId;
-		this.reporteeUserId = reporteeUserId;
+		this.reportingUserId = reportingUserId;
 		this.reason = reason;
 		this.monke = monke;
 	}
@@ -55,7 +55,7 @@ public class Report
 		}
 	}
 
-	public static void add(long messageId, long commandMessageId, long channelId, long guildId, long reportedUserId, long reporteeUserId, String reason, Monke monke)
+	public static void add(long messageId, long commandMessageId, long channelId, long guildId, long reportedUserId, long reportingUserId, String reason, Monke monke)
 	{
 		try(Connection connection = monke.getDatabaseHandler().getConnection())
 		{
@@ -63,7 +63,7 @@ public class Report
 
 			ctx.insertInto(REPORTS)
 					.columns(REPORTS.MESSAGE_ID, REPORTS.REPORT_MESSAGE_ID, REPORTS.CHANNEL_ID, REPORTS.GUILD_ID, REPORTS.REPORTER_ID, REPORTS.REPORTTEE_ID, REPORTS.REPORT_TEXT)
-					.values(messageId, commandMessageId, channelId, guildId, reportedUserId, reporteeUserId, reason)
+					.values(messageId, commandMessageId, channelId, guildId, reportedUserId, reportingUserId, reason)
 					.execute();
 		}
 		catch(Exception exception)
@@ -85,9 +85,9 @@ public class Report
 		}
 	}
 
-	public long getReporteeUserId()
+	public long getReportingUserId()
 	{
-		return reporteeUserId;
+		return reportingUserId;
 	}
 
 	public long getMessageId()

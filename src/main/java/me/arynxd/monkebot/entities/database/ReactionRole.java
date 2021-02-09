@@ -17,7 +17,7 @@ public class ReactionRole
 	private final long messageId;
 	private final long roleId;
 	private final String emote;
-	private final Monke igsqbot;
+	private final Monke monke;
 	private final long guildId;
 
 	public ReactionRole(@NotNull Long messageId, @NotNull Long roleId, @NotNull Long guildId, @NotNull String emote, @NotNull Monke monke)
@@ -26,14 +26,14 @@ public class ReactionRole
 		this.roleId = roleId;
 		this.guildId = guildId;
 		this.emote = emote;
-		this.igsqbot = monke;
+		this.monke = monke;
 	}
 
-	public static @NotNull List<ReactionRole> getByMessageId(@NotNull Long messageId, @NotNull Monke igsqbot)
+	public static @NotNull List<ReactionRole> getByMessageId(@NotNull Long messageId, @NotNull Monke monke)
 	{
-		try(Connection connection = igsqbot.getDatabaseHandler().getConnection())
+		try(Connection connection = monke.getDatabaseHandler().getConnection())
 		{
-			var context = igsqbot.getDatabaseHandler().getContext(connection);
+			var context = monke.getDatabaseHandler().getContext(connection);
 			var query = context
 					.selectFrom(REACTION_ROLES)
 					.where(REACTION_ROLES.MESSAGE_ID.eq(messageId));
@@ -50,23 +50,23 @@ public class ReactionRole
 				List<ReactionRole> reactionRoles = new ArrayList<>();
 				for(var rr : result)
 				{
-					reactionRoles.add(new ReactionRole(rr.getMessageId(), rr.getRoleId(), rr.getGuildId(), rr.getEmoteId(), igsqbot));
+					reactionRoles.add(new ReactionRole(rr.getMessageId(), rr.getRoleId(), rr.getGuildId(), rr.getEmoteId(), monke));
 				}
 				return reactionRoles;
 			}
 		}
 		catch(Exception exception)
 		{
-			igsqbot.getLogger().error("An SQL error occurred", exception);
+			monke.getLogger().error("An SQL error occurred", exception);
 			return Collections.emptyList();
 		}
 	}
 
 	public void add()
 	{
-		try(Connection connection = igsqbot.getDatabaseHandler().getConnection())
+		try(Connection connection = monke.getDatabaseHandler().getConnection())
 		{
-			var context = igsqbot.getDatabaseHandler().getContext(connection);
+			var context = monke.getDatabaseHandler().getContext(connection);
 			var query = context
 					.insertInto(REACTION_ROLES)
 					.columns(REACTION_ROLES.GUILD_ID, REACTION_ROLES.MESSAGE_ID, REACTION_ROLES.ROLE_ID, REACTION_ROLES.EMOTE_ID)
@@ -75,7 +75,7 @@ public class ReactionRole
 		}
 		catch(Exception exception)
 		{
-			igsqbot.getLogger().error("An SQL error occurred", exception);
+			monke.getLogger().error("An SQL error occurred", exception);
 		}
 	}
 
@@ -101,7 +101,7 @@ public class ReactionRole
 
 	public void addRole(@NotNull Member member)
 	{
-		Guild guild = igsqbot.getShardManager().getGuildById(guildId);
+		Guild guild = monke.getShardManager().getGuildById(guildId);
 		if(guild != null)
 		{
 			Role role = guild.getRoleById(roleId);
@@ -114,7 +114,7 @@ public class ReactionRole
 
 	public void removeRole(@NotNull Member member)
 	{
-		Guild guild = igsqbot.getShardManager().getGuildById(guildId);
+		Guild guild = monke.getShardManager().getGuildById(guildId);
 		if(guild != null)
 		{
 			Role role = guild.getRoleById(roleId);
@@ -127,9 +127,9 @@ public class ReactionRole
 
 	public void remove()
 	{
-		try(Connection connection = igsqbot.getDatabaseHandler().getConnection())
+		try(Connection connection = monke.getDatabaseHandler().getConnection())
 		{
-			var context = igsqbot.getDatabaseHandler().getContext(connection);
+			var context = monke.getDatabaseHandler().getContext(connection);
 			var query = context
 					.deleteFrom(REACTION_ROLES)
 					.where(REACTION_ROLES.MESSAGE_ID.eq(messageId).and(REACTION_ROLES.ROLE_ID.eq(roleId)).and(REACTION_ROLES.EMOTE_ID.eq(emote)));
@@ -137,15 +137,15 @@ public class ReactionRole
 		}
 		catch(Exception exception)
 		{
-			igsqbot.getLogger().error("An SQL error occurred", exception);
+			monke.getLogger().error("An SQL error occurred", exception);
 		}
 	}
 
 	public @NotNull Boolean isPresent()
 	{
-		try(Connection connection = igsqbot.getDatabaseHandler().getConnection())
+		try(Connection connection = monke.getDatabaseHandler().getConnection())
 		{
-			var context = igsqbot.getDatabaseHandler().getContext(connection);
+			var context = monke.getDatabaseHandler().getContext(connection);
 			var query = context
 					.selectFrom(REACTION_ROLES)
 					.where(REACTION_ROLES.MESSAGE_ID.eq(messageId).and(REACTION_ROLES.EMOTE_ID.eq(emote)).and(REACTION_ROLES.ROLE_ID.eq(roleId)));
@@ -156,7 +156,7 @@ public class ReactionRole
 		}
 		catch(Exception exception)
 		{
-			igsqbot.getLogger().error("An SQL error occurred", exception);
+			monke.getLogger().error("An SQL error occurred", exception);
 			return false;
 		}
 	}

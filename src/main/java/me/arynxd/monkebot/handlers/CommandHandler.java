@@ -118,7 +118,7 @@ public class CommandHandler
 			prefix = Constants.DEFAULT_BOT_PREFIX;
 		}
 
-		verifyPrefixAndSend(messageContent, prefix, event);
+		runCommand(prefix, messageContent, event);
 	}
 
 
@@ -138,35 +138,30 @@ public class CommandHandler
 			deleteBlacklisted(event);
 			return;
 		}
-		verifyPrefixAndSend(messageContent, prefix, event);
+		runCommand(prefix, messageContent, event);
 	}
 
-	private void verifyPrefixAndSend(String messageContent, String prefix, MessageReceivedEvent event)
+	private void runCommand(String prefix, String content, MessageReceivedEvent event)
 	{
-		if(!messageContent.startsWith(prefix))
+		if(!content.startsWith(prefix))
 		{
 			return;
 		}
 
-		messageContent = messageContent.substring(prefix.length());
+		content = content.substring(prefix.length()); //Trim the prefix
 
 		List<String> args = Arrays
-				.stream(messageContent.split("\\s+"))
+				.stream(content.split("\\s+"))
 				.filter(arg -> !arg.isBlank())
 				.collect(Collectors.toList());
 
-		if(args.isEmpty())
+		if(args.isEmpty()) //No command was supplied, abort
 		{
 			return;
 		}
 
 		String command = args.get(0);
-		getCommand(prefix, command.strip(), args, event);
-	}
-
-	private void getCommand(String prefix, String command, List<String> args, MessageReceivedEvent event)
-	{
-		if(command.isBlank() || command.startsWith(prefix))
+		if(command.isBlank() || command.startsWith(prefix)) //Empty string passed or double prefix supplied (eg ..)
 		{
 			return;
 		}
@@ -181,7 +176,8 @@ public class CommandHandler
 				deleteBlacklisted(event);
 				return;
 			}
-			EmbedUtils.sendError(event.getChannel(), "Command `" + command + "` was not found.\n See " + prefix + "help for help.");
+			EmbedUtils.sendError(event.getChannel(), "Command `" + command + "` was not found.\n " +
+					"See " + prefix + "help for help.");
 			return;
 		}
 
@@ -191,7 +187,7 @@ public class CommandHandler
 			return;
 		}
 
-		args.remove(0);
+		args.remove(0); //Remove the command from the arguments
 		CommandEvent commandEvent = new CommandEvent(event, monke, cmd, args);
 
 		if(!cmd.hasChildren())
@@ -212,7 +208,7 @@ public class CommandHandler
 				.findFirst()
 				.ifPresentOrElse(
 						child -> child.process(new CommandEvent(event, monke, child, args.subList(1, args.size()))),
-						() -> cmd.process(commandEvent));
+						() -> cmd.process(commandEvent)); //Run any relevant child commands, or the main command if non are found
 	}
 
 	private void deleteBlacklisted(MessageReceivedEvent event)

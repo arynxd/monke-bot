@@ -202,7 +202,7 @@ public class GuildSettingsCache implements ICache<String, CachedGuildSetting>
 		}
 	}
 
-	private <T> long cacheGetLong(String label, Field<T> field)
+	private <T extends Long> long cacheGetLong(String label, Field<T> field)
 	{
 		if(cachedValues.get(label) == null)
 		{
@@ -218,7 +218,7 @@ public class GuildSettingsCache implements ICache<String, CachedGuildSetting>
 		}
 	}
 
-	private <T> String cacheGetString(String label, Field<T> field)
+	private <T extends String> String cacheGetString(String label, Field<T> field)
 	{
 		if(cachedValues.get(label) == null)
 		{
