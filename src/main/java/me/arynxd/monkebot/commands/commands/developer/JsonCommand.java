@@ -11,6 +11,7 @@ import me.arynxd.monkebot.entities.exception.CommandInputException;
 import me.arynxd.monkebot.util.CommandChecks;
 import me.arynxd.monkebot.util.StringUtils;
 import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.internal.requests.RestActionImpl;
@@ -40,9 +41,9 @@ public class JsonCommand extends Command
 		{
 			String json = StringUtils.prettyPrintJSON(response.getObject().toString());
 
-			while(json.length() > MessageEmbed.TEXT_MAX_LENGTH)
+			while(json.length() > Message.MAX_CONTENT_LENGTH)
 			{
-				channel.sendMessage(json.substring(0, 20000))
+				channel.sendMessage(json.substring(0, Message.MAX_CONTENT_LENGTH))
 						.allowedMentions(Collections.emptyList())
 						.queue();
 			}
