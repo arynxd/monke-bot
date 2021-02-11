@@ -12,6 +12,7 @@ import me.arynxd.monkebot.entities.exception.CommandResultException;
 import me.arynxd.monkebot.entities.music.GuildMusicHandler;
 import me.arynxd.monkebot.handlers.MusicHandler;
 import me.arynxd.monkebot.util.CommandChecks;
+import me.arynxd.monkebot.util.StringUtils;
 import net.dv8tion.jda.api.EmbedBuilder;
 import org.jetbrains.annotations.NotNull;
 
@@ -54,9 +55,9 @@ public class MusicQueueCommand extends Command
 			trackString += "In the queue: \n" + String.join("\n\n", tracks);
 		}
 
-		if(size >= 4)
+		if(size >= 6)
 		{
-			trackString += "\n\n[" + (size - 5) + " more tracks]";
+			trackString += "\n\n[" + (size - 5) + " more track" + StringUtils.plurify(size - 5) + "]";
 		}
 
 		if(trackString.isBlank())

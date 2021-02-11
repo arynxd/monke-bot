@@ -4,10 +4,12 @@ import java.sql.Connection;
 import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import javax.annotation.Nonnull;
+import java.util.concurrent.TimeUnit;
 import me.arynxd.monkebot.Constants;
 import me.arynxd.monkebot.Monke;
 import me.arynxd.monkebot.entities.database.Language;
+import net.jodah.expiringmap.ExpirationPolicy;
+import net.jodah.expiringmap.ExpiringMap;
 import org.jetbrains.annotations.NotNull;
 import org.jooq.Field;
 
@@ -17,7 +19,7 @@ public class GuildSettingsCache implements ICache<String, CachedGuildSetting>
 {
 	private static final Map<Long, GuildSettingsCache> GUILD_CACHES = new ConcurrentHashMap<>();
 
-	private final Map<String, CachedGuildSetting> cachedValues = new ConcurrentHashMap<>();
+	private final Map<String, CachedGuildSetting> cachedValues;
 
 	private final Monke monke;
 	private final Long guildId;
@@ -26,6 +28,11 @@ public class GuildSettingsCache implements ICache<String, CachedGuildSetting>
 	{
 		this.monke = monke;
 		this.guildId = guildId;
+		this.cachedValues = ExpiringMap.builder()
+				.maxSize(50)
+				.expirationPolicy(ExpirationPolicy.ACCESSED)
+				.expiration(1, TimeUnit.HOURS)
+				.build();
 	}
 
 	public static GuildSettingsCache getCache(Long guildId, Monke monke)
@@ -70,8 +77,7 @@ public class GuildSettingsCache implements ICache<String, CachedGuildSetting>
 	}
 
 	@Override
-	public @Nonnull
-	Boolean isCached(String key)
+	public @NotNull Boolean isCached(String key)
 	{
 		return cachedValues.containsKey(key);
 	}
@@ -94,73 +100,62 @@ public class GuildSettingsCache implements ICache<String, CachedGuildSetting>
 		values.forEach(this::remove);
 	}
 
-	public @Nonnull
-	Long getLogChannel()
+	public @NotNull Long getLogChannel()
 	{
 		return cacheGetLong("logchannel", GUILDS.LOG_CHANNEL);
 	}
 
-	public @Nonnull
-	Long getLevelUpBot()
+	public @NotNull Long getLevelUpBot()
 	{
 		return cacheGetLong("levelupbot", GUILDS.LEVEL_UP_BOT);
 	}
 
-	public void setLevelUpBot(@Nonnull Long newId)
+	public void setLevelUpBot(@NotNull Long newId)
 	{
 		cachePut("levelupbot", GUILDS.LEVEL_UP_BOT, newId);
 	}
 
-	public @Nonnull
-	Long getUnverifiedRole()
+	public @NotNull Long getUnverifiedRole()
 	{
 		return cacheGetLong("unverifiedrole", GUILDS.UNVERIFIED_ROLE);
 	}
 
-	public @Nonnull
-	Long getReportChannel()
+	public @NotNull Long getReportChannel()
 	{
 		return cacheGetLong("reportchannel", GUILDS.REPORT_CHANNEL);
 	}
 
-	public @Nonnull
-	Long getWelcomeChannel()
+	public @NotNull Long getWelcomeChannel()
 	{
 		return cacheGetLong("welcomechannel", GUILDS.WELCOME_CHANNEL);
 	}
 
-	public @Nonnull
-	Long getVoteChannel()
+	public @NotNull Long getVoteChannel()
 	{
 		return cacheGetLong("votechannel", GUILDS.VOTE_CHANNEL);
 	}
 
-	public @Nonnull
-	Long getTempBanRole()
+	public @NotNull Long getTempBanRole()
 	{
 		return cacheGetLong("tempbanrole", GUILDS.MUTED_ROLE);
 	}
 
-	public @Nonnull
-	Long getSuggestionChannel()
+	public @NotNull Long getSuggestionChannel()
 	{
 		return cacheGetLong("suggestionchannel", GUILDS.SUGGESTION_CHANNEL);
 	}
 
-	public @Nonnull
-	Long getChannelSuggestionChannel()
+	public @NotNull Long getChannelSuggestionChannel()
 	{
 		return cacheGetLong("channelsuggestionchannel", GUILDS.CHANNEL_SUGGESTION_CHANNEL);
 	}
 
-	public @Nonnull
-	Long getVerifiedRole()
+	public @NotNull Long getVerifiedRole()
 	{
 		return cacheGetLong("verifiedrole", GUILDS.VERIFIED_ROLE);
 	}
 
-	public @Nonnull
-	Language getLanguage()
+	public @NotNull Language getLanguage()
 	{
 		String language = cacheGetString("language", GUILDS.PREFERED_LANGUAGE);
 		if(language == null)
@@ -170,13 +165,12 @@ public class GuildSettingsCache implements ICache<String, CachedGuildSetting>
 		return Language.valueOf(language);
 	}
 
-	public void setLanguage(@Nonnull Language newLanguage)
+	public void setLanguage(@NotNull Language newLanguage)
 	{
 		setField(GUILDS.PREFERED_LANGUAGE, newLanguage.getLanguageCode());
 	}
 
-	public @Nonnull
-	String getPrefix()
+	public @NotNull String getPrefix()
 	{
 		String prefix = cacheGetString("prefix", GUILDS.PREFIX);
 		if(prefix == null)
@@ -186,7 +180,7 @@ public class GuildSettingsCache implements ICache<String, CachedGuildSetting>
 		return prefix;
 	}
 
-	public void setPrefix(@Nonnull String newPrefix)
+	public void setPrefix(@NotNull String newPrefix)
 	{
 		cachePut("prefix", GUILDS.PREFIX, newPrefix);
 	}
@@ -208,7 +202,7 @@ public class GuildSettingsCache implements ICache<String, CachedGuildSetting>
 		}
 	}
 
-	private <T> long cacheGetLong(String label, Field<T> field)
+	private <T extends Long> long cacheGetLong(String label, Field<T> field)
 	{
 		if(cachedValues.get(label) == null)
 		{
@@ -224,7 +218,7 @@ public class GuildSettingsCache implements ICache<String, CachedGuildSetting>
 		}
 	}
 
-	private <T> String cacheGetString(String label, Field<T> field)
+	private <T extends String> String cacheGetString(String label, Field<T> field)
 	{
 		if(cachedValues.get(label) == null)
 		{

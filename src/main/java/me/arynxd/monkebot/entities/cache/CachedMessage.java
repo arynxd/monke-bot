@@ -1,8 +1,8 @@
 package me.arynxd.monkebot.entities.cache;
 
 import java.time.OffsetDateTime;
-import javax.annotation.Nonnull;
 import net.dv8tion.jda.api.entities.Message;
+import org.jetbrains.annotations.NotNull;
 
 public class CachedMessage implements ICacheableEntity<Long, CachedMessage>
 {
@@ -12,7 +12,7 @@ public class CachedMessage implements ICacheableEntity<Long, CachedMessage>
 	private final String channelId;
 	private final Long id;
 
-	public CachedMessage(@Nonnull Message message)
+	public CachedMessage(@NotNull Message message)
 	{
 		this.timeCreated = message.getTimeCreated();
 		this.contentRaw = message.getContentRaw();
@@ -21,40 +21,35 @@ public class CachedMessage implements ICacheableEntity<Long, CachedMessage>
 		this.id = message.getIdLong();
 	}
 
-	public @Nonnull
-	OffsetDateTime getTimeCreated()
+	public @NotNull OffsetDateTime getTimeCreated()
 	{
 		return timeCreated;
 	}
 
-	public @Nonnull
-	String getContentRaw()
+	public @NotNull String getContentRaw()
 	{
 		return contentRaw;
 	}
 
-	public @Nonnull
-	CachedAuthor getAuthor()
+	public @NotNull CachedAuthor getAuthor()
 	{
 		return author;
 	}
 
-	public @Nonnull
-	String getChannelId()
+	public @NotNull String getChannelId()
 	{
 		return channelId;
 	}
 
 	@Override
-	public @Nonnull
-	Long getKey()
+	public @NotNull Long getKey()
 	{
 		return id;
 	}
 
 
 	@Override
-	public CachedMessage getData()
+	public @NotNull CachedMessage getData()
 	{
 		return this;
 	}

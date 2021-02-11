@@ -25,8 +25,11 @@ import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDAInfo;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.MessageReaction;
 import net.dv8tion.jda.api.entities.SelfUser;
+import net.dv8tion.jda.api.events.GenericEvent;
 import net.dv8tion.jda.api.events.ReadyEvent;
+import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder;
@@ -50,7 +53,6 @@ public class Monke extends ListenerAdapter
 	private final TaskHandler taskHandler;
 	private final EventWaiter eventWaiter;
 	private final WebHandler webHandler;
-	private final PrometheusHandler prometheusHandler;
 	private final Logger logger;
 	private ShardManager shardManager;
 	private JDA jda;
@@ -68,17 +70,11 @@ public class Monke extends ListenerAdapter
 		this.okHttpClient = new OkHttpClient();
 		this.musicHandler = new MusicHandler(this);
 		this.webHandler = new WebHandler(this);
-		this.prometheusHandler = new PrometheusHandler(this);
 	}
 
 	public WebHandler getWebHandler()
 	{
 		return webHandler;
-	}
-
-	public PrometheusHandler getPrometheusHandler()
-	{
-		return prometheusHandler;
 	}
 
 	public OkHttpClient getOkHttpClient()
@@ -124,7 +120,6 @@ public class Monke extends ListenerAdapter
 				.addEventListeners(
 						this,
 						eventWaiter,
-						prometheusHandler,
 
 						new MessageEventsMain(this),
 						new GuildEventsMain(this),

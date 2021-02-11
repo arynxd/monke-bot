@@ -1,7 +1,7 @@
 package me.arynxd.monkebot.entities.cache;
 
 import java.util.Collection;
-import javax.annotation.Nonnull;
+import org.jetbrains.annotations.NotNull;
 
 public interface ICache<K, V extends ICacheableEntity<K, V>> //K-KEY TO ENTITY V-VALUE TO ENTITY
 {
@@ -9,15 +9,13 @@ public interface ICache<K, V extends ICacheableEntity<K, V>> //K-KEY TO ENTITY V
 
 	void put(Collection<V> values);
 
-	@Nonnull
-	V get(K key);
+	@NotNull V get(K key);
 
 	void update(V oldValue, V newValue);
 
 	void update(K oldValue, V newValue);
 
-	@Nonnull
-	Boolean isCached(K key);
+	@NotNull Boolean isCached(K key);
 
 	void remove(K key);
 

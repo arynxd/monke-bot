@@ -2,7 +2,7 @@ package me.arynxd.monkebot.entities.bot;
 
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
-import javax.annotation.Nonnull;
+import org.jetbrains.annotations.NotNull;
 
 public class BotTask
 {
@@ -11,7 +11,7 @@ public class BotTask
 	private final long expiresAt;
 	private final TimeUnit unit;
 
-	public BotTask(@Nonnull ScheduledFuture<?> task, @Nonnull String name, @Nonnull Long expiresAt, @Nonnull TimeUnit timeUnit)
+	public BotTask(@NotNull ScheduledFuture<?> task, @NotNull String name, @NotNull Long expiresAt, @NotNull TimeUnit timeUnit)
 	{
 		this.task = task;
 		this.name = name;
@@ -19,26 +19,22 @@ public class BotTask
 		this.unit = timeUnit;
 	}
 
-	public @Nonnull
-	TimeUnit getUnit()
+	public @NotNull TimeUnit getUnit()
 	{
 		return unit;
 	}
 
-	public @Nonnull
-	ScheduledFuture<?> getTask()
+	public @NotNull ScheduledFuture<?> getTask()
 	{
 		return task;
 	}
 
-	public @Nonnull
-	String getName()
+	public @NotNull String getName()
 	{
 		return name;
 	}
 
-	public @Nonnull
-	Long getExpiresAt()
+	public @NotNull Long getExpiresAt()
 	{
 		return expiresAt;
 	}

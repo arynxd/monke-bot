@@ -1,5 +1,7 @@
 package me.arynxd.monkebot.entities.cache;
 
+import org.jetbrains.annotations.NotNull;
+
 public class CachedGuildSetting implements ICacheableEntity<String, CachedGuildSetting>
 {
 	private final String key;
@@ -17,13 +19,13 @@ public class CachedGuildSetting implements ICacheableEntity<String, CachedGuildS
 	}
 
 	@Override
-	public String getKey()
+	public @NotNull String getKey()
 	{
 		return key;
 	}
 
 	@Override
-	public CachedGuildSetting getData()
+	public @NotNull CachedGuildSetting getData()
 	{
 		return this;
 	}

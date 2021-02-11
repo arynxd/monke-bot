@@ -98,7 +98,7 @@ public class ReportCommandReactionAdd extends ListenerAdapter
 						Report.remove(report.getMessageId(), monke);
 						message.clearReactions().queue();
 
-						User reportee = monke.getShardManager().getUserById(report.getReporteeUserId());
+						User reportee = monke.getShardManager().getUserById(report.getReportingUserId());
 
 						if(reportee != null)
 						{

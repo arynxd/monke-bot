@@ -8,6 +8,7 @@ import me.arynxd.monkebot.entities.command.CommandEvent;
 import me.arynxd.monkebot.entities.exception.CommandException;
 import me.arynxd.monkebot.entities.exception.CommandResultException;
 import me.arynxd.monkebot.entities.json.RedditPost;
+import me.arynxd.monkebot.entities.json.WikipediaPage;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.utils.data.DataArray;
 import net.dv8tion.jda.api.utils.data.DataObject;
@@ -77,6 +78,39 @@ public class WebUtils
 					}
 
 					success.accept(post);
+				}
+			}
+		});
+	}
+
+	public static void getWikipediaPage(CommandEvent event, String subject, Consumer<WikipediaPage> success, Consumer<CommandException> failure)
+	{
+		Request request = new Request.Builder()
+				.url(WikipediaPage.WIKIPEDIA_API + subject)
+				.build();
+
+		event.getMonke().getOkHttpClient().newCall(request).enqueue(new Callback()
+		{
+			@Override
+			public void onFailure(@NotNull Call call, @NotNull IOException exception)
+			{
+				event.getMonke().getLogger().error("An OKHTTP error has occurred", exception);
+				failure.accept(new CommandResultException("Failed to fetch Wikipedia page."));
+			}
+
+			@Override
+			public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException
+			{
+				try(ResponseBody responseBody = response.body())
+				{
+					if(responseBody == null)
+					{
+						failure.accept(new CommandResultException("Wikipedia provided no data!"));
+						return;
+					}
+
+					DataObject json = DataObject.fromJson(responseBody.string());
+					success.accept(new WikipediaPage(json));
 				}
 			}
 		});
