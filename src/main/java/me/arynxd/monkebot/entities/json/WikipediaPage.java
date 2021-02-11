@@ -24,7 +24,8 @@ public class WikipediaPage
 
 			return Arrays.stream(PageType.values())
 					.filter(page -> page.getParam().equalsIgnoreCase(dataObject.getString("type")))
-					.findFirst().orElse(PageType.ERROR);
+					.findFirst()
+					.orElse(PageType.ERROR);
 		}
 		catch(Exception exception)
 		{

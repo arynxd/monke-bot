@@ -36,7 +36,7 @@ public abstract class Command
 		this.isDisabled = false;
 		this.memberRequiredPermissions = new ArrayList<>();
 		this.selfRequiredPermissions = new ArrayList<>();
-		this.cooldown = 0;
+		this.cooldown = 1500;
 		this.flags = new ArrayList<>();
 	}
 
