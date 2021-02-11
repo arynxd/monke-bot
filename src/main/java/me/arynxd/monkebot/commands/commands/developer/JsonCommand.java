@@ -13,7 +13,6 @@ import me.arynxd.monkebot.util.StringUtils;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
-import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.internal.requests.RestActionImpl;
 import net.dv8tion.jda.internal.requests.Route;
 import org.jetbrains.annotations.NotNull;
@@ -43,7 +42,8 @@ public class JsonCommand extends Command
 
 			while(json.length() > Message.MAX_CONTENT_LENGTH)
 			{
-				channel.sendMessage(json.substring(0, Message.MAX_CONTENT_LENGTH))
+				json = json.substring(0, Message.MAX_CONTENT_LENGTH);
+				channel.sendMessage(json)
 						.allowedMentions(Collections.emptyList())
 						.queue();
 			}
