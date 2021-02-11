@@ -42,7 +42,7 @@ public class JsonCommand extends Command
 
 			while(json.length() > Message.MAX_CONTENT_LENGTH)
 			{
-				json = json.substring(0, Message.MAX_CONTENT_LENGTH);
+				json = json.substring(Message.MAX_CONTENT_LENGTH);
 				channel.sendMessage(json)
 						.allowedMentions(Collections.emptyList())
 						.queue();
