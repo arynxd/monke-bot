@@ -21,11 +21,6 @@ public class BotInfo
 		return System.getProperty("java.version");
 	}
 
-	public static String getJavaVendor()
-	{
-		return System.getProperty("java.vendor");
-	}
-
 	public static long getMaxMemory()
 	{
 		return Runtime.getRuntime().maxMemory();
@@ -39,11 +34,6 @@ public class BotInfo
 	public static long getTotalMemory()
 	{
 		return Runtime.getRuntime().totalMemory();
-	}
-
-	public static long getAvailableProcessors()
-	{
-		return Runtime.getRuntime().availableProcessors();
 	}
 
 	public static long getTotalShards(ShardManager shardManager)

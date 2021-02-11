@@ -12,6 +12,7 @@ import me.arynxd.monkebot.util.CommandChecks;
 import me.arynxd.monkebot.util.StringUtils;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.MessageChannel;
+import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.internal.requests.RestActionImpl;
 import net.dv8tion.jda.internal.requests.Route;
 import org.jetbrains.annotations.NotNull;
@@ -37,9 +38,18 @@ public class JsonCommand extends Command
 		new RestActionImpl<>(jda, Route.Messages.GET_MESSAGE
 				.compile(channel.getId(), args.get(0)), (response, request) ->
 		{
-			channel.sendMessage(StringUtils.prettyPrintJSON(response.getObject().toString()))
+			String json = StringUtils.prettyPrintJSON(response.getObject().toString());
+
+			while(json.length() > MessageEmbed.TEXT_MAX_LENGTH)
+			{
+				channel.sendMessage(json.substring(0, 20000))
+						.allowedMentions(Collections.emptyList())
+						.queue();
+			}
+			channel.sendMessage(json)
 					.allowedMentions(Collections.emptyList())
 					.queue();
+
 
 			return null;
 		}).queue(null, error -> failure.accept(new CommandInputException("Message " + args.get(0) + " was not found in this channel.")));

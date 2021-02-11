@@ -20,7 +20,7 @@ public class BotInfoCommand extends Command
 	public void run(@NotNull List<String> args, @NotNull CommandEvent event, @NotNull Consumer<CommandException> failure)
 	{
 		event.sendMessage(new EmbedBuilder()
-				.setTitle(event.getJDA().getSelfUser().getAsTag() + " information")
+				.setTitle(event.getJDA().getSelfUser().getName() + " information")
 				.addField("JVM Version", BotInfo.getJavaVersion(), true)
 				.addField("JDA Version", BotInfo.getJDAVersion(), true)
 				.addBlankField(true)

@@ -46,7 +46,7 @@ public class WikipediaCommand extends Command
 			String thumbnail = page.getThumbnail();
 			EmbedBuilder embed = new EmbedBuilder();
 
-			if(thumbnail != null)
+			if(thumbnail != null && event.getTextChannel().isNSFW())
 			{
 				embed.setImage(thumbnail);
 			}

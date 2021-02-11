@@ -6,6 +6,7 @@ import me.arynxd.monkebot.entities.command.Command;
 import me.arynxd.monkebot.entities.command.CommandEvent;
 import me.arynxd.monkebot.entities.exception.CommandException;
 import me.arynxd.monkebot.util.CommandChecks;
+import me.arynxd.monkebot.util.Parser;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.User;
@@ -23,8 +24,6 @@ public class AvatarCommand extends Command
 	@Override
 	public void run(@NotNull List<String> args, @NotNull CommandEvent event, @NotNull Consumer<CommandException> failure)
 	{
-		if(CommandChecks.argsSizeExceeds(event, 3, failure)) return;
-
 		Message message = event.getMessage();
 		User author = message.getAuthor();
 
@@ -33,13 +32,12 @@ public class AvatarCommand extends Command
 			event.sendMessage(new EmbedBuilder()
 					.setTitle(author.getAsTag() + "'s Avatar")
 					.setImage(author.getAvatarUrl() + "?size=4096"));
+			return;
 		}
-		else
-		{
-			message.getMentionedMembers().forEach(member ->
-					event.sendMessage(new EmbedBuilder()
-							.setTitle(member.getUser().getAsTag() + "'s Avatar")
-							.setImage(member.getUser().getEffectiveAvatarUrl() + "?size=4096")));
-		}
+
+		new Parser(args.get(0), event).parseAsUser(user ->
+				event.sendMessage(new EmbedBuilder()
+						.setTitle(user.getAsTag() + "'s Avatar")
+						.setImage(user.getAvatarUrl() + "?size=4096")));
 	}
 }

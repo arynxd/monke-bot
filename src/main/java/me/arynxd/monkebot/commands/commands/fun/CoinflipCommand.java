@@ -14,7 +14,7 @@ public class CoinflipCommand extends Command
 	public CoinflipCommand()
 	{
 		super("Coinflip", "Flips a coin.", "[none]");
-		addAliases("coinflip");
+		addAliases("coinflip", "coin");
 	}
 
 	@Override

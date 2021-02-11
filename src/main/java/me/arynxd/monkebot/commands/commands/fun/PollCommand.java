@@ -64,8 +64,6 @@ public class PollCommand extends Command
 				.addField("Options:", options.toString(), false)
 				.setThumbnail(author.getEffectiveAvatarUrl())
 				.setColor(Constants.EMBED_COLOUR)
-				.build()).queue(message -> reactions.forEach(reaction -> message.addReaction(reaction).queue(null, error ->
-		{
-		})));
+				.build()).queue(message -> reactions.forEach(reaction -> message.addReaction(reaction).queue(null, error -> { })));
 	}
 }

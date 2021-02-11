@@ -1,8 +1,11 @@
 package me.arynxd.monkebot.commands.commands.misc;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.OptionalInt;
 import java.util.function.Consumer;
+import me.arynxd.monkebot.Constants;
+import me.arynxd.monkebot.Monke;
 import me.arynxd.monkebot.entities.command.Command;
 import me.arynxd.monkebot.entities.command.CommandEvent;
 import me.arynxd.monkebot.entities.exception.CommandException;
@@ -45,13 +48,13 @@ public class HelpCommand extends Command
 
 		if(page.isPresent())
 		{
-			if(page.getAsInt() + 1 > event.getMonke().getHelpPages().size() + 1)
+			if(page.getAsInt() + 1 > getHelpPages(event.getPrefix(), event.getMonke()).size() + 1)
 			{
 				failure.accept(new CommandInputException("Page `" + args.get(0) + "` does not exist."));
 				return;
 			}
 
-			event.sendMessage(event.getMonke().getHelpPages().get(page.getAsInt() - 1));
+			event.sendMessage(getHelpPages(event.getPrefix(), event.getMonke()).get(page.getAsInt() - 1));
 		}
 	}
 
@@ -66,6 +69,45 @@ public class HelpCommand extends Command
 			command.getChildren().forEach(
 					child ->
 							result.addField(prefix + command.getAliases().get(0) + " " + child.getName(), child.getDescription() + "\n`Syntax: " + child.getSyntax() + "`", false));
+		}
+		return result;
+	}
+
+	private List<EmbedBuilder> getHelpPages(String prefix, Monke monke)
+	{
+
+		List<EmbedBuilder> result = new ArrayList<>();
+		List<Command> commands = new ArrayList<>();
+		for(Command cmd : monke.getCommandHandler().getCommandMap().values())
+		{
+			if(!commands.contains(cmd))
+			{
+				commands.add(cmd);
+			}
+		}
+
+		EmbedBuilder embedBuilder = new EmbedBuilder();
+		int fieldCount = 0;
+		int page = 1;
+		for(int i = 0; i < commands.size(); i++)
+		{
+			Command cmd = commands.get(i);
+			if(fieldCount < 6)
+			{
+				fieldCount++;
+				embedBuilder.setTitle("Help page: " + page);
+				embedBuilder.addField(cmd.getName(), cmd.getDescription() + "\n**" + prefix + cmd.getAliases().get(0) + "**`" + cmd.getSyntax() + "`", false);
+				embedBuilder.setColor(Constants.EMBED_COLOUR);
+				embedBuilder.setFooter("<> Optional;  [] Required; {} Maximum Quantity | ");
+			}
+			else
+			{
+				result.add(embedBuilder);
+				embedBuilder = new EmbedBuilder();
+				fieldCount = 0;
+				page++;
+				i--;
+			}
 		}
 		return result;
 	}
