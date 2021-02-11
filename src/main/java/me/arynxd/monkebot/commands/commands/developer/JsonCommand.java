@@ -40,17 +40,24 @@ public class JsonCommand extends Command
 		{
 			String json = StringUtils.prettyPrintJSON(response.getObject().toString());
 
-			while(json.length() > Message.MAX_CONTENT_LENGTH)
+			while(true)
 			{
-				json = json.substring(Message.MAX_CONTENT_LENGTH);
-				channel.sendMessage(json)
-						.allowedMentions(Collections.emptyList())
-						.queue();
-			}
-			channel.sendMessage(json)
-					.allowedMentions(Collections.emptyList())
-					.queue();
+				if(json.length() >= Message.MAX_CONTENT_LENGTH)
+				{
+					channel.sendMessage(json.substring(0, Message.MAX_CONTENT_LENGTH))
+							.allowedMentions(Collections.emptyList())
+							.queue();
 
+					json = json.substring(Message.MAX_CONTENT_LENGTH);
+				}
+				else
+				{
+					channel.sendMessage(json)
+							.allowedMentions(Collections.emptyList())
+							.queue();
+					break;
+				}
+			}
 
 			return null;
 		}).queue(null, error -> failure.accept(new CommandInputException("Message " + args.get(0) + " was not found in this channel.")));
