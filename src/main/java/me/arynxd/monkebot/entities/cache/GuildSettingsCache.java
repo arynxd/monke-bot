@@ -77,7 +77,7 @@ public class GuildSettingsCache implements ICache<String, CachedGuildSetting>
 	}
 
 	@Override
-	public @NotNull Boolean isCached(String key)
+	public boolean isCached(String key)
 	{
 		return cachedValues.containsKey(key);
 	}
@@ -110,7 +110,7 @@ public class GuildSettingsCache implements ICache<String, CachedGuildSetting>
 		return cacheGetLong("levelupbot", GUILDS.LEVEL_UP_BOT);
 	}
 
-	public void setLevelUpBot(@NotNull Long newId)
+	public void setLevelUpBot(long newId)
 	{
 		cachePut("levelupbot", GUILDS.LEVEL_UP_BOT, newId);
 	}
@@ -202,7 +202,7 @@ public class GuildSettingsCache implements ICache<String, CachedGuildSetting>
 		}
 	}
 
-	private <T extends Long> long cacheGetLong(String label, Field<T> field)
+	private long cacheGetLong(String label, Field<Long> field)
 	{
 		if(cachedValues.get(label) == null)
 		{
@@ -218,7 +218,7 @@ public class GuildSettingsCache implements ICache<String, CachedGuildSetting>
 		}
 	}
 
-	private <T extends String> String cacheGetString(String label, Field<T> field)
+	private String cacheGetString(String label, Field<String> field)
 	{
 		if(cachedValues.get(label) == null)
 		{

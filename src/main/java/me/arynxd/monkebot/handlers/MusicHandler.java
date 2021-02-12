@@ -6,6 +6,7 @@ import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import me.arynxd.monkebot.Monke;
 import me.arynxd.monkebot.entities.music.GuildMusicHandler;
 import net.dv8tion.jda.api.entities.Guild;
@@ -20,7 +21,7 @@ public class MusicHandler
 	public MusicHandler(Monke monke)
 	{
 		this.monke = monke;
-		this.musicHandlers = new HashMap<>();
+		this.musicHandlers = new ConcurrentHashMap<>();
 		this.playerManager = new DefaultAudioPlayerManager();
 
 		AudioSourceManagers.registerLocalSource(playerManager);

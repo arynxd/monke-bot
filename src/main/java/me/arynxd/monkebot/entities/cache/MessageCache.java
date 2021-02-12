@@ -86,7 +86,7 @@ public class MessageCache implements ICache<Long, CachedMessage>
 	}
 
 	@Override
-	public @NotNull Boolean isCached(@NotNull Long messageId)
+	public boolean isCached(@NotNull Long messageId)
 	{
 		return cachedMessages.containsKey(messageId);
 	}

@@ -15,7 +15,7 @@ public interface ICache<K, V extends ICacheableEntity<K, V>> //K-KEY TO ENTITY V
 
 	void update(K oldValue, V newValue);
 
-	@NotNull Boolean isCached(K key);
+	boolean isCached(K key);
 
 	void remove(K key);
 
