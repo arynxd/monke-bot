@@ -1,12 +1,12 @@
 package me.arynxd.monkebot;
 
-import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 import javax.security.auth.login.LoginException;
 import me.arynxd.monkebot.entities.bot.ConfigOption;
 import me.arynxd.monkebot.entities.bot.Configuration;
+import me.arynxd.monkebot.entities.bot.EventWaiter;
 import me.arynxd.monkebot.entities.database.Tempban;
 import me.arynxd.monkebot.entities.database.Vote;
 import me.arynxd.monkebot.entities.info.BotInfo;
