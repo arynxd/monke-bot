@@ -28,7 +28,7 @@ public class WikipediaCommand extends Command
 	{
 		if(CommandChecks.argsEmpty(event, failure)) return;
 
-		String query = String.join(" ", args);
+		String query = String.join("_", args);
 
 		if(query.equalsIgnoreCase("cbt"))
 		{

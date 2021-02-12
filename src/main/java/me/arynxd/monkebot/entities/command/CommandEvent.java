@@ -189,6 +189,13 @@ public class CommandEvent
 		getChannel().sendMessage(embed.setColor(Constants.EMBED_COLOUR).setTimestamp(Instant.now()).build()).queue();
 	}
 
+	public void sendDeletingMessage(EmbedBuilder embed)
+	{
+		addSuccessReaction();
+		EmbedUtils.sendDeletingEmbed(getChannel(), embed.setColor(Constants.EMBED_COLOUR).setTimestamp(Instant.now()));
+	}
+
+
 	public @NotNull Boolean selfPermissionCheck(List<Permission> permissions)
 	{
 		return event.getGuild().getSelfMember().hasPermission(permissions);
