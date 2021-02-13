@@ -4,8 +4,10 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.function.Consumer;
+import me.arynxd.monkebot.handlers.CooldownHandler;
 import me.arynxd.monkebot.objects.command.Command;
 import me.arynxd.monkebot.objects.command.CommandEvent;
+import me.arynxd.monkebot.objects.exception.CommandCooldownException;
 import me.arynxd.monkebot.objects.exception.CommandException;
 import me.arynxd.monkebot.objects.exception.CommandResultException;
 import me.arynxd.monkebot.util.CommandChecks;
@@ -31,12 +33,18 @@ public class GoogleCommand extends Command
 	{
 		if(CommandChecks.argsEmpty(event, failure)) return;
 
+		if(CooldownHandler.isOnCooldown(event.getMember(), this))
+		{
+			failure.accept(new CommandCooldownException(this));
+			return;
+		}
+
 		GOOGLE_EXECUTOR.submit(() -> //We require an executor as Jsoup is sync only
 		{
 			try
 			{
 				Document doc = Jsoup.connect("https://www.google.com/search?q=" + String.join("%20", args)).get();
-
+				CooldownHandler.addCooldown(event.getMember(), this);
 				Elements links = doc.select(".yuRUbf").select("a"); //Select the first google link
 				Elements names = doc.select(".yuRUbf").select("a").select("h3").select("span"); //Select its 'name'
 				Elements descriptions = doc.select(".IsZvec").select("div").select(".aCOpRe").select("span"); //Select its description
