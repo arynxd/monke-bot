@@ -4,11 +4,10 @@ package me.arynxd.monkebot.handlers;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import me.arynxd.monkebot.Monke;
-import me.arynxd.monkebot.entities.music.GuildMusicHandler;
+import me.arynxd.monkebot.objects.music.GuildMusicHandler;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.VoiceChannel;
 

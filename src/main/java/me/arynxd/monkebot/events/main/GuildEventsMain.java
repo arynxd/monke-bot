@@ -2,8 +2,8 @@ package me.arynxd.monkebot.events.main;
 
 import java.util.List;
 import me.arynxd.monkebot.Monke;
-import me.arynxd.monkebot.entities.database.ReactionRole;
-import me.arynxd.monkebot.entities.music.GuildMusicHandler;
+import me.arynxd.monkebot.objects.database.ReactionRole;
+import me.arynxd.monkebot.objects.music.GuildMusicHandler;
 import me.arynxd.monkebot.util.DatabaseUtils;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.events.guild.GuildJoinEvent;

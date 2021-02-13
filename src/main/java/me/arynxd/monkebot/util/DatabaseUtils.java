@@ -6,12 +6,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import me.arynxd.monkebot.Monke;
-import me.arynxd.monkebot.entities.jooq.Tables;
+import me.arynxd.monkebot.objects.jooq.Tables;
 
-import me.arynxd.monkebot.entities.jooq.tables.Guilds;
-import me.arynxd.monkebot.entities.jooq.tables.Levels;
-import me.arynxd.monkebot.entities.jooq.tables.pojos.Tempbans;
-import me.arynxd.monkebot.entities.jooq.tables.pojos.Votes;
+import me.arynxd.monkebot.objects.jooq.tables.Guilds;
+import me.arynxd.monkebot.objects.jooq.tables.Levels;
+import me.arynxd.monkebot.objects.jooq.tables.pojos.Tempbans;
+import me.arynxd.monkebot.objects.jooq.tables.pojos.Votes;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Role;
 import org.slf4j.Logger;
