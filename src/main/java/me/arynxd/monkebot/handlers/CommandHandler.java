@@ -220,7 +220,6 @@ public class CommandHandler
 		}
 	}
 
-
 	private boolean isBotMention(MessageReceivedEvent event)
 	{
 		String content = event.getMessage().getContentRaw();

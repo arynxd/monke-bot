@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.function.Consumer;
 import me.arynxd.monkebot.objects.command.Command;
 import me.arynxd.monkebot.objects.command.CommandEvent;
+import me.arynxd.monkebot.objects.command.CommandFlag;
 import me.arynxd.monkebot.objects.exception.CommandException;
 import me.arynxd.monkebot.objects.music.GuildMusicManager;
 import me.arynxd.monkebot.handlers.MusicHandler;
@@ -18,6 +19,7 @@ public class MusicJoinCommand extends Command
 	{
 		super("Join", "Makes the bot join your VC.", "[none]");
 		addAliases("join");
+		addFlags(CommandFlag.GUILD_ONLY);
 	}
 
 	@Override
@@ -28,7 +30,6 @@ public class MusicJoinCommand extends Command
 
 		if(CommandChecks.sharesVoice(event, failure)) return;
 		if(CommandChecks.boundToChannel(manager, event.getChannel(), failure)) return;
-
 
 		VoiceChannel channel = event.getMember().getVoiceState().getChannel();
 		manager.join(channel);

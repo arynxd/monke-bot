@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.function.Consumer;
 import me.arynxd.monkebot.objects.command.Command;
 import me.arynxd.monkebot.objects.command.CommandEvent;
+import me.arynxd.monkebot.objects.command.CommandFlag;
 import me.arynxd.monkebot.objects.exception.CommandException;
 import me.arynxd.monkebot.objects.music.GuildMusicManager;
 import me.arynxd.monkebot.handlers.MusicHandler;
@@ -17,6 +18,7 @@ public class MusicWipeCommand extends Command
 	{
 		super("Wipe", "Wipes the queue.", "[none]");
 		addAliases("wipe");
+		addFlags(CommandFlag.GUILD_ONLY);
 	}
 
 	@Override

@@ -25,6 +25,7 @@ public class MusicPlayCommand extends Command
 	{
 		super("Play", "Plays music from Youtube or Soundcloud.", "[song]");
 		addAliases("play");
+		addFlags(CommandFlag.GUILD_ONLY);
 	}
 
 	@Override
@@ -36,7 +37,6 @@ public class MusicPlayCommand extends Command
 		if(CommandChecks.argsEmpty(event, failure)) return;
 		if(CommandChecks.sharesVoice(event, failure)) return;
 		if(CommandChecks.boundToChannel(manager, event.getChannel(), failure)) return;
-
 
 		VoiceChannel channel = event.getMember().getVoiceState().getChannel(); //Safe due to CommandChecks
 		String query = String.join("", args);

@@ -25,12 +25,12 @@ public class AvatarCommand extends Command
 		{
 			event.sendMessage(new EmbedBuilder()
 					.setTitle(event.getAuthor().getAsTag() + "'s Avatar")
-					.setImage(event.getAuthor().getAvatarUrl() + "?size=4096"));
+					.setImage(event.getAuthor().getAvatarUrl() + "?size=2048"));
 			return;
 		}
 		new Parser(args.get(0), event).parseAsUser(user ->
 				event.sendMessage(new EmbedBuilder()
 						.setTitle(user.getAsTag() + "'s Avatar")
-						.setImage(user.getAvatarUrl() + "?size=4096")));
+						.setImage(user.getAvatarUrl() + "?size=2048")));
 	}
 }

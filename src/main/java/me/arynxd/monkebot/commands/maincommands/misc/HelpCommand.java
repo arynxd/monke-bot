@@ -50,11 +50,12 @@ public class HelpCommand extends Command
 		{
 			if(page.getAsInt() + 1 > getHelpPages(event.getPrefix(), event.getMonke()).size() + 1)
 			{
-				failure.accept(new CommandInputException("Page `" + args.get(0) + "` does not exist."));
+				failure.accept(new CommandInputException("Page " + args.get(0) + " does not exist."));
 				return;
 			}
 
-			event.sendMessage(getHelpPages(event.getPrefix(), event.getMonke()).get(page.getAsInt() - 1));
+			List<EmbedBuilder> pages = getHelpPages(event.getPrefix(), event.getMonke());
+			event.sendMessage(pages.get(page.getAsInt() - 1).setTitle("Help page " + page.getAsInt() + " / " + pages.size()));
 		}
 	}
 
@@ -95,7 +96,6 @@ public class HelpCommand extends Command
 			if(fieldCount < 6)
 			{
 				fieldCount++;
-				embedBuilder.setTitle("Help page: " + page);
 				embedBuilder.addField(cmd.getName(), cmd.getDescription() + "\n**" + prefix + cmd.getAliases().get(0) + "**`" + cmd.getSyntax() + "`", false);
 				embedBuilder.setColor(Constants.EMBED_COLOUR);
 				embedBuilder.setFooter("<> Optional;  [] Required; {} Maximum Quantity | ");

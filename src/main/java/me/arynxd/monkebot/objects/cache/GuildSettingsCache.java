@@ -5,7 +5,6 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
-import me.arynxd.monkebot.Constants;
 import me.arynxd.monkebot.Monke;
 import me.arynxd.monkebot.objects.database.Language;
 import net.jodah.expiringmap.ExpirationPolicy;
@@ -35,7 +34,7 @@ public class GuildSettingsCache implements ICache<String, CachedGuildSetting>
 				.build();
 	}
 
-	public static GuildSettingsCache getCache(Long guildId, Monke monke)
+	public static @NotNull GuildSettingsCache getCache(Long guildId, Monke monke)
 	{
 		GuildSettingsCache cache = GUILD_CACHES.get(guildId);
 		if(GUILD_CACHES.get(guildId) == null)
@@ -158,10 +157,6 @@ public class GuildSettingsCache implements ICache<String, CachedGuildSetting>
 	public @NotNull Language getLanguage()
 	{
 		String language = cacheGetString("language", GUILDS.PREFERED_LANGUAGE);
-		if(language == null)
-		{
-			return Language.EN_US;
-		}
 		return Language.valueOf(language);
 	}
 
@@ -172,12 +167,7 @@ public class GuildSettingsCache implements ICache<String, CachedGuildSetting>
 
 	public @NotNull String getPrefix()
 	{
-		String prefix = cacheGetString("prefix", GUILDS.PREFIX);
-		if(prefix == null)
-		{
-			return Constants.DEFAULT_BOT_PREFIX;
-		}
-		return prefix;
+		return cacheGetString("prefix", GUILDS.PREFIX);
 	}
 
 	public void setPrefix(@NotNull String newPrefix)
@@ -218,7 +208,7 @@ public class GuildSettingsCache implements ICache<String, CachedGuildSetting>
 		}
 	}
 
-	private String cacheGetString(String label, Field<String> field)
+	private @NotNull String cacheGetString(String label, Field<String> field)
 	{
 		if(cachedValues.get(label) == null)
 		{

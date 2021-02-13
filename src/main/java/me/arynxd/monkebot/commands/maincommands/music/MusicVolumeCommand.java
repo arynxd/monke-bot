@@ -5,6 +5,7 @@ import java.util.OptionalInt;
 import java.util.function.Consumer;
 import me.arynxd.monkebot.objects.command.Command;
 import me.arynxd.monkebot.objects.command.CommandEvent;
+import me.arynxd.monkebot.objects.command.CommandFlag;
 import me.arynxd.monkebot.objects.exception.CommandException;
 import me.arynxd.monkebot.objects.exception.CommandInputException;
 import me.arynxd.monkebot.objects.music.GuildMusicManager;
@@ -19,7 +20,8 @@ public class MusicVolumeCommand extends Command
 	public MusicVolumeCommand()
 	{
 		super("Volume", "Sets the music volume", "<volume {100}>");
-		addAliases("volume");
+		addAliases("volume", "vol");
+		addFlags(CommandFlag.GUILD_ONLY, CommandFlag.DISABLED);
 	}
 
 	@Override
@@ -33,7 +35,7 @@ public class MusicVolumeCommand extends Command
 
 		if(args.isEmpty())
 		{
-			event.replySuccess("The volume is " + manager.getPlayer().getVolume());
+			event.replySuccess("The volume is " + manager.getPlayer().getVolume() + "%");
 			return;
 		}
 
@@ -48,7 +50,7 @@ public class MusicVolumeCommand extends Command
 			}
 
 			manager.getPlayer().setVolume(volume.getAsInt());
-			event.replySuccess("Set the volume to " + volume.getAsInt());
+			event.replySuccess("Set the volume to " + volume.getAsInt() + "%");
 		}
 	}
 }
