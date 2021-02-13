@@ -7,6 +7,7 @@ import java.util.function.Consumer;
 import me.arynxd.monkebot.objects.command.CommandEvent;
 import me.arynxd.monkebot.objects.exception.*;
 import me.arynxd.monkebot.objects.json.RedditPost;
+import me.arynxd.monkebot.objects.music.GuildMusicManager;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.*;
 
@@ -197,6 +198,16 @@ public class CommandChecks
 		if(chars.size() > MessageEmbed.TEXT_MAX_LENGTH)
 		{
 			callback.accept(new CommandInputException("Input too large."));
+			return true;
+		}
+		return false;
+	}
+
+	public static boolean boundToChannel(GuildMusicManager handler, MessageChannel channel, Consumer<CommandException> callback)
+	{
+		if(handler.getChannel() != null && handler.getChannel().getIdLong() != channel.getIdLong())
+		{
+			callback.accept(new CommandResultException("I'm bound to " + StringUtils.getChannelAsMention(handler.getChannel().getIdLong()) + " for this session."));
 			return true;
 		}
 		return false;

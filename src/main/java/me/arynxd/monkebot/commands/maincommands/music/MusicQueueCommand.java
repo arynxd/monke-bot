@@ -9,7 +9,7 @@ import me.arynxd.monkebot.objects.command.CommandEvent;
 import me.arynxd.monkebot.objects.command.CommandFlag;
 import me.arynxd.monkebot.objects.exception.CommandException;
 import me.arynxd.monkebot.objects.exception.CommandResultException;
-import me.arynxd.monkebot.objects.music.GuildMusicHandler;
+import me.arynxd.monkebot.objects.music.GuildMusicManager;
 import me.arynxd.monkebot.handlers.MusicHandler;
 import me.arynxd.monkebot.util.CommandChecks;
 import me.arynxd.monkebot.util.StringUtils;
@@ -29,10 +29,12 @@ public class MusicQueueCommand extends Command
 	@Override
 	public void run(@NotNull List<String> args, @NotNull CommandEvent event, @NotNull Consumer<CommandException> failure)
 	{
+		MusicHandler musicHandler = event.getMonke().getMusicHandler();
+		GuildMusicManager manager = musicHandler.getGuildMusicManager(event.getGuild());
+
+		if(CommandChecks.boundToChannel(manager, event.getChannel(), failure)) return;
 		if(CommandChecks.sharesVoice(event, failure)) return;
 
-		MusicHandler musicHandler = event.getMonke().getMusicHandler();
-		GuildMusicHandler manager = musicHandler.getGuildMusicManager(event.getGuild());
 		AudioTrack currentTrack = manager.getPlayer().getPlayingTrack();
 
 		List<String> tracks = manager.getScheduler().getQueue()

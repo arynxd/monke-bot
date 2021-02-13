@@ -7,14 +7,14 @@ import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import me.arynxd.monkebot.Monke;
-import me.arynxd.monkebot.objects.music.GuildMusicHandler;
+import me.arynxd.monkebot.objects.music.GuildMusicManager;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.VoiceChannel;
 
 public class MusicHandler
 {
 	private final Monke monke;
-	private final Map<Long, GuildMusicHandler> musicHandlers;
+	private final Map<Long, GuildMusicManager> musicHandlers;
 	private final AudioPlayerManager playerManager;
 
 	public MusicHandler(Monke monke)
@@ -27,12 +27,12 @@ public class MusicHandler
 		AudioSourceManagers.registerRemoteSources(playerManager);
 	}
 
-	public GuildMusicHandler getGuildMusicManager(Guild guild)
+	public GuildMusicManager getGuildMusicManager(Guild guild)
 	{
-		GuildMusicHandler manager = musicHandlers.get(guild.getIdLong());
+		GuildMusicManager manager = musicHandlers.get(guild.getIdLong());
 		if(musicHandlers.get(guild.getIdLong()) == null)
 		{
-			manager = new GuildMusicHandler(playerManager);
+			manager = new GuildMusicManager(playerManager);
 			musicHandlers.put(guild.getIdLong(), manager);
 		}
 
@@ -55,7 +55,7 @@ public class MusicHandler
 	{
 		monke.getShardManager().getGuilds().forEach(guild ->
 		{
-			GuildMusicHandler manager = musicHandlers.get(guild.getIdLong());
+			GuildMusicManager manager = musicHandlers.get(guild.getIdLong());
 			VoiceChannel vc = guild.getAudioManager().getConnectedChannel();
 			if(vc == null)
 			{

@@ -3,7 +3,7 @@ package me.arynxd.monkebot.events.main;
 import java.util.List;
 import me.arynxd.monkebot.Monke;
 import me.arynxd.monkebot.objects.database.ReactionRole;
-import me.arynxd.monkebot.objects.music.GuildMusicHandler;
+import me.arynxd.monkebot.objects.music.GuildMusicManager;
 import me.arynxd.monkebot.util.DatabaseUtils;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.events.guild.GuildJoinEvent;
@@ -68,7 +68,7 @@ public class GuildEventsMain extends ListenerAdapter
 	{
 		if(event.getMember().equals(event.getGuild().getSelfMember()))
 		{
-			GuildMusicHandler manager = monke.getMusicHandler().getGuildMusicManager(event.getGuild());
+			GuildMusicManager manager = monke.getMusicHandler().getGuildMusicManager(event.getGuild());
 			manager.getPlayer().destroy();
 			manager.leave(event.getGuild());
 			manager.getScheduler().clear();

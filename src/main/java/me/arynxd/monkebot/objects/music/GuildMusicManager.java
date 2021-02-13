@@ -5,19 +5,26 @@ import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import java.util.List;
 import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.VoiceChannel;
 import net.dv8tion.jda.api.managers.AudioManager;
 
-public class GuildMusicHandler
+public class GuildMusicManager
 {
 	private final AudioPlayer player;
 	private final TrackScheduler scheduler;
+	private MessageChannel channel;
 
-	public GuildMusicHandler(AudioPlayerManager manager)
+	public GuildMusicManager(AudioPlayerManager manager)
 	{
 		player = manager.createPlayer();
-		scheduler = new TrackScheduler(player);
+		scheduler = new TrackScheduler(player, this);
 		player.addListener(scheduler);
+	}
+
+	public MessageChannel getChannel()
+	{
+		return channel;
 	}
 
 	public AudioPlayer getPlayer()
@@ -76,5 +83,13 @@ public class GuildMusicHandler
 		leave(guild);
 		player.destroy();
 		scheduler.clear();
+	}
+
+	public void bind(MessageChannel channel)
+	{
+		if(this.channel == null)
+		{
+			this.channel = channel;
+		}
 	}
 }

@@ -55,4 +55,9 @@ public class BotInfo
 	{
 		return (getTotalMemory() - getFreeMemory() >> 20) + "MB / " + (getMaxMemory() >> 20) + "MB";
 	}
+
+	public static String getMemoryPercent()
+	{
+		return String.valueOf((int) (getTotalMemory() - getFreeMemory()) / (getMaxMemory()) * 100);
+	}
 }
