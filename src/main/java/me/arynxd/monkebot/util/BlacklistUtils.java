@@ -4,9 +4,9 @@ import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 import me.arynxd.monkebot.Monke;
-import me.arynxd.monkebot.entities.jooq.Tables;
-import me.arynxd.monkebot.entities.jooq.tables.ChannelBlacklists;
-import me.arynxd.monkebot.entities.jooq.tables.WordBlacklists;
+import me.arynxd.monkebot.objects.jooq.Tables;
+import me.arynxd.monkebot.objects.jooq.tables.ChannelBlacklists;
+import me.arynxd.monkebot.objects.jooq.tables.WordBlacklists;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.MessageChannel;
@@ -135,9 +135,9 @@ public class BlacklistUtils
 		}
 	}
 
-	public static List<me.arynxd.monkebot.entities.jooq.tables.pojos.ChannelBlacklists> getBlacklistedChannels(Guild guild, Monke monke)
+	public static List<me.arynxd.monkebot.objects.jooq.tables.pojos.ChannelBlacklists> getBlacklistedChannels(Guild guild, Monke monke)
 	{
-		List<me.arynxd.monkebot.entities.jooq.tables.pojos.ChannelBlacklists> result = new ArrayList<>();
+		List<me.arynxd.monkebot.objects.jooq.tables.pojos.ChannelBlacklists> result = new ArrayList<>();
 		try(Connection connection = monke.getDatabaseHandler().getConnection())
 		{
 			var context = monke.getDatabaseHandler().getContext(connection);
@@ -147,7 +147,7 @@ public class BlacklistUtils
 
 			for(var row : query.fetch())
 			{
-				result.add(new me.arynxd.monkebot.entities.jooq.tables.pojos.ChannelBlacklists(row.getId(), row.getGuildId(), row.getChannelId()));
+				result.add(new me.arynxd.monkebot.objects.jooq.tables.pojos.ChannelBlacklists(row.getId(), row.getGuildId(), row.getChannelId()));
 			}
 		}
 		catch(Exception exception)

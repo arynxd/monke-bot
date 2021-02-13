@@ -18,12 +18,6 @@ public class UserUtils
 		return member.getRoles().stream().map(Role::getIdLong).collect(Collectors.toList());
 	}
 
-	public static boolean basicPermCheck(Member user, TextChannel channel)
-	{
-		return user.hasPermission(channel, Permission.MESSAGE_WRITE, Permission.MESSAGE_HISTORY, Permission.MESSAGE_READ, Permission.VIEW_CHANNEL, Permission.MESSAGE_EMBED_LINKS);
-	}
-
-
 	public static RestAction<Member> getMemberFromUser(User user, Guild guild)
 	{
 		return guild.retrieveMember(user);

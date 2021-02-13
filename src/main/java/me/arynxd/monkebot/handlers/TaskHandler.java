@@ -7,7 +7,7 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-import me.arynxd.monkebot.entities.bot.BotTask;
+import me.arynxd.monkebot.objects.bot.BotTask;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

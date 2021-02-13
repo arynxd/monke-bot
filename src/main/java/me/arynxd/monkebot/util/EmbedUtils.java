@@ -3,18 +3,16 @@ package me.arynxd.monkebot.util;
 import java.awt.*;
 import java.time.Instant;
 import java.util.concurrent.TimeUnit;
-import me.arynxd.monkebot.entities.Emoji;
-import me.arynxd.monkebot.entities.command.Command;
-import me.arynxd.monkebot.entities.command.CommandEvent;
+import me.arynxd.monkebot.objects.Emoji;
+import me.arynxd.monkebot.objects.command.Command;
+import me.arynxd.monkebot.objects.command.CommandEvent;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
 
 public class EmbedUtils
 {
-	public static final int CHARACTER_LIMIT = 1000;
 	public static final int REACTION_LIMIT = 20;
-	public static final int EMBED_TITLE_LIMIT = 256;
 
 	private EmbedUtils()
 	{

@@ -1,17 +1,14 @@
 package me.arynxd.monkebot;
 
-import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 import javax.security.auth.login.LoginException;
-import me.arynxd.monkebot.entities.bot.ConfigOption;
-import me.arynxd.monkebot.entities.bot.Configuration;
-import me.arynxd.monkebot.entities.command.Command;
-import me.arynxd.monkebot.entities.database.Tempban;
-import me.arynxd.monkebot.entities.database.Vote;
-import me.arynxd.monkebot.entities.info.BotInfo;
+import me.arynxd.monkebot.objects.bot.ConfigOption;
+import me.arynxd.monkebot.objects.bot.Configuration;
+import me.arynxd.monkebot.objects.bot.EventWaiter;
+import me.arynxd.monkebot.objects.database.Tempban;
+import me.arynxd.monkebot.objects.database.Vote;
+import me.arynxd.monkebot.objects.info.BotInfo;
 import me.arynxd.monkebot.events.command.ReportCommandReactionAdd;
 import me.arynxd.monkebot.events.logging.MemberEventsLogging;
 import me.arynxd.monkebot.events.logging.MessageEventsLogging;
@@ -20,16 +17,13 @@ import me.arynxd.monkebot.events.main.GuildEventsMain;
 import me.arynxd.monkebot.events.main.MessageEventsMain;
 import me.arynxd.monkebot.handlers.*;
 import me.arynxd.monkebot.util.DatabaseUtils;
-import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDAInfo;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.MessageReaction;
+import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.SelfUser;
-import net.dv8tion.jda.api.events.GenericEvent;
 import net.dv8tion.jda.api.events.ReadyEvent;
-import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder;
@@ -46,7 +40,6 @@ public class Monke extends ListenerAdapter
 	private final DatabaseHandler databaseHandler;
 	private final CommandHandler commandHandler;
 	private final LocalDateTime startTimestamp;
-	private final List<EmbedBuilder> helpPages;
 	private final Configuration configuration;
 	private final MusicHandler musicHandler;
 	private final OkHttpClient okHttpClient;
@@ -64,7 +57,6 @@ public class Monke extends ListenerAdapter
 		this.databaseHandler = new DatabaseHandler(this);
 		this.commandHandler = new CommandHandler(this);
 		this.startTimestamp = LocalDateTime.now();
-		this.helpPages = new ArrayList<>();
 		this.taskHandler = new TaskHandler();
 		this.eventWaiter = new EventWaiter();
 		this.okHttpClient = new OkHttpClient();
@@ -191,46 +183,6 @@ public class Monke extends ListenerAdapter
 	public LocalDateTime getStartTimestamp()
 	{
 		return this.startTimestamp;
-	}
-
-	public List<EmbedBuilder> getHelpPages()
-	{
-		if(this.helpPages.isEmpty())
-		{
-			List<Command> commands = new ArrayList<>();
-			for(Command cmd : getCommandHandler().getCommandMap().values())
-			{
-				if(!commands.contains(cmd))
-				{
-					commands.add(cmd);
-				}
-			}
-
-			EmbedBuilder embedBuilder = new EmbedBuilder();
-			int fieldCount = 0;
-			int page = 1;
-			for(int i = 0; i < commands.size(); i++)
-			{
-				Command cmd = commands.get(i);
-				if(fieldCount < 6)
-				{
-					fieldCount++;
-					embedBuilder.setTitle("Help page: " + page);
-					embedBuilder.addField(cmd.getName(), cmd.getDescription() + "\n**" + cmd.getAliases().get(0) + "**`" + cmd.getSyntax() + "`", false);
-					embedBuilder.setColor(Constants.EMBED_COLOUR);
-					embedBuilder.setFooter("<> Optional;  [] Required; {} Maximum Quantity | ");
-				}
-				else
-				{
-					this.helpPages.add(embedBuilder);
-					embedBuilder = new EmbedBuilder();
-					fieldCount = 0;
-					page++;
-					i--;
-				}
-			}
-		}
-		return this.helpPages;
 	}
 
 	public ShardManager getShardManager()

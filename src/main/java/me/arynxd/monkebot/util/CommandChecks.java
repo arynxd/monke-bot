@@ -4,9 +4,9 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
-import me.arynxd.monkebot.entities.command.CommandEvent;
-import me.arynxd.monkebot.entities.exception.*;
-import me.arynxd.monkebot.entities.json.RedditPost;
+import me.arynxd.monkebot.objects.command.CommandEvent;
+import me.arynxd.monkebot.objects.exception.*;
+import me.arynxd.monkebot.objects.json.RedditPost;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.*;
 
@@ -194,7 +194,7 @@ public class CommandChecks
 						}
 					}
 				});
-		if(chars.size() > EmbedUtils.CHARACTER_LIMIT)
+		if(chars.size() > MessageEmbed.TEXT_MAX_LENGTH)
 		{
 			callback.accept(new CommandInputException("Input too large."));
 			return true;

@@ -4,7 +4,7 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
-import me.arynxd.monkebot.entities.Emoji;
+import me.arynxd.monkebot.objects.Emoji;
 
 public class StringUtils
 {

@@ -2,7 +2,7 @@ package me.arynxd.monkebot.handlers;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import me.arynxd.monkebot.entities.command.Command;
+import me.arynxd.monkebot.objects.command.Command;
 import net.dv8tion.jda.api.entities.Member;
 
 public abstract class CooldownHandler
