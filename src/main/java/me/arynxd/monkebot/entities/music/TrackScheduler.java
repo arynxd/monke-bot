@@ -37,7 +37,10 @@ public class TrackScheduler extends AudioEventAdapter
 
 	public void skipOne()
 	{
-		player.startTrack(queue.poll(), false);
+		synchronized(queue)
+		{
+			player.startTrack(queue.poll(), false);
+		}
 	}
 
 	@Override
