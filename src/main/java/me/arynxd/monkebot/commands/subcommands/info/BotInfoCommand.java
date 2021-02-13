@@ -1,6 +1,7 @@
 package me.arynxd.monkebot.commands.subcommands.info;
 
 import java.lang.management.ManagementFactory;
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.function.Consumer;
 import me.arynxd.monkebot.Constants;
@@ -30,7 +31,7 @@ public class BotInfoCommand extends Command
 
 				.addField("Thread Count", String.valueOf(BotInfo.getThreadCount()), true)
 				.addField("Memory Usage", BotInfo.getMemoryFormatted() + " [" + BotInfo.getMemoryPercent() + "%]", true)
-				.addField("CPU Usage", ManagementFactory.getOperatingSystemMXBean().getSystemLoadAverage() + "%", true)
+				.addField("CPU Usage", new DecimalFormat("#.##").format(ManagementFactory.getOperatingSystemMXBean().getSystemLoadAverage()) + "%", true)
 
 				.addField("Shard Info", event.getJDA().getShardInfo().getShardString(), true)
 				.addField("Server Count", String.valueOf(BotInfo.getTotalServers(event.getMonke().getShardManager())), true)
