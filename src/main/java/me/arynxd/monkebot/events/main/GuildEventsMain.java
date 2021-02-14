@@ -54,7 +54,7 @@ public class GuildEventsMain extends ListenerAdapter
 				logChannel.sendMessage(new EmbedBuilder()
 						.setTitle("Left a server.")
 						.setDescription("server name: " + event.getGuild().getName()
-								+ "\n\nTotal servers: " + BotInfo.getTotalServers(event.getJDA().getShardManager()))
+								+ "\n\nTotal servers: " + BotInfo.getGuildCount(event.getJDA().getShardManager()))
 						.setColor(Constants.EMBED_COLOUR)
 						.setTimestamp(Instant.now())
 						.build()).queue();
@@ -91,7 +91,7 @@ public class GuildEventsMain extends ListenerAdapter
 				logChannel.sendMessage(new EmbedBuilder()
 						.setTitle("Joined a server.")
 						.setDescription("server name: " + event.getGuild().getName()
-								+ "\n\nTotal servers: " + BotInfo.getTotalServers(event.getJDA().getShardManager()))
+								+ "\n\nTotal servers: " + BotInfo.getGuildCount(event.getJDA().getShardManager()))
 						.setColor(Constants.EMBED_COLOUR)
 						.setTimestamp(Instant.now())
 						.build()).queue();

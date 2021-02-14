@@ -34,7 +34,7 @@ public class BotInfoCommand extends Command
 				.addField("CPU Usage", new DecimalFormat("#.##").format(ManagementFactory.getOperatingSystemMXBean().getSystemLoadAverage()) + "%", true)
 
 				.addField("Shard Info", event.getJDA().getShardInfo().getShardString(), true)
-				.addField("Server Count", String.valueOf(BotInfo.getTotalServers(event.getMonke().getShardManager())), true)
+				.addField("Server Count", String.valueOf(BotInfo.getGuildCount(event.getMonke().getShardManager())), true)
 				.addField("Total Users", String.valueOf(event
 						.getMonke()
 						.getShardManager()

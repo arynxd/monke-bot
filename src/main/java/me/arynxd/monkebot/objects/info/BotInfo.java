@@ -12,11 +12,6 @@ public class BotInfo
 		//Overrides the default, public, constructor
 	}
 
-	public static long getGuildCount(ShardManager shardManager)
-	{
-		return shardManager.getShardCache().size();
-	}
-
 	public static long getUserCount(ShardManager shardManager)
 	{
 		return shardManager.getGuildCache().applyStream(guildStream -> guildStream.mapToInt(Guild::getMemberCount)).sum();
@@ -57,7 +52,7 @@ public class BotInfo
 		return ManagementFactory.getThreadMXBean().getThreadCount();
 	}
 
-	public static long getTotalServers(ShardManager shardManager)
+	public static long getGuildCount(ShardManager shardManager)
 	{
 		return shardManager.getGuildCache().size();
 	}
