@@ -6,14 +6,14 @@ import java.util.function.Consumer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-import me.arynxd.monkebot.entities.command.CommandEvent;
+import me.arynxd.monkebot.objects.command.CommandEvent;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.*;
 
 public class Parser
 {
-	public static final Pattern ID_REGEX = Pattern.compile("(\\d{17,18})");
-	public static final Pattern periodPattern = Pattern.compile(
+	public static final Pattern ID_PATTERN = Pattern.compile("(\\d{17,18})");
+	public static final Pattern DURATION_PATTERN = Pattern.compile(
 			"([0-9]+) ?-?\\.?,?(" +
 					"mo|mnth|month|months" +
 					"|w|wk|wks|weeks" +
@@ -28,7 +28,7 @@ public class Parser
 
 	public Parser(String arg, CommandEvent event)
 	{
-		this.arg = arg;
+		this.arg = StringUtils.markdownSanitize(arg);
 		this.event = event;
 	}
 
@@ -78,7 +78,7 @@ public class Parser
 
 	public LocalDateTime parseAsDuration()
 	{
-		Matcher matcher = periodPattern.matcher(arg.toLowerCase());
+		Matcher matcher = DURATION_PATTERN.matcher(arg.toLowerCase());
 		LocalDateTime offset = LocalDateTime.now();
 		while(matcher.find())
 		{
@@ -151,7 +151,7 @@ public class Parser
 		Guild guild = event.getGuild();
 		User author = event.getAuthor();
 		String typeName = type.name().toLowerCase();
-		Matcher idMatcher = ID_REGEX.matcher(arg);
+		Matcher idMatcher = ID_PATTERN.matcher(arg);
 		JDA jda = event.getJDA();
 		SelfUser selfUser = jda.getSelfUser();
 

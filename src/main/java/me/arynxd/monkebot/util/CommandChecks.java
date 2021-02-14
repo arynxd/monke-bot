@@ -4,9 +4,10 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
-import me.arynxd.monkebot.entities.command.CommandEvent;
-import me.arynxd.monkebot.entities.exception.*;
-import me.arynxd.monkebot.entities.json.RedditPost;
+import me.arynxd.monkebot.objects.command.CommandEvent;
+import me.arynxd.monkebot.objects.exception.*;
+import me.arynxd.monkebot.objects.json.RedditPost;
+import me.arynxd.monkebot.objects.music.GuildMusicManager;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.*;
 
@@ -194,9 +195,19 @@ public class CommandChecks
 						}
 					}
 				});
-		if(chars.size() > EmbedUtils.CHARACTER_LIMIT)
+		if(chars.size() > MessageEmbed.TEXT_MAX_LENGTH)
 		{
 			callback.accept(new CommandInputException("Input too large."));
+			return true;
+		}
+		return false;
+	}
+
+	public static boolean boundToChannel(GuildMusicManager handler, MessageChannel channel, Consumer<CommandException> callback)
+	{
+		if(handler.getChannel() != null && handler.getChannel().getIdLong() != channel.getIdLong())
+		{
+			callback.accept(new CommandResultException("I'm bound to " + StringUtils.getChannelAsMention(handler.getChannel().getIdLong()) + " for this session."));
 			return true;
 		}
 		return false;

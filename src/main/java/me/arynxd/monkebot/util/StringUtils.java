@@ -4,7 +4,8 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
-import me.arynxd.monkebot.entities.Emoji;
+import me.arynxd.monkebot.objects.Emoji;
+import net.dv8tion.jda.api.utils.MarkdownSanitizer;
 
 public class StringUtils
 {
@@ -23,6 +24,16 @@ public class StringUtils
 		{
 			return emote;
 		}
+	}
+
+	public static String markdownSanitize(String text)
+	{
+		return MarkdownSanitizer.sanitize(text, MarkdownSanitizer.SanitizationStrategy.REMOVE);
+	}
+
+	public static String URLSanitize(String text)
+	{
+		return text.replaceAll("(\\?|\\&)([^=]+)\\=([^&]+)", "");
 	}
 
 	public static String plurify(int number)

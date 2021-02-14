@@ -1,17 +1,18 @@
 package me.arynxd.monkebot;
 
-import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 import javax.security.auth.login.LoginException;
-import me.arynxd.monkebot.entities.bot.ConfigOption;
-import me.arynxd.monkebot.entities.bot.Configuration;
-import me.arynxd.monkebot.entities.command.Command;
-import me.arynxd.monkebot.entities.database.Tempban;
-import me.arynxd.monkebot.entities.database.Vote;
-import me.arynxd.monkebot.entities.info.BotInfo;
+import me.arynxd.monkebot.objects.bot.ConfigOption;
+import me.arynxd.monkebot.objects.bot.Configuration;
+import me.arynxd.monkebot.objects.bot.EventWaiter;
+import me.arynxd.monkebot.objects.database.Tempban;
+import me.arynxd.monkebot.objects.database.Vote;
+import me.arynxd.monkebot.objects.info.BotInfo;
 import me.arynxd.monkebot.events.command.ReportCommandReactionAdd;
 import me.arynxd.monkebot.events.logging.MemberEventsLogging;
 import me.arynxd.monkebot.events.logging.MessageEventsLogging;
@@ -20,16 +21,14 @@ import me.arynxd.monkebot.events.main.GuildEventsMain;
 import me.arynxd.monkebot.events.main.MessageEventsMain;
 import me.arynxd.monkebot.handlers.*;
 import me.arynxd.monkebot.util.DatabaseUtils;
-import net.dv8tion.jda.api.EmbedBuilder;
+import me.arynxd.monkebot.util.StringUtils;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDAInfo;
+import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.MessageReaction;
 import net.dv8tion.jda.api.entities.SelfUser;
-import net.dv8tion.jda.api.events.GenericEvent;
 import net.dv8tion.jda.api.events.ReadyEvent;
-import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder;
@@ -42,11 +41,9 @@ import org.slf4j.LoggerFactory;
 
 public class Monke extends ListenerAdapter
 {
-
 	private final DatabaseHandler databaseHandler;
 	private final CommandHandler commandHandler;
 	private final LocalDateTime startTimestamp;
-	private final List<EmbedBuilder> helpPages;
 	private final Configuration configuration;
 	private final MusicHandler musicHandler;
 	private final OkHttpClient okHttpClient;
@@ -55,7 +52,6 @@ public class Monke extends ListenerAdapter
 	private final WebHandler webHandler;
 	private final Logger logger;
 	private ShardManager shardManager;
-	private JDA jda;
 
 	public Monke()
 	{
@@ -64,7 +60,6 @@ public class Monke extends ListenerAdapter
 		this.databaseHandler = new DatabaseHandler(this);
 		this.commandHandler = new CommandHandler(this);
 		this.startTimestamp = LocalDateTime.now();
-		this.helpPages = new ArrayList<>();
 		this.taskHandler = new TaskHandler();
 		this.eventWaiter = new EventWaiter();
 		this.okHttpClient = new OkHttpClient();
@@ -94,6 +89,7 @@ public class Monke extends ListenerAdapter
 
 	public void build() throws LoginException
 	{
+
 		this.shardManager = DefaultShardManagerBuilder
 				.create(getConfiguration().getString(ConfigOption.TOKEN),
 						GatewayIntent.GUILD_MEMBERS,
@@ -130,17 +126,16 @@ public class Monke extends ListenerAdapter
 						new MessageEventsLogging(this),
 						new MemberEventsLogging(this)
 				)
-				.setActivity(Activity.listening(" your commands."))
+				.setActivity(Activity.playing(" loading."))
+				.setStatus(OnlineStatus.DO_NOT_DISTURB)
 				.build();
 	}
 
 	@Override
 	public void onReady(ReadyEvent event)
 	{
-		this.jda = event.getJDA();
-		getStartTimestamp();
-
 		registerGuilds(event.getJDA().getShardManager());
+		switchStatus(event.getJDA());
 
 		getLogger().info("  ___      _     ___ _            _          _ _ ");
 		getLogger().info(" | _ ) ___| |_  / __| |_ __ _ _ _| |_ ___ __| | |");
@@ -158,22 +153,23 @@ public class Monke extends ListenerAdapter
 		{
 			DatabaseUtils.getExpiredTempbans(this).forEach(tempban -> Tempban.remove(tempban.getUserId(), this));
 			DatabaseUtils.getExpiredVotes(this).forEach(vote -> Vote.closeById(vote.getVoteId(), vote.getGuildId(), this));
-			getMusicHandler().cleanupPlayers();
 		}, TimeUnit.SECONDS, 15);
+
+		getTaskHandler().addRepeatingTask(() -> switchStatus(event.getJDA()), TimeUnit.MINUTES, 2);
 	}
 
 	public SelfUser getSelfUser()
 	{
-		if(this.jda == null)
+		if(getJDA() == null)
 		{
 			throw new UnsupportedOperationException("No JDA present.");
 		}
-		return this.jda.getSelfUser();
+		return getJDA() .getSelfUser();
 	}
 
 	public JDA getJDA()
 	{
-		return this.jda;
+		return shardManager.getShardCache().stream().filter(Objects::nonNull).findFirst().orElse(null);
 	}
 
 	public void registerGuilds(ShardManager shardManager)
@@ -188,49 +184,33 @@ public class Monke extends ListenerAdapter
 		}
 	}
 
+	private void switchStatus(JDA jda)
+	{
+		byte[] array = new byte[10];
+		new Random().nextBytes(array);
+
+		String generatedString = new String(array, StandardCharsets.UTF_8);
+		ShardManager manager = jda.getShardManager();
+
+		if(manager == null)
+		{
+			return;
+		}
+
+		List<Activity> status = List.of(
+				Activity.watching(BotInfo.getGuildCount(manager) + " guild" + StringUtils.plurify((int) BotInfo.getGuildCount(manager))),
+				Activity.watching(BotInfo.getUserCount(manager) + " user" + StringUtils.plurify((int) BotInfo.getUserCount(manager))),
+				Activity.listening("your commands"),
+				Activity.playing(generatedString),
+				Activity.playing("forknife!!!!")
+		);
+
+		jda.getPresence().setPresence(OnlineStatus.ONLINE, status.get(new Random().nextInt(status.size() - 1)));
+	}
+
 	public LocalDateTime getStartTimestamp()
 	{
 		return this.startTimestamp;
-	}
-
-	public List<EmbedBuilder> getHelpPages()
-	{
-		if(this.helpPages.isEmpty())
-		{
-			List<Command> commands = new ArrayList<>();
-			for(Command cmd : getCommandHandler().getCommandMap().values())
-			{
-				if(!commands.contains(cmd))
-				{
-					commands.add(cmd);
-				}
-			}
-
-			EmbedBuilder embedBuilder = new EmbedBuilder();
-			int fieldCount = 0;
-			int page = 1;
-			for(int i = 0; i < commands.size(); i++)
-			{
-				Command cmd = commands.get(i);
-				if(fieldCount < 6)
-				{
-					fieldCount++;
-					embedBuilder.setTitle("Help page: " + page);
-					embedBuilder.addField(cmd.getName(), cmd.getDescription() + "\n**" + cmd.getAliases().get(0) + "**`" + cmd.getSyntax() + "`", false);
-					embedBuilder.setColor(Constants.EMBED_COLOUR);
-					embedBuilder.setFooter("<> Optional;  [] Required; {} Maximum Quantity | ");
-				}
-				else
-				{
-					this.helpPages.add(embedBuilder);
-					embedBuilder = new EmbedBuilder();
-					fieldCount = 0;
-					page++;
-					i--;
-				}
-			}
-		}
-		return this.helpPages;
 	}
 
 	public ShardManager getShardManager()

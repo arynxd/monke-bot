@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.util.HashMap;
 import java.util.Map;
 import me.arynxd.monkebot.Monke;
-import me.arynxd.monkebot.entities.jooq.tables.Verification;
+import me.arynxd.monkebot.objects.jooq.tables.Verification;
 import net.dv8tion.jda.api.entities.Guild;
 
 public class VerificationUtils

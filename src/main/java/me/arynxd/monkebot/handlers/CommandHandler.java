@@ -8,10 +8,10 @@ import java.util.*;
 import java.util.stream.Collectors;
 import me.arynxd.monkebot.Constants;
 import me.arynxd.monkebot.Monke;
-import me.arynxd.monkebot.entities.cache.GuildSettingsCache;
-import me.arynxd.monkebot.entities.command.Command;
-import me.arynxd.monkebot.entities.command.CommandEvent;
-import me.arynxd.monkebot.entities.command.CommandFlag;
+import me.arynxd.monkebot.objects.cache.GuildSettingsCache;
+import me.arynxd.monkebot.objects.command.Command;
+import me.arynxd.monkebot.objects.command.CommandEvent;
+import me.arynxd.monkebot.objects.command.CommandFlag;
 import me.arynxd.monkebot.util.BlacklistUtils;
 import me.arynxd.monkebot.util.EmbedUtils;
 import net.dv8tion.jda.api.Permission;
@@ -21,7 +21,7 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 public class CommandHandler
 {
-	public static final String COMMAND_PACKAGE = "me.arynxd.monkebot.commands.commands";
+	public static final String COMMAND_PACKAGE = "me.arynxd.monkebot.commands.maincommands";
 
 	private final ClassGraph classGraph = new ClassGraph().acceptPackages(COMMAND_PACKAGE);
 	private final Map<String, Command> commandMap;
@@ -33,7 +33,7 @@ public class CommandHandler
 		commandMap = loadCommands();
 	}
 
-	private Map<String, Command> loadCommands()
+	public Map<String, Command> loadCommands()
 	{
 		Map<String, Command> commands = new LinkedHashMap<>();
 		try(ScanResult result = classGraph.scan())
@@ -67,7 +67,7 @@ public class CommandHandler
 			System.exit(1);
 		}
 
-		return Collections.unmodifiableMap(commands);
+		return commands;
 	}
 
 	public Map<String, Command> getCommandMap()
@@ -219,7 +219,6 @@ public class CommandHandler
 			event.getMessage().delete().queue();
 		}
 	}
-
 
 	private boolean isBotMention(MessageReceivedEvent event)
 	{

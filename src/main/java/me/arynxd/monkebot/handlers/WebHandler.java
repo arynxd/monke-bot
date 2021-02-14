@@ -32,7 +32,7 @@ public class WebHandler
 					{
 						get(new InviteBotRoute(this));
 						path("/bot", () -> get(new InviteBotRoute(this)));
-						path("/discord", () -> get(new InviteDiscordRoute(this)));
+						path("/discord", () -> get(new InviteDiscordRoute()));
 					});
 
 					path("/health", () -> get(ctx -> ctx.result("Healthy")));

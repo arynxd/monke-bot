@@ -2,10 +2,10 @@ package me.arynxd.monkebot.commands.subcommands.channel;
 
 import java.util.List;
 import java.util.function.Consumer;
-import me.arynxd.monkebot.entities.command.Command;
-import me.arynxd.monkebot.entities.command.CommandEvent;
-import me.arynxd.monkebot.entities.exception.CommandException;
-import me.arynxd.monkebot.entities.jooq.tables.pojos.ChannelBlacklists;
+import me.arynxd.monkebot.objects.command.Command;
+import me.arynxd.monkebot.objects.command.CommandEvent;
+import me.arynxd.monkebot.objects.exception.CommandException;
+import me.arynxd.monkebot.objects.jooq.tables.pojos.ChannelBlacklists;
 import me.arynxd.monkebot.util.BlacklistUtils;
 import me.arynxd.monkebot.util.StringUtils;
 import net.dv8tion.jda.api.EmbedBuilder;

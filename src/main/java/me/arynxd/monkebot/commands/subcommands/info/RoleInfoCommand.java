@@ -2,10 +2,10 @@ package me.arynxd.monkebot.commands.subcommands.info;
 
 import java.util.List;
 import java.util.function.Consumer;
-import me.arynxd.monkebot.entities.command.Command;
-import me.arynxd.monkebot.entities.command.CommandEvent;
-import me.arynxd.monkebot.entities.exception.CommandException;
-import me.arynxd.monkebot.entities.info.RoleInfo;
+import me.arynxd.monkebot.objects.command.Command;
+import me.arynxd.monkebot.objects.command.CommandEvent;
+import me.arynxd.monkebot.objects.exception.CommandException;
+import me.arynxd.monkebot.objects.info.RoleInfo;
 import me.arynxd.monkebot.util.EmbedUtils;
 import me.arynxd.monkebot.util.Parser;
 import net.dv8tion.jda.api.EmbedBuilder;
