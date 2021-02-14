@@ -200,7 +200,7 @@ public class Monke extends ListenerAdapter
 		List<Activity> status = List.of(
 				Activity.watching(BotInfo.getGuildCount(manager) + " guild" + StringUtils.plurify((int) BotInfo.getGuildCount(manager))),
 				Activity.watching(BotInfo.getUserCount(manager) + " user" + StringUtils.plurify((int) BotInfo.getUserCount(manager))),
-				Activity.listening("to your commands"),
+				Activity.listening("your commands"),
 				Activity.playing(generatedString),
 				Activity.playing("forknife!!!!")
 		);
