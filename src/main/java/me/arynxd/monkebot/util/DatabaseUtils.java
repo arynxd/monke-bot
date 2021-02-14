@@ -7,7 +7,6 @@ import java.util.Collections;
 import java.util.List;
 import me.arynxd.monkebot.Monke;
 import me.arynxd.monkebot.objects.jooq.Tables;
-
 import me.arynxd.monkebot.objects.jooq.tables.Guilds;
 import me.arynxd.monkebot.objects.jooq.tables.Levels;
 import me.arynxd.monkebot.objects.jooq.tables.pojos.Tempbans;

@@ -205,7 +205,7 @@ public class Monke extends ListenerAdapter
 				Activity.playing("forknife!!!!")
 		);
 
-		jda.getPresence().setPresence(OnlineStatus.ONLINE, status.get(new Random().nextInt(status.size()) - 1));
+		jda.getPresence().setPresence(OnlineStatus.ONLINE, status.get(new Random().nextInt(status.size() - 1)));
 	}
 
 	public LocalDateTime getStartTimestamp()

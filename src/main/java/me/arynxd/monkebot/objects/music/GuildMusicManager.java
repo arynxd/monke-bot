@@ -100,5 +100,6 @@ public class GuildMusicManager
 	public void setVolume(int volume)
 	{
 		this.volume = volume;
+		player.setVolume(volume);
 	}
 }
