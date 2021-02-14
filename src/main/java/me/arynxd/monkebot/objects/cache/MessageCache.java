@@ -26,7 +26,7 @@ public class MessageCache implements ICache<Long, CachedMessage>
 				.build();
 	}
 
-	public static @NotNull MessageCache getCache(@NotNull Long guildId)
+	public static @NotNull MessageCache getCache(long guildId)
 	{
 		MessageCache cache = MESSAGE_CACHES.get(guildId);
 		if(MESSAGE_CACHES.get(guildId) == null)
@@ -35,6 +35,11 @@ public class MessageCache implements ICache<Long, CachedMessage>
 			MESSAGE_CACHES.put(guildId, cache);
 		}
 		return cache;
+	}
+
+	public static void removeCache(long guildId)
+	{
+		MESSAGE_CACHES.remove(guildId);
 	}
 
 	@Override

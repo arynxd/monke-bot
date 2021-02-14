@@ -59,105 +59,103 @@ public class VerificationCommand extends Command
 		if(CommandChecks.roleConfigured(verifiedRole, "Verified role", failure)) return;
 
 		new Parser(args.get(0), commandEvent).parseAsUser(
-				target ->
-						UserUtils.getMemberFromUser(target, guild).queue(
-								member ->
-								{
-									if(target.isBot())
+			target ->
+				UserUtils.getMemberFromUser(target, guild).queue(
+						member ->
+						{
+							if(target.isBot())
+							{
+								failure.accept(new CommandResultException("Bots cannot be verified."));
+								return;
+							}
+							if(member.getRoles().contains(verifiedRole))
+							{
+								failure.accept(new CommandResultException("User " + target.getAsMention() + " is already verified."));
+								return;
+							}
+
+							channel.getIterableHistory().takeAsync(10).thenAccept(
+									input ->
 									{
-										failure.accept(new CommandResultException("Bots cannot be verified."));
-										return;
-									}
-									if(member.getRoles().contains(verifiedRole))
-									{
-										failure.accept(new CommandResultException("User " + target.getAsMention() + " is already verified."));
-										return;
-									}
-									channel.getIterableHistory().takeAsync(10).thenAccept(
-											input ->
+										List<Message> messages = filterMessages(input, target);
+
+										if(messages.isEmpty())
+										{
+											failure.accept(new CommandResultException("No messages from " + target.getAsMention() + " were found in this channel."));
+											return;
+										}
+
+										StringBuilder ctxMessage = new StringBuilder();
+										StringBuilder welcomeMessage = new StringBuilder();
+
+										List<Role> roles = new ArrayList<>();
+
+										for(long role : getMatches(messages, commandEvent.getGuild(), commandEvent.getMonke()))
+										{
+											Role fetch = guild.getRoleById(role);
+											if(fetch != null)
 											{
-												List<Message> messages = filterMessages(input, target);
+												roles.add(fetch);
+											}
+										}
 
-												if(messages.isEmpty())
-												{
-													failure.accept(new CommandResultException("No messages from " + target.getAsMention() + " were found in this channel."));
-													return;
-												}
+										if(!roles.isEmpty())
+										{
+											for(Role role : roles)
+											{
+												ctxMessage.append(role.getAsMention()).append("\n");
+												welcomeMessage.append(role.getAsMention());
+											}
+										}
+										roles.addAll(member.getRoles());
 
-												StringBuilder ctxMessage = new StringBuilder();
-												StringBuilder welcomeMessage = new StringBuilder();
-
-												List<Role> roles = new ArrayList<>();
-
-												for(long role : getMatches(messages, commandEvent.getGuild(), commandEvent.getMonke()))
-												{
-													Role fetch = guild.getRoleById(role);
-													if(fetch != null)
+										commandEvent.getChannel().sendMessage(new EmbedBuilder()
+												.setTitle("Verification for " + target.getAsTag())
+												.addField("Roles", ctxMessage.length() == 0 ? "No roles found" : ctxMessage.toString(), false)
+												.setColor(Constants.EMBED_COLOUR)
+												.setTimestamp(Instant.now())
+												.build()).queue(message ->
+										{
+											message.addReaction(Emoji.THUMB_UP.getAsReaction()).queue();
+											commandEvent.getMonke().getEventWaiter().waitForEvent(GuildMessageReactionAddEvent.class,
+													event -> event.getMessageIdLong() == message.getIdLong() && event.getUserIdLong() == commandEvent.getAuthor().getIdLong(),
+													event ->
 													{
-														roles.add(fetch);
-													}
-												}
+														message.delete().queue(null, error -> { });
+														channel.purgeMessages(messages);
 
-												if(!roles.isEmpty())
-												{
-													for(Role role : roles)
-													{
-														ctxMessage.append(role.getAsMention()).append("\n");
-														welcomeMessage.append(role.getAsMention());
-													}
-												}
-												roles.addAll(member.getRoles());
+														MessageChannel welcomeChannel = guild.getTextChannelById(GuildSettingsCache.getCache(commandEvent.getGuildIdLong(), commandEvent.getMonke()).getWelcomeChannel());
+														if(welcomeChannel == null)
+														{
+															commandEvent.replyError("Welcome channel not setup, no welcome message will be sent.");
+														}
 
-												commandEvent.getChannel().sendMessage(new EmbedBuilder()
-														.setTitle("Verification for " + target.getAsTag())
-														.addField("Roles", ctxMessage.length() == 0 ? "No roles found" : ctxMessage.toString(), false)
-														.setColor(Constants.EMBED_COLOUR)
-														.setTimestamp(Instant.now())
-														.build()).queue(message ->
-												{
-													message.addReaction(Emoji.THUMB_UP.getAsReaction()).queue();
-													commandEvent.getMonke().getEventWaiter().waitForEvent(GuildMessageReactionAddEvent.class,
-															event -> event.getMessageIdLong() == message.getIdLong() && event.getUserIdLong() == commandEvent.getAuthor().getIdLong(),
-															event ->
-															{
-																message.delete().queue(null, error ->
-																{
-																});
-																channel.purgeMessages(messages);
-
-																MessageChannel welcomeChannel = guild.getTextChannelById(GuildSettingsCache.getCache(commandEvent.getGuildIdLong(), commandEvent.getMonke()).getWelcomeChannel());
-																if(welcomeChannel == null)
-																{
-																	commandEvent.replyError("Welcome channel not setup, no welcome message will be sent.");
-																}
-																if(welcomeChannel != null)
-																{
-																	welcomeChannel.sendMessage(new EmbedBuilder()
-																			.setAuthor(target.getAsTag(), null, target.getEffectiveAvatarUrl())
-																			.setDescription(target.getAsMention() + " has joined " + guild.getName() + ". Welcome!")
-																			.addField("Roles", welcomeMessage.length() == 0 ? "No roles." : welcomeMessage.toString(), false)
-																			.setColor(Constants.EMBED_COLOUR)
-																			.setTimestamp(Instant.now())
-																			.build()).queue();
-																}
+														if(welcomeChannel != null)
+														{
+															welcomeChannel.sendMessage(new EmbedBuilder()
+																	.setAuthor(target.getAsTag(), null, target.getEffectiveAvatarUrl())
+																	.setDescription(target.getAsMention() + " has joined " + guild.getName() + ". Welcome!")
+																	.addField("Roles", welcomeMessage.length() == 0 ? "No roles." : welcomeMessage.toString(), false)
+																	.setColor(Constants.EMBED_COLOUR)
+																	.setTimestamp(Instant.now())
+																	.build()).queue();
+														}
 
 
-																roles.add(verifiedRole);
-																if(unverifiedRole != null)
-																{
-																	roles.remove(unverifiedRole);
-																}
+														roles.add(verifiedRole);
+														if(unverifiedRole != null)
+														{
+															roles.remove(unverifiedRole);
+														}
 
-																guild.modifyMemberRoles(member, roles).queue();
+														guild.modifyMemberRoles(member, roles).queue();
 
-															},
-															10000, TimeUnit.MILLISECONDS,
-															() -> message.delete().queue(null, error ->
-															{
-															}));
-												});
-											});
-								}));
+													},
+													10000, TimeUnit.MILLISECONDS,
+													() -> message.delete().queue(null, error -> { }));
+										});
+									});
+						}));
 	}
 
 	private List<Message> filterMessages(List<Message> messages, User target)

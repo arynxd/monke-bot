@@ -11,6 +11,7 @@ import me.arynxd.monkebot.objects.exception.CommandCooldownException;
 import me.arynxd.monkebot.objects.exception.CommandException;
 import me.arynxd.monkebot.objects.exception.CommandResultException;
 import me.arynxd.monkebot.util.CommandChecks;
+import me.arynxd.monkebot.util.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -43,7 +44,9 @@ public class GoogleCommand extends Command
 		{
 			try
 			{
-				Document doc = Jsoup.connect("https://www.google.com/search?q=" + String.join("%20", args)).get();
+				Document doc = Jsoup.connect("https://www.google.com/search?q=" +
+						StringUtils.URLSanitize(String.join("%20", args))  //Remove any URL params the user inputs
+						+ "&safe=active").get(); //Enable safe search
 				CooldownHandler.addCooldown(event.getMember(), this);
 				Elements links = doc.select(".yuRUbf").select("a"); //Select the first google link
 				Elements names = doc.select(".yuRUbf").select("a").select("h3").select("span"); //Select its 'name'

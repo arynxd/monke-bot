@@ -21,7 +21,7 @@ public class MusicVolumeCommand extends Command
 	{
 		super("Volume", "Sets the music volume", "<volume {100}>");
 		addAliases("volume", "vol");
-		addFlags(CommandFlag.GUILD_ONLY, CommandFlag.DISABLED);
+		addFlags(CommandFlag.GUILD_ONLY);
 	}
 
 	@Override
@@ -49,7 +49,7 @@ public class MusicVolumeCommand extends Command
 				return;
 			}
 
-			manager.getPlayer().setVolume(volume.getAsInt());
+			manager.setVolume(volume.getAsInt());
 			event.replySuccess("Set the volume to " + volume.getAsInt() + "%");
 		}
 	}

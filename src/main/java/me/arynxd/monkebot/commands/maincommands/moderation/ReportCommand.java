@@ -13,6 +13,7 @@ import me.arynxd.monkebot.objects.database.Report;
 import me.arynxd.monkebot.objects.exception.CommandException;
 import me.arynxd.monkebot.objects.exception.CommandHierarchyException;
 import me.arynxd.monkebot.objects.exception.CommandInputException;
+import me.arynxd.monkebot.objects.exception.CommandSyntaxException;
 import me.arynxd.monkebot.util.CommandChecks;
 import me.arynxd.monkebot.util.Parser;
 import me.arynxd.monkebot.util.StringUtils;
@@ -50,7 +51,14 @@ public class ReportCommand extends Command
 		new Parser(args.get(0), event).parseAsUser(user ->
 		{
 			args.remove(0);
-			String reason = String.join(" ", args);
+			String reason = StringUtils.markdownSanitize(String.join(" ", args));
+
+			if(reason.isBlank())
+			{
+				failure.accept(new CommandSyntaxException(event));
+				return;
+			}
+
 			String messageLink = StringUtils.getMessageLink(event.getMessage().getIdLong(), channel.getIdLong(), guild.getIdLong());
 
 			if(user.isBot())
@@ -83,9 +91,7 @@ public class ReportCommand extends Command
 											author.openPrivateChannel()
 													.flatMap(privateChannel ->
 															privateChannel.sendMessage(generateDM(member, user, reason).build()))
-													.queue(null, error ->
-													{
-													});
+													.queue(null, error -> { });
 
 											Report.add(message.getIdLong(), event.getMessage().getIdLong(), channel.getIdLong(), guild.getIdLong(), user.getIdLong(), author.getIdLong(), reason, event.getMonke());
 											message.addReaction(Emoji.THUMB_UP.getUnicode()).queue();

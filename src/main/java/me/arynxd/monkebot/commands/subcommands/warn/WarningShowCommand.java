@@ -1,4 +1,4 @@
-package me.arynxd.monkebot.commands.subcommands.warning;
+package me.arynxd.monkebot.commands.subcommands.warn;
 
 import java.util.List;
 import java.util.function.Consumer;
@@ -23,6 +23,7 @@ public class WarningShowCommand extends Command
 	public WarningShowCommand(Command parent)
 	{
 		super(parent, "show", "Shows a user's warnings.", "[user]");
+		addAliases("list");
 		addFlags(CommandFlag.GUILD_ONLY);
 	}
 

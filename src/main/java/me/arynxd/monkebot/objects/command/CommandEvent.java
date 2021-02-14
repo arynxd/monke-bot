@@ -102,7 +102,7 @@ public class CommandEvent
 		throw new IllegalStateException("Cannot get the guild of a private channel.");
 	}
 
-	public @NotNull Long getGuildIdLong()
+	public long getGuildIdLong()
 	{
 		return getGuild().getIdLong();
 	}
@@ -117,7 +117,7 @@ public class CommandEvent
 		return event.getJDA();
 	}
 
-	public @NotNull Boolean isChild()
+	public boolean isChild()
 	{
 		return command.getParent() != null;
 	}
@@ -158,27 +158,27 @@ public class CommandEvent
 		EmbedUtils.sendSuccess(getChannel(), successText);
 	}
 
-	public @NotNull Boolean isDeveloper()
+	public boolean isDeveloper()
 	{
 		return List.of(monke.getConfiguration().getString(ConfigOption.PRIVILEGEDUSERS).split(",")).contains(getAuthor().getId());
 	}
 
-	public @NotNull Boolean isFromGuild()
+	public boolean isFromGuild()
 	{
 		return event.isFromGuild();
 	}
 
-	public @NotNull Boolean memberPermissionCheck(List<Permission> permissions)
+	public boolean memberPermissionCheck(List<Permission> permissions)
 	{
 		return (event.getMember() != null && event.getMember().hasPermission((GuildChannel) event.getChannel(), permissions));
 	}
 
-	public @NotNull Boolean memberPermissionCheck(Permission... permissions)
+	public boolean memberPermissionCheck(Permission... permissions)
 	{
 		return (event.getMember() != null && event.getMember().hasPermission((GuildChannel) event.getChannel(), permissions));
 	}
 
-	public @NotNull Boolean selfPermissionCheck(Permission... permissions)
+	public boolean selfPermissionCheck(Permission... permissions)
 	{
 		return event.getGuild().getSelfMember().hasPermission(permissions);
 	}
@@ -196,7 +196,7 @@ public class CommandEvent
 	}
 
 
-	public @NotNull Boolean selfPermissionCheck(List<Permission> permissions)
+	public boolean selfPermissionCheck(List<Permission> permissions)
 	{
 		return event.getGuild().getSelfMember().hasPermission(permissions);
 	}

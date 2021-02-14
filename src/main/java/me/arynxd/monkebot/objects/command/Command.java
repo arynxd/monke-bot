@@ -131,24 +131,24 @@ public abstract class Command
 		});
 	}
 
-	public @NotNull Boolean hasChildren()
+	public boolean hasChildren()
 	{
 		return !getChildren().isEmpty();
 	}
 
-	public @NotNull Boolean hasParent()
+	public boolean hasParent()
 	{
 		return parent != null;
 	}
 
 	public abstract void run(@NotNull List<String> args, @NotNull CommandEvent event, @NotNull Consumer<CommandException> failure);
 
-	public @NotNull Long getCooldown()
+	public long getCooldown()
 	{
 		return cooldown;
 	}
 
-	public void setCooldown(@NotNull Long millis)
+	public void setCooldown(long millis)
 	{
 		this.cooldown = millis;
 	}
@@ -158,7 +158,7 @@ public abstract class Command
 		return isDisabled;
 	}
 
-	public void setDisabled(@NotNull Boolean newState)
+	public void setDisabled(boolean newState)
 	{
 		isDisabled = newState;
 	}

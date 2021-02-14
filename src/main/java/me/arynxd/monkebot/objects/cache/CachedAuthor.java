@@ -16,7 +16,7 @@ public class CachedAuthor implements ICacheableEntity<Long, CachedAuthor>
 		this.id = user.getIdLong();
 	}
 
-	public @NotNull Boolean isBot()
+	public boolean isBot()
 	{
 		return isBot;
 	}

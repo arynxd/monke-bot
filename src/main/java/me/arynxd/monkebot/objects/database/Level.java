@@ -18,7 +18,7 @@ public class Level
 		//Overrides the default, public, constructor
 	}
 
-	public static void addLevel(@NotNull Role role, @NotNull Integer level, @NotNull Long guildId, @NotNull Monke igsqbot)
+	public static void addLevel(@NotNull Role role, @NotNull Integer level, long guildId, @NotNull Monke igsqbot)
 	{
 		try(Connection connection = igsqbot.getDatabaseHandler().getConnection())
 		{
@@ -36,7 +36,7 @@ public class Level
 		}
 	}
 
-	public static @NotNull Boolean removeLevel(@NotNull Role role, @NotNull Integer level, @NotNull Long guildId, @NotNull Monke igsqbot)
+	public static boolean removeLevel(@NotNull Role role, @NotNull Integer level, long guildId, @NotNull Monke igsqbot)
 	{
 		try(Connection connection = igsqbot.getDatabaseHandler().getConnection())
 		{
@@ -56,7 +56,7 @@ public class Level
 		}
 	}
 
-	public static @NotNull List<Levels> getLevels(@NotNull Long guildId, @NotNull Monke igsqbot)
+	public static @NotNull List<Levels> getLevels(long guildId, @NotNull Monke igsqbot)
 	{
 		List<Levels> result = new ArrayList<>();
 		try(Connection connection = igsqbot.getDatabaseHandler().getConnection())

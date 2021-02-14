@@ -1,10 +1,18 @@
 package me.arynxd.monkebot.events.main;
 
+import java.time.Instant;
 import java.util.List;
+import me.arynxd.monkebot.Constants;
 import me.arynxd.monkebot.Monke;
+import me.arynxd.monkebot.objects.bot.ConfigOption;
+import me.arynxd.monkebot.objects.cache.GuildSettingsCache;
+import me.arynxd.monkebot.objects.cache.MessageCache;
 import me.arynxd.monkebot.objects.database.ReactionRole;
-import me.arynxd.monkebot.objects.music.GuildMusicManager;
+import me.arynxd.monkebot.objects.info.BotInfo;
 import me.arynxd.monkebot.util.DatabaseUtils;
+import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.events.guild.GuildJoinEvent;
 import net.dv8tion.jda.api.events.guild.GuildLeaveEvent;
@@ -13,7 +21,6 @@ import net.dv8tion.jda.api.events.guild.voice.GuildVoiceLeaveEvent;
 import net.dv8tion.jda.api.events.message.guild.react.GuildMessageReactionAddEvent;
 import net.dv8tion.jda.api.events.message.guild.react.GuildMessageReactionRemoveEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
-import org.jetbrains.annotations.NotNull;
 
 public class GuildEventsMain extends ListenerAdapter
 {
@@ -28,18 +35,68 @@ public class GuildEventsMain extends ListenerAdapter
 	public void onGuildLeave(GuildLeaveEvent event)
 	{
 		DatabaseUtils.removeGuild(event.getGuild(), monke);
+		GuildSettingsCache.removeCache(event.getGuild().getIdLong());
+		MessageCache.removeCache(event.getGuild().getIdLong());
+
+		String[] config = monke.getConfiguration().getString(ConfigOption.LOG_CHANNEL).split("(, *)");
+
+		if(config.length < 2)
+		{
+			return;
+		}
+
+		Guild logGuild = monke.getShardManager().getGuildById(config[0]);
+		if(logGuild != null)
+		{
+			MessageChannel logChannel = logGuild.getTextChannelById(config[1]);
+			if(logChannel != null)
+			{
+				logChannel.sendMessage(new EmbedBuilder()
+						.setTitle("Left a server.")
+						.setDescription("server name: " + event.getGuild().getName()
+								+ "\n\nTotal servers: " + BotInfo.getTotalServers(event.getJDA().getShardManager()))
+						.setColor(Constants.EMBED_COLOUR)
+						.setTimestamp(Instant.now())
+						.build()).queue();
+			}
+		}
 	}
 
 	@Override
 	public void onUnavailableGuildLeave(UnavailableGuildLeaveEvent event)
 	{
 		DatabaseUtils.removeGuild(event.getGuildIdLong(), monke);
+		GuildSettingsCache.removeCache(event.getGuildIdLong());
+		MessageCache.removeCache(event.getGuildIdLong());
 	}
 
 	@Override
 	public void onGuildJoin(GuildJoinEvent event)
 	{
 		DatabaseUtils.registerGuild(event.getGuild(), monke);
+
+		String[] config = monke.getConfiguration().getString(ConfigOption.LOG_CHANNEL).split("(, *)");
+
+		if(config.length < 2)
+		{
+			return;
+		}
+
+		Guild logGuild = monke.getShardManager().getGuildById(config[0]);
+		if(logGuild != null)
+		{
+			MessageChannel logChannel = logGuild.getTextChannelById(config[1]);
+			if(logChannel != null)
+			{
+				logChannel.sendMessage(new EmbedBuilder()
+						.setTitle("Joined a server.")
+						.setDescription("server name: " + event.getGuild().getName()
+								+ "\n\nTotal servers: " + BotInfo.getTotalServers(event.getJDA().getShardManager()))
+						.setColor(Constants.EMBED_COLOUR)
+						.setTimestamp(Instant.now())
+						.build()).queue();
+			}
+		}
 	}
 
 	@Override
@@ -64,14 +121,12 @@ public class GuildEventsMain extends ListenerAdapter
 	}
 
 	@Override
-	public void onGuildVoiceLeave(@NotNull GuildVoiceLeaveEvent event)
+	public void onGuildVoiceLeave(GuildVoiceLeaveEvent event)
 	{
-		if(event.getMember().equals(event.getGuild().getSelfMember()))
+		long humansInVC = event.getChannelLeft().getMembers().stream().filter(member -> !member.getUser().isBot()).count();
+		if(event.getMember().equals(event.getGuild().getSelfMember()) || humansInVC == 0)
 		{
-			GuildMusicManager manager = monke.getMusicHandler().getGuildMusicManager(event.getGuild());
-			manager.getPlayer().destroy();
-			manager.leave(event.getGuild());
-			manager.getScheduler().clear();
+			monke.getMusicHandler().cleanupPlayer(event.getGuild());
 		}
 	}
 

@@ -34,7 +34,7 @@ public class GuildSettingsCache implements ICache<String, CachedGuildSetting>
 				.build();
 	}
 
-	public static @NotNull GuildSettingsCache getCache(Long guildId, Monke monke)
+	public static @NotNull GuildSettingsCache getCache(long guildId, Monke monke)
 	{
 		GuildSettingsCache cache = GUILD_CACHES.get(guildId);
 		if(GUILD_CACHES.get(guildId) == null)
@@ -43,6 +43,11 @@ public class GuildSettingsCache implements ICache<String, CachedGuildSetting>
 			GUILD_CACHES.put(guildId, cache);
 		}
 		return cache;
+	}
+
+	public static void removeCache(long guildId)
+	{
+		GUILD_CACHES.remove(guildId);
 	}
 
 	@Override
@@ -99,12 +104,12 @@ public class GuildSettingsCache implements ICache<String, CachedGuildSetting>
 		values.forEach(this::remove);
 	}
 
-	public @NotNull Long getLogChannel()
+	public long getLogChannel()
 	{
 		return cacheGetLong("logchannel", GUILDS.LOG_CHANNEL);
 	}
 
-	public @NotNull Long getLevelUpBot()
+	public long getLevelUpBot()
 	{
 		return cacheGetLong("levelupbot", GUILDS.LEVEL_UP_BOT);
 	}
@@ -114,50 +119,49 @@ public class GuildSettingsCache implements ICache<String, CachedGuildSetting>
 		cachePut("levelupbot", GUILDS.LEVEL_UP_BOT, newId);
 	}
 
-	public @NotNull Long getUnverifiedRole()
+	public long getUnverifiedRole()
 	{
 		return cacheGetLong("unverifiedrole", GUILDS.UNVERIFIED_ROLE);
 	}
 
-	public @NotNull Long getReportChannel()
+	public long getReportChannel()
 	{
 		return cacheGetLong("reportchannel", GUILDS.REPORT_CHANNEL);
 	}
 
-	public @NotNull Long getWelcomeChannel()
+	public long getWelcomeChannel()
 	{
 		return cacheGetLong("welcomechannel", GUILDS.WELCOME_CHANNEL);
 	}
 
-	public @NotNull Long getVoteChannel()
+	public long getVoteChannel()
 	{
 		return cacheGetLong("votechannel", GUILDS.VOTE_CHANNEL);
 	}
 
-	public @NotNull Long getTempBanRole()
+	public long getTempBanRole()
 	{
 		return cacheGetLong("tempbanrole", GUILDS.MUTED_ROLE);
 	}
 
-	public @NotNull Long getSuggestionChannel()
+	public long getSuggestionChannel()
 	{
 		return cacheGetLong("suggestionchannel", GUILDS.SUGGESTION_CHANNEL);
 	}
 
-	public @NotNull Long getChannelSuggestionChannel()
+	public long getChannelSuggestionChannel()
 	{
 		return cacheGetLong("channelsuggestionchannel", GUILDS.CHANNEL_SUGGESTION_CHANNEL);
 	}
 
-	public @NotNull Long getVerifiedRole()
+	public long getVerifiedRole()
 	{
 		return cacheGetLong("verifiedrole", GUILDS.VERIFIED_ROLE);
 	}
 
 	public @NotNull Language getLanguage()
 	{
-		String language = cacheGetString("language", GUILDS.PREFERED_LANGUAGE);
-		return Language.valueOf(language);
+		return Language.getFromName(cacheGetString("language", GUILDS.PREFERED_LANGUAGE));
 	}
 
 	public void setLanguage(@NotNull Language newLanguage)

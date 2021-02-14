@@ -11,6 +11,7 @@ import me.arynxd.monkebot.objects.exception.CommandException;
 import me.arynxd.monkebot.util.CommandChecks;
 import me.arynxd.monkebot.util.EmbedUtils;
 import me.arynxd.monkebot.util.Parser;
+import me.arynxd.monkebot.util.StringUtils;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.User;
@@ -34,7 +35,7 @@ public class PollCommand extends Command
 		MessageChannel channel = event.getChannel();
 		User author = event.getAuthor();
 		List<String> reactions = new ArrayList<>();
-		List<String> slashArgs = new Parser(String.join(" ", args), event).parseAsSlashArgs();
+		List<String> slashArgs = new Parser(StringUtils.markdownSanitize(String.join(" ", args)), event).parseAsSlashArgs();
 
 		if(CommandChecks.argsSizeSubceeds(slashArgs, event, 3, failure)) return;
 		String topic = slashArgs.get(0);

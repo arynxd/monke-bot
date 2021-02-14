@@ -11,7 +11,7 @@ public class BotTask
 	private final long expiresAt;
 	private final TimeUnit unit;
 
-	public BotTask(@NotNull ScheduledFuture<?> task, @NotNull String name, @NotNull Long expiresAt, @NotNull TimeUnit timeUnit)
+	public BotTask(@NotNull ScheduledFuture<?> task, @NotNull String name, long expiresAt, @NotNull TimeUnit timeUnit)
 	{
 		this.task = task;
 		this.name = name;
@@ -34,7 +34,7 @@ public class BotTask
 		return name;
 	}
 
-	public @NotNull Long getExpiresAt()
+	public long getExpiresAt()
 	{
 		return expiresAt;
 	}

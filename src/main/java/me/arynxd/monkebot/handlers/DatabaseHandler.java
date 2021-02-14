@@ -110,11 +110,11 @@ public class DatabaseHandler
 		HikariConfig hikariConfig = new HikariConfig();
 		Configuration configuration = monke.getConfiguration();
 
-		hikariConfig.setDriverClassName(configuration.getString(ConfigOption.LOCALDRIVER));
-		hikariConfig.setJdbcUrl(configuration.getString(ConfigOption.LOCALURL));
+		hikariConfig.setDriverClassName(configuration.getString(ConfigOption.DBDRIVER));
+		hikariConfig.setJdbcUrl(configuration.getString(ConfigOption.DBURL));
 
-		hikariConfig.setUsername(monke.getConfiguration().getString(ConfigOption.LOCALUSERNAME));
-		hikariConfig.setPassword(monke.getConfiguration().getString(ConfigOption.LOCALPASSWORD));
+		hikariConfig.setUsername(monke.getConfiguration().getString(ConfigOption.DBUSERNAME));
+		hikariConfig.setPassword(monke.getConfiguration().getString(ConfigOption.DBPASSWORD));
 
 		hikariConfig.setMaximumPoolSize(30);
 		hikariConfig.setMinimumIdle(10);

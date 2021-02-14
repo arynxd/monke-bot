@@ -9,6 +9,7 @@ import me.arynxd.monkebot.objects.exception.CommandException;
 import me.arynxd.monkebot.objects.exception.CommandResultException;
 import me.arynxd.monkebot.objects.exception.CommandSyntaxException;
 import me.arynxd.monkebot.util.CommandChecks;
+import net.dv8tion.jda.api.EmbedBuilder;
 import org.jetbrains.annotations.NotNull;
 
 @SuppressWarnings("unused")
@@ -16,12 +17,13 @@ public class ModuleCommand extends Command
 {
 	public ModuleCommand()
 	{
-		super("Module", "Disables / Enables the specified module.", "[enable/disable] [module]");
+		super("Module", "Disables / Enables the specified module.", "[enable/disable] [module-name]");
 		addFlags(CommandFlag.DEVELOPER_ONLY);
 		addAliases("module", "command");
 		addChildren(
 				new ModuleEnableCommand(this),
-				new ModuleDisableCommand(this)
+				new ModuleDisableCommand(this),
+				new ModuleReloadCommand(this)
 		);
 	}
 
@@ -90,6 +92,24 @@ public class ModuleCommand extends Command
 			command.setDisabled(true);
 			event.replySuccess("Disabled module: `" + command.getName() + "`.");
 			event.getMonke().getLogger().warn("Module " + command.getName() + " was disabled.");
+		}
+	}
+
+	public static class ModuleReloadCommand extends Command
+	{
+		public ModuleReloadCommand(Command parent)
+		{
+			super(parent, "reload", "Refreshes the command map.", "[none]");
+			addFlags(CommandFlag.DEVELOPER_ONLY);
+		}
+
+		@Override
+		public void run(@NotNull List<String> args, @NotNull CommandEvent event, @NotNull Consumer<CommandException> failure)
+		{
+			event.sendMessage(new EmbedBuilder().setDescription("Attempting to reload all commands, hope you know what you're doing!"));
+			event.getMonke().getCommandHandler().getCommandMap().clear();
+			event.getMonke().getCommandHandler().getCommandMap().putAll(event.getMonke().getCommandHandler().loadCommands());
+			event.replySuccess("Reload complete!");
 		}
 	}
 }

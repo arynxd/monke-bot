@@ -1,6 +1,10 @@
 package me.arynxd.monkebot;
 
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Objects;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 import javax.security.auth.login.LoginException;
 import me.arynxd.monkebot.objects.bot.ConfigOption;
@@ -17,11 +21,12 @@ import me.arynxd.monkebot.events.main.GuildEventsMain;
 import me.arynxd.monkebot.events.main.MessageEventsMain;
 import me.arynxd.monkebot.handlers.*;
 import me.arynxd.monkebot.util.DatabaseUtils;
+import me.arynxd.monkebot.util.StringUtils;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDAInfo;
+import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.SelfUser;
 import net.dv8tion.jda.api.events.ReadyEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -36,7 +41,6 @@ import org.slf4j.LoggerFactory;
 
 public class Monke extends ListenerAdapter
 {
-
 	private final DatabaseHandler databaseHandler;
 	private final CommandHandler commandHandler;
 	private final LocalDateTime startTimestamp;
@@ -48,7 +52,6 @@ public class Monke extends ListenerAdapter
 	private final WebHandler webHandler;
 	private final Logger logger;
 	private ShardManager shardManager;
-	private JDA jda;
 
 	public Monke()
 	{
@@ -86,6 +89,7 @@ public class Monke extends ListenerAdapter
 
 	public void build() throws LoginException
 	{
+
 		this.shardManager = DefaultShardManagerBuilder
 				.create(getConfiguration().getString(ConfigOption.TOKEN),
 						GatewayIntent.GUILD_MEMBERS,
@@ -122,17 +126,16 @@ public class Monke extends ListenerAdapter
 						new MessageEventsLogging(this),
 						new MemberEventsLogging(this)
 				)
-				.setActivity(Activity.listening(" your commands."))
+				.setActivity(Activity.playing(" loading."))
+				.setStatus(OnlineStatus.DO_NOT_DISTURB)
 				.build();
 	}
 
 	@Override
 	public void onReady(ReadyEvent event)
 	{
-		this.jda = event.getJDA();
-		getStartTimestamp();
-
 		registerGuilds(event.getJDA().getShardManager());
+		switchStatus(event.getJDA());
 
 		getLogger().info("  ___      _     ___ _            _          _ _ ");
 		getLogger().info(" | _ ) ___| |_  / __| |_ __ _ _ _| |_ ___ __| | |");
@@ -150,22 +153,23 @@ public class Monke extends ListenerAdapter
 		{
 			DatabaseUtils.getExpiredTempbans(this).forEach(tempban -> Tempban.remove(tempban.getUserId(), this));
 			DatabaseUtils.getExpiredVotes(this).forEach(vote -> Vote.closeById(vote.getVoteId(), vote.getGuildId(), this));
-			getMusicHandler().cleanupPlayers();
 		}, TimeUnit.SECONDS, 15);
+
+		getTaskHandler().addRepeatingTask(() -> switchStatus(event.getJDA()), TimeUnit.MINUTES, 2);
 	}
 
 	public SelfUser getSelfUser()
 	{
-		if(this.jda == null)
+		if(getJDA() == null)
 		{
 			throw new UnsupportedOperationException("No JDA present.");
 		}
-		return this.jda.getSelfUser();
+		return getJDA() .getSelfUser();
 	}
 
 	public JDA getJDA()
 	{
-		return this.jda;
+		return shardManager.getShardCache().stream().filter(Objects::nonNull).findFirst().orElse(null);
 	}
 
 	public void registerGuilds(ShardManager shardManager)
@@ -178,6 +182,30 @@ public class Monke extends ListenerAdapter
 		{
 			DatabaseUtils.registerGuild(guild, this);
 		}
+	}
+
+	private void switchStatus(JDA jda)
+	{
+		byte[] array = new byte[10];
+		new Random().nextBytes(array);
+
+		String generatedString = new String(array, StandardCharsets.UTF_8);
+		ShardManager manager = jda.getShardManager();
+
+		if(manager == null)
+		{
+			return;
+		}
+
+		List<Activity> status = List.of(
+				Activity.watching(BotInfo.getGuildCount(manager) + " guild" + StringUtils.plurify((int) BotInfo.getGuildCount(manager))),
+				Activity.watching(BotInfo.getUserCount(manager) + " user" + StringUtils.plurify((int) BotInfo.getUserCount(manager))),
+				Activity.listening("to your commands"),
+				Activity.playing(generatedString),
+				Activity.playing("forknife!!!!")
+		);
+
+		jda.getPresence().setPresence(OnlineStatus.ONLINE, status.get(new Random().nextInt(status.size() - 1)));
 	}
 
 	public LocalDateTime getStartTimestamp()

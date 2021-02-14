@@ -14,6 +14,7 @@ public class GuildMusicManager
 	private final AudioPlayer player;
 	private final TrackScheduler scheduler;
 	private MessageChannel channel;
+	private int volume = 30;
 
 	public GuildMusicManager(AudioPlayerManager manager)
 	{
@@ -47,6 +48,7 @@ public class GuildMusicManager
 		AudioManager manager = channel.getGuild().getAudioManager();
 		manager.openAudioConnection(channel);
 		scheduler.queue(track);
+		player.setVolume(volume);
 	}
 
 	public void playAll(VoiceChannel channel, List<AudioTrack> tracks)
@@ -54,6 +56,7 @@ public class GuildMusicManager
 		AudioManager manager = channel.getGuild().getAudioManager();
 		manager.openAudioConnection(channel);
 		tracks.forEach(scheduler::queue);
+		player.setVolume(volume);
 	}
 
 	public void togglePause()
@@ -76,6 +79,7 @@ public class GuildMusicManager
 	{
 		AudioManager manager = channel.getGuild().getAudioManager();
 		manager.openAudioConnection(channel);
+		player.setVolume(volume);
 	}
 
 	public void kill(Guild guild)
@@ -91,5 +95,10 @@ public class GuildMusicManager
 		{
 			this.channel = channel;
 		}
+	}
+
+	public void setVolume(int volume)
+	{
+		this.volume = volume;
 	}
 }

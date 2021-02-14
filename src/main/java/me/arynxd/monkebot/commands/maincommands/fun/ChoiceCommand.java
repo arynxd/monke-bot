@@ -9,6 +9,7 @@ import me.arynxd.monkebot.objects.command.CommandEvent;
 import me.arynxd.monkebot.objects.exception.CommandException;
 import me.arynxd.monkebot.util.CommandChecks;
 import me.arynxd.monkebot.util.Parser;
+import me.arynxd.monkebot.util.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
 @SuppressWarnings("unused")
@@ -25,7 +26,7 @@ public class ChoiceCommand extends Command
 	{
 		if(CommandChecks.argsEmpty(event, failure)) return;
 
-		List<String> slashArgs = new Parser(args.get(0), event).parseAsSlashArgs();
+		List<String> slashArgs = new Parser(StringUtils.markdownSanitize(args.get(0)), event).parseAsSlashArgs();
 
 		if(CommandChecks.argsSizeSubceeds(slashArgs, event, 2, failure)) return;
 		Random random = new Random();

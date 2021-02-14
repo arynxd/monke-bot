@@ -12,6 +12,7 @@ import me.arynxd.monkebot.objects.exception.CommandException;
 import me.arynxd.monkebot.objects.exception.CommandResultException;
 import me.arynxd.monkebot.util.CommandChecks;
 import me.arynxd.monkebot.util.IOUtils;
+import me.arynxd.monkebot.util.StringUtils;
 import net.dv8tion.jda.api.EmbedBuilder;
 import org.jetbrains.annotations.NotNull;
 
@@ -53,7 +54,7 @@ public class MockCommand extends Command
 		mockText.append('"');
 		args.forEach(word ->
 		{
-			for(String selectedChar : word.split(""))
+			for(String selectedChar : StringUtils.markdownSanitize(word).split(""))
 			{
 				mockText.append(random.nextBoolean() ? selectedChar.toUpperCase() : selectedChar.toLowerCase());
 			}

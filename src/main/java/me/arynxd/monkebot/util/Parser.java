@@ -28,7 +28,7 @@ public class Parser
 
 	public Parser(String arg, CommandEvent event)
 	{
-		this.arg = arg;
+		this.arg = StringUtils.markdownSanitize(arg);
 		this.event = event;
 	}
 

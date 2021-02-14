@@ -20,7 +20,7 @@ public class ReactionRole
 	private final Monke monke;
 	private final long guildId;
 
-	public ReactionRole(@NotNull Long messageId, @NotNull Long roleId, @NotNull Long guildId, @NotNull String emote, @NotNull Monke monke)
+	public ReactionRole(long messageId, long roleId, long guildId, @NotNull String emote, @NotNull Monke monke)
 	{
 		this.messageId = messageId;
 		this.roleId = roleId;
@@ -29,7 +29,7 @@ public class ReactionRole
 		this.monke = monke;
 	}
 
-	public static @NotNull List<ReactionRole> getByMessageId(@NotNull Long messageId, @NotNull Monke monke)
+	public static @NotNull List<ReactionRole> getByMessageId(long messageId, @NotNull Monke monke)
 	{
 		try(Connection connection = monke.getDatabaseHandler().getConnection())
 		{
@@ -79,12 +79,12 @@ public class ReactionRole
 		}
 	}
 
-	public @NotNull Long getMessageId()
+	public long getMessageId()
 	{
 		return messageId;
 	}
 
-	public @NotNull Long getRoleId()
+	public long getRoleId()
 	{
 		return roleId;
 	}
@@ -94,7 +94,7 @@ public class ReactionRole
 		return emote;
 	}
 
-	public @NotNull Long getGuildId()
+	public long getGuildId()
 	{
 		return guildId;
 	}
@@ -141,7 +141,7 @@ public class ReactionRole
 		}
 	}
 
-	public @NotNull Boolean isPresent()
+	public boolean isPresent()
 	{
 		try(Connection connection = monke.getDatabaseHandler().getConnection())
 		{

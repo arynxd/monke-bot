@@ -2,6 +2,7 @@ package me.arynxd.monkebot.objects.info;
 
 import java.lang.management.ManagementFactory;
 import net.dv8tion.jda.api.JDAInfo;
+import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.sharding.ShardManager;
 
 public class BotInfo
@@ -9,6 +10,16 @@ public class BotInfo
 	private BotInfo()
 	{
 		//Overrides the default, public, constructor
+	}
+
+	public static long getGuildCount(ShardManager shardManager)
+	{
+		return shardManager.getShardCache().size();
+	}
+
+	public static long getUserCount(ShardManager shardManager)
+	{
+		return shardManager.getGuildCache().applyStream(guildStream -> guildStream.mapToInt(Guild::getMemberCount)).sum();
 	}
 
 	public static String getJDAVersion()

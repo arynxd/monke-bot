@@ -33,7 +33,7 @@ public class CommandHandler
 		commandMap = loadCommands();
 	}
 
-	private Map<String, Command> loadCommands()
+	public Map<String, Command> loadCommands()
 	{
 		Map<String, Command> commands = new LinkedHashMap<>();
 		try(ScanResult result = classGraph.scan())
@@ -67,7 +67,7 @@ public class CommandHandler
 			System.exit(1);
 		}
 
-		return Collections.unmodifiableMap(commands);
+		return commands;
 	}
 
 	public Map<String, Command> getCommandMap()

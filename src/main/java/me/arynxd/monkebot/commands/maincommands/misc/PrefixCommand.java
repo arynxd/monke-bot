@@ -10,6 +10,7 @@ import me.arynxd.monkebot.objects.command.CommandFlag;
 import me.arynxd.monkebot.objects.exception.CommandException;
 import me.arynxd.monkebot.objects.exception.CommandInputException;
 import me.arynxd.monkebot.util.EmbedUtils;
+import me.arynxd.monkebot.util.StringUtils;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.MessageChannel;
@@ -32,6 +33,7 @@ public class PrefixCommand extends Command
 		MessageChannel channel = event.getChannel();
 		GuildSettingsCache config = GuildSettingsCache.getCache(event.getGuildIdLong(), event.getMonke());
 
+
 		if(args.isEmpty())
 		{
 			EmbedUtils.sendDeletingEmbed(channel, new EmbedBuilder()
@@ -40,16 +42,18 @@ public class PrefixCommand extends Command
 			return;
 		}
 
-		if(args.size() > 1 || args.get(0).length() > 5)
+		String prefix = StringUtils.markdownSanitize(args.get(0));
+
+		if(args.size() > 1 || prefix.isBlank() || prefix.length() > 5)
 		{
-			failure.accept(new CommandInputException("Prefix was too long or contained spaces."));
+			failure.accept(new CommandInputException("Prefix was too long, contained markdown or contained spaces."));
 			return;
 		}
 
 		if(event.isDeveloper())
 		{
-			config.setPrefix(args.get(0));
-			event.replySuccess("My new prefix is `" + args.get(0) + "`");
+			config.setPrefix(prefix);
+			event.replySuccess("My new prefix is `" + prefix + "`");
 			return;
 		}
 
@@ -59,8 +63,8 @@ public class PrefixCommand extends Command
 			return;
 		}
 
-		config.setPrefix(args.get(0));
-		event.replySuccess("My new prefix is `" + args.get(0) + "`");
+		config.setPrefix(prefix);
+		event.replySuccess("My new prefix is `" + prefix + "`");
 	}
 
 	public static class PrefixResetCommand extends Command

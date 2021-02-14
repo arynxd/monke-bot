@@ -71,6 +71,14 @@ public class MusicHandler
 		});
 	}
 
+	public void cleanupPlayer(Guild guild)
+	{
+		GuildMusicManager manager = musicHandlers.get(guild.getIdLong());
+		manager.getPlayer().destroy();
+		manager.leave(guild);
+		manager.getScheduler().clear();
+	}
+
 	public int getPlayers()
 	{
 		return musicHandlers.size();

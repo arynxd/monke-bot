@@ -1,4 +1,4 @@
-package me.arynxd.monkebot.commands.subcommands.warning;
+package me.arynxd.monkebot.commands.subcommands.warn;
 
 import java.util.List;
 import java.util.OptionalInt;
@@ -19,11 +19,11 @@ import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.User;
 import org.jetbrains.annotations.NotNull;
 
-public class WarningRemoveCommand extends Command
+public class WarnRemoveCommand extends Command
 {
-	public WarningRemoveCommand(Command parent)
+	public WarnRemoveCommand(Command parent)
 	{
-		super(parent, "remove", "Removes a warning.", "[user][warningID]");
+		super(parent, "remove", "Removes a warning.", "[user][warning-id]");
 		addMemberPermissions(Permission.MESSAGE_MANAGE);
 		addFlags(CommandFlag.GUILD_ONLY);
 	}
