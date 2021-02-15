@@ -16,7 +16,7 @@ import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import org.jetbrains.annotations.NotNull;
 
-@SuppressWarnings("unused")
+@SuppressWarnings ("unused")
 public class PrefixCommand extends Command
 {
 	public PrefixCommand()
@@ -34,7 +34,7 @@ public class PrefixCommand extends Command
 		GuildSettingsCache config = GuildSettingsCache.getCache(event.getGuildIdLong(), event.getMonke());
 
 
-		if(args.isEmpty())
+		if (args.isEmpty())
 		{
 			EmbedUtils.sendDeletingEmbed(channel, new EmbedBuilder()
 					.setDescription("My prefix for this server is `" + config.getPrefix() + "`.")
@@ -44,20 +44,20 @@ public class PrefixCommand extends Command
 
 		String prefix = StringUtils.markdownSanitize(args.get(0));
 
-		if(args.size() > 1 || prefix.isBlank() || prefix.length() > 5)
+		if (args.size() > 1 || prefix.isBlank() || prefix.length() > 5)
 		{
 			failure.accept(new CommandInputException("Prefix was too long, contained markdown or contained spaces."));
 			return;
 		}
 
-		if(event.isDeveloper())
+		if (event.isDeveloper())
 		{
 			config.setPrefix(prefix);
 			event.replySuccess("My new prefix is `" + prefix + "`");
 			return;
 		}
 
-		if(!event.memberPermissionCheck(Permission.MANAGE_SERVER))
+		if (!event.memberPermissionCheck(Permission.MANAGE_SERVER))
 		{
 			failure.accept(new CommandException("You do not have the following required permissions: *Manage Server*"));
 			return;

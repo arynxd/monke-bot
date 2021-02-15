@@ -12,7 +12,7 @@ import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Invite;
 import org.jetbrains.annotations.NotNull;
 
-@SuppressWarnings("unused")
+@SuppressWarnings ("unused")
 public class InviteCommand extends Command
 {
 	public InviteCommand()
@@ -31,9 +31,9 @@ public class InviteCommand extends Command
 		guild.retrieveInvites().queue(
 				invites ->
 				{
-					for(Invite invite : invites)
+					for (Invite invite : invites)
 					{
-						if(invite.getMaxUses() == 0)
+						if (invite.getMaxUses() == 0)
 						{
 							event.replySuccess("Invite found: " + invite.getUrl());
 							return;

@@ -9,7 +9,7 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
 import org.jetbrains.annotations.NotNull;
 
-@SuppressWarnings("unused")
+@SuppressWarnings ("unused")
 public class PingCommand extends Command
 {
 	public PingCommand()
@@ -27,7 +27,7 @@ public class PingCommand extends Command
 				{
 					int oCount = (int) (ping / 100);
 
-					if(oCount > 252)
+					if (oCount > 252)
 					{
 						oCount = 252;
 					}

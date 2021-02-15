@@ -29,7 +29,7 @@ public class UserInfoCommand extends Command
 	@Override
 	public void run(@NotNull List<String> args, @NotNull CommandEvent event, @NotNull Consumer<CommandException> failure)
 	{
-		if(args.isEmpty())
+		if (args.isEmpty())
 		{
 			showInfo(event.getMember(), event);
 		}

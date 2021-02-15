@@ -12,7 +12,7 @@ import me.arynxd.monkebot.util.CommandChecks;
 import net.dv8tion.jda.api.EmbedBuilder;
 import org.jetbrains.annotations.NotNull;
 
-@SuppressWarnings("unused")
+@SuppressWarnings ("unused")
 public class EvalCommand extends Command
 {
 	private static final ScriptEngine SCRIPT_ENGINE = new ScriptEngineManager().getEngineByName("groovy");
@@ -29,12 +29,12 @@ public class EvalCommand extends Command
 	@Override
 	public void run(@NotNull List<String> args, @NotNull CommandEvent event, @NotNull Consumer<CommandException> failure)
 	{
-		if(CommandChecks.argsEmpty(event, failure)) return;
+		if (CommandChecks.argsEmpty(event, failure)) return;
 
 		Object out;
 		String status = "Success";
 
-		if(event.isFromGuild())
+		if (event.isFromGuild())
 		{
 			SCRIPT_ENGINE.put("guild", event.getGuild());
 			SCRIPT_ENGINE.put("member", event.getMember());
@@ -56,7 +56,7 @@ public class EvalCommand extends Command
 		{
 			out = SCRIPT_ENGINE.eval(imports + code);
 		}
-		catch(Exception exception)
+		catch (Exception exception)
 		{
 			out = exception.getMessage();
 			status = "Failed";

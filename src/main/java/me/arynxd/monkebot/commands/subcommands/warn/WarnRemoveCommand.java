@@ -31,19 +31,19 @@ public class WarnRemoveCommand extends Command
 	@Override
 	public void run(@NotNull List<String> args, @NotNull CommandEvent event, @NotNull Consumer<CommandException> failure)
 	{
-		if(CommandChecks.argsSizeSubceeds(event, 2, failure)) return;
+		if (CommandChecks.argsSizeSubceeds(event, 2, failure)) return;
 
 		User author = event.getAuthor();
 		Guild guild = event.getGuild();
 		new Parser(args.get(0), event).parseAsUser(user ->
 				{
-					if(user.isBot())
+					if (user.isBot())
 					{
 						failure.accept(new CommandInputException("Bots cannot have warnings."));
 						return;
 					}
 
-					if(user.equals(author))
+					if (user.equals(author))
 					{
 						failure.accept(new CommandHierarchyException(this));
 						return;
@@ -52,11 +52,11 @@ public class WarnRemoveCommand extends Command
 					CommandUtils.interactionCheck(author, user, event, () ->
 					{
 						OptionalInt warningNumber = new Parser(args.get(1), event).parseAsUnsignedInt();
-						if(warningNumber.isPresent())
+						if (warningNumber.isPresent())
 						{
 							Warnings warn = new Warning(event.getGuild(), user, event.getMonke()).getByWarnId(warningNumber.getAsInt());
 
-							if(warn == null)
+							if (warn == null)
 							{
 								failure.accept(new CommandInputException("Invalid warning specified."));
 								return;

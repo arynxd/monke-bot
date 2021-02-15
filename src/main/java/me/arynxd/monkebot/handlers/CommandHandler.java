@@ -4,7 +4,10 @@ import io.github.classgraph.ClassGraph;
 import io.github.classgraph.ClassInfo;
 import io.github.classgraph.ScanResult;
 import java.lang.reflect.Constructor;
-import java.util.*;
+import java.util.Arrays;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import me.arynxd.monkebot.Constants;
 import me.arynxd.monkebot.Monke;
@@ -36,32 +39,32 @@ public class CommandHandler
 	public Map<String, Command> loadCommands()
 	{
 		Map<String, Command> commands = new LinkedHashMap<>();
-		try(ScanResult result = classGraph.scan())
+		try (ScanResult result = classGraph.scan())
 		{
-			for(ClassInfo cls : result.getAllClasses())
+			for (ClassInfo cls : result.getAllClasses())
 			{
 				Constructor<?>[] constructors = cls.loadClass().getDeclaredConstructors();
-				if(constructors.length == 0)
+				if (constructors.length == 0)
 				{
 					monke.getLogger().warn("No valid constructors found for Command class (" + cls.getSimpleName() + ")!");
 					continue;
 				}
-				if(constructors[0].getParameterCount() > 0)
+				if (constructors[0].getParameterCount() > 0)
 				{
 					continue;
 				}
 				Object instance = constructors[0].newInstance();
-				if(!(instance instanceof Command))
+				if (!(instance instanceof Command))
 				{
 					monke.getLogger().warn("Non Command class (" + cls.getSimpleName() + ") found in commands package!");
 					continue;
 				}
 				Command cmd = (Command) instance;
 				commands.put(cmd.getName(), cmd);
-				for(String alias : cmd.getAliases()) commands.put(alias, cmd);
+				for (String alias : cmd.getAliases()) commands.put(alias, cmd);
 			}
 		}
-		catch(Exception exception)
+		catch (Exception exception)
 		{
 			monke.getLogger().error("A command exception occurred", exception);
 			System.exit(1);
@@ -77,21 +80,21 @@ public class CommandHandler
 
 	public void handleEvent(MessageReceivedEvent event)
 	{
-		if(event.getAuthor().isBot() || event.isWebhookMessage())
+		if (event.getAuthor().isBot() || event.isWebhookMessage())
 		{
 			return;
 		}
 
 		Message referencedMessage = event.getMessage().getReferencedMessage();
 
-		if(referencedMessage != null && referencedMessage.getAuthor().equals(monke.getSelfUser()))
+		if (referencedMessage != null && referencedMessage.getAuthor().equals(monke.getSelfUser()))
 		{
 			return;
 		}
 
-		if(event.isFromGuild())
+		if (event.isFromGuild())
 		{
-			if(!event.getTextChannel().canTalk())
+			if (!event.getTextChannel().canTalk())
 			{
 				return;
 			}
@@ -109,7 +112,7 @@ public class CommandHandler
 		String prefix;
 		String messageContent = event.getMessage().getContentRaw();
 
-		if(isBotMention(event))
+		if (isBotMention(event))
 		{
 			prefix = messageContent.substring(0, messageContent.indexOf(">"));
 		}
@@ -128,12 +131,12 @@ public class CommandHandler
 		String messageContent = event.getMessage().getContentRaw();
 		boolean containsBlacklist = BlacklistUtils.isBlacklistedPhrase(event, monke);
 
-		if(isBotMention(event))
+		if (isBotMention(event))
 		{
 			prefix = messageContent.substring(0, messageContent.indexOf(">") + 1);
 		}
 
-		if(containsBlacklist)
+		if (containsBlacklist)
 		{
 			deleteBlacklisted(event);
 			return;
@@ -143,7 +146,7 @@ public class CommandHandler
 
 	private void runCommand(String prefix, String content, MessageReceivedEvent event)
 	{
-		if(!content.startsWith(prefix))
+		if (!content.startsWith(prefix))
 		{
 			return;
 		}
@@ -155,13 +158,13 @@ public class CommandHandler
 				.filter(arg -> !arg.isBlank())
 				.collect(Collectors.toList());
 
-		if(args.isEmpty()) //No command was supplied, abort
+		if (args.isEmpty()) //No command was supplied, abort
 		{
 			return;
 		}
 
 		String command = args.get(0);
-		if(command.isBlank() || command.startsWith(prefix)) //Empty string passed or double prefix supplied (eg ..)
+		if (command.isBlank() || command.startsWith(prefix)) //Empty string passed or double prefix supplied (eg ..)
 		{
 			return;
 		}
@@ -169,9 +172,9 @@ public class CommandHandler
 		Command cmd = commandMap.get(command);
 		boolean containsBlacklist = BlacklistUtils.isBlacklistedPhrase(event, monke);
 
-		if(cmd == null)
+		if (cmd == null)
 		{
-			if(containsBlacklist)
+			if (containsBlacklist)
 			{
 				deleteBlacklisted(event);
 				return;
@@ -181,7 +184,7 @@ public class CommandHandler
 			return;
 		}
 
-		if(containsBlacklist && cmd.hasFlag(CommandFlag.BLACKLIST_BYPASS))
+		if (containsBlacklist && cmd.hasFlag(CommandFlag.BLACKLIST_BYPASS))
 		{
 			deleteBlacklisted(event);
 			return;
@@ -190,13 +193,13 @@ public class CommandHandler
 		args.remove(0); //Remove the command from the arguments
 		CommandEvent commandEvent = new CommandEvent(event, monke, cmd, args);
 
-		if(!cmd.hasChildren())
+		if (!cmd.hasChildren())
 		{
 			cmd.process(commandEvent);
 			return;
 		}
 
-		if(args.isEmpty())
+		if (args.isEmpty())
 		{
 			cmd.process(commandEvent);
 			return;
@@ -214,7 +217,7 @@ public class CommandHandler
 	private void deleteBlacklisted(MessageReceivedEvent event)
 	{
 		EmbedUtils.sendError(event.getChannel(), "Your message contained a blacklisted phrase.");
-		if(event.getGuild().getSelfMember().hasPermission((GuildChannel) event.getChannel(), Permission.MESSAGE_MANAGE))
+		if (event.getGuild().getSelfMember().hasPermission((GuildChannel) event.getChannel(), Permission.MESSAGE_MANAGE))
 		{
 			event.getMessage().delete().queue();
 		}

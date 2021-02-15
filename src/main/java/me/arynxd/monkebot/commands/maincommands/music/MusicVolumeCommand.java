@@ -3,18 +3,18 @@ package me.arynxd.monkebot.commands.maincommands.music;
 import java.util.List;
 import java.util.OptionalInt;
 import java.util.function.Consumer;
+import me.arynxd.monkebot.handlers.MusicHandler;
 import me.arynxd.monkebot.objects.command.Command;
 import me.arynxd.monkebot.objects.command.CommandEvent;
 import me.arynxd.monkebot.objects.command.CommandFlag;
 import me.arynxd.monkebot.objects.exception.CommandException;
 import me.arynxd.monkebot.objects.exception.CommandInputException;
 import me.arynxd.monkebot.objects.music.GuildMusicManager;
-import me.arynxd.monkebot.handlers.MusicHandler;
 import me.arynxd.monkebot.util.CommandChecks;
 import me.arynxd.monkebot.util.Parser;
 import org.jetbrains.annotations.NotNull;
 
-@SuppressWarnings("unused")
+@SuppressWarnings ("unused")
 public class MusicVolumeCommand extends Command
 {
 	public MusicVolumeCommand()
@@ -30,10 +30,10 @@ public class MusicVolumeCommand extends Command
 		MusicHandler musicHandler = event.getMonke().getMusicHandler();
 		GuildMusicManager manager = musicHandler.getGuildMusicManager(event.getGuild());
 
-		if(CommandChecks.boundToChannel(manager, event.getChannel(), failure)) return;
-		if(CommandChecks.sharesVoice(event, failure)) return;
+		if (CommandChecks.boundToChannel(manager, event.getChannel(), failure)) return;
+		if (CommandChecks.sharesVoice(event, failure)) return;
 
-		if(args.isEmpty())
+		if (args.isEmpty())
 		{
 			event.replySuccess("The volume is " + manager.getPlayer().getVolume() + "%");
 			return;
@@ -41,9 +41,9 @@ public class MusicVolumeCommand extends Command
 
 		OptionalInt volume = new Parser(args.get(0), event).parseAsUnsignedInt();
 
-		if(volume.isPresent())
+		if (volume.isPresent())
 		{
-			if(volume.getAsInt() > 100)
+			if (volume.getAsInt() > 100)
 			{
 				failure.accept(new CommandInputException("Volume must be 100 or lower."));
 				return;

@@ -57,27 +57,27 @@ public abstract class Command
 
 	public void process(@NotNull CommandEvent event)
 	{
-		if(hasFlag(CommandFlag.GUILD_ONLY) && !event.isFromGuild())
+		if (hasFlag(CommandFlag.GUILD_ONLY) && !event.isFromGuild())
 		{
 			event.replyError("This command must be executed in a server.");
 		}
-		else if(event.isDeveloper())
+		else if (event.isDeveloper())
 		{
 			execute(event);
 		}
-		else if(isDisabled() || hasFlag(CommandFlag.DISABLED))
+		else if (isDisabled() || hasFlag(CommandFlag.DISABLED))
 		{
 			EmbedUtils.sendDisabledError(event);
 		}
-		else if(!getMemberRequiredPermissions().isEmpty() && !event.memberPermissionCheck(getMemberRequiredPermissions()))
+		else if (!getMemberRequiredPermissions().isEmpty() && !event.memberPermissionCheck(getMemberRequiredPermissions()))
 		{
 			EmbedUtils.sendMemberPermissionError(event);
 		}
-		else if(!getSelfRequiredPermissions().isEmpty() && !event.selfPermissionCheck(getSelfRequiredPermissions()))
+		else if (!getSelfRequiredPermissions().isEmpty() && !event.selfPermissionCheck(getSelfRequiredPermissions()))
 		{
 			EmbedUtils.sendSelfPermissionError(event);
 		}
-		else if(hasFlag(CommandFlag.DEVELOPER_ONLY) && !event.isDeveloper())
+		else if (hasFlag(CommandFlag.DEVELOPER_ONLY) && !event.isDeveloper())
 		{
 			event.replyError("This command is for developers only.");
 		}
@@ -89,38 +89,38 @@ public abstract class Command
 
 	private void execute(@NotNull CommandEvent event)
 	{
-		if(hasFlag(CommandFlag.AUTO_DELETE_MESSAGE) && event.selfPermissionCheck(Permission.MESSAGE_MANAGE))
+		if (hasFlag(CommandFlag.AUTO_DELETE_MESSAGE) && event.selfPermissionCheck(Permission.MESSAGE_MANAGE))
 		{
 			event.getMessage().delete().queue();
 		}
 
 		run(event.getArgs(), event, exception ->
 		{
-			if(exception instanceof CommandCooldownException)
+			if (exception instanceof CommandCooldownException)
 			{
 				event.replyError(event.getAuthor().getAsMention() + " is on cooldown from command `" + getName() + "`");
 			}
-			else if(exception instanceof CommandResultException)
+			else if (exception instanceof CommandResultException)
 			{
 				event.replyError("Something went wrong. " + exception.getText());
 			}
-			else if(exception instanceof CommandInputException)
+			else if (exception instanceof CommandInputException)
 			{
 				event.replyError("Your input was invalid. " + exception.getText());
 			}
-			else if(exception instanceof CommandSyntaxException)
+			else if (exception instanceof CommandSyntaxException)
 			{
 				EmbedUtils.sendSyntaxError(event);
 			}
-			else if(exception instanceof CommandHierarchyException)
+			else if (exception instanceof CommandHierarchyException)
 			{
 				event.replyError("A hierarchy error occurred when trying to run command `" + getName() + "`");
 			}
-			else if(exception instanceof CommandUserPermissionException)
+			else if (exception instanceof CommandUserPermissionException)
 			{
 				EmbedUtils.sendMemberPermissionError(event);
 			}
-			else if(exception instanceof MissingConfigurationException)
+			else if (exception instanceof MissingConfigurationException)
 			{
 				event.replyError("`" + exception.getText() + "` is not setup.");
 			}

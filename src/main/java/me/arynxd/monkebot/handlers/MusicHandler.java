@@ -29,7 +29,7 @@ public class MusicHandler
 	public GuildMusicManager getGuildMusicManager(Guild guild)
 	{
 		GuildMusicManager manager = musicHandlers.get(guild.getIdLong());
-		if(musicHandlers.get(guild.getIdLong()) == null)
+		if (musicHandlers.get(guild.getIdLong()) == null)
 		{
 			manager = new GuildMusicManager(playerManager);
 			musicHandlers.put(guild.getIdLong(), manager);
@@ -56,13 +56,13 @@ public class MusicHandler
 		{
 			GuildMusicManager manager = musicHandlers.get(guild.getIdLong());
 			VoiceChannel vc = guild.getAudioManager().getConnectedChannel();
-			if(vc == null)
+			if (vc == null)
 			{
 				return; // if we arent connected theres no point in checking.
 			}
 
 			long humansInVC = vc.getMembers().stream().filter(member -> !member.getUser().isBot()).count();
-			if(humansInVC == 0)
+			if (humansInVC == 0)
 			{
 				manager.getPlayer().destroy();
 				manager.leave(guild);

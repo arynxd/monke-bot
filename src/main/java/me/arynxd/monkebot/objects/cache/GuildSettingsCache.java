@@ -37,7 +37,7 @@ public class GuildSettingsCache implements ICache<String, CachedGuildSetting>
 	public static @NotNull GuildSettingsCache getCache(long guildId, Monke monke)
 	{
 		GuildSettingsCache cache = GUILD_CACHES.get(guildId);
-		if(GUILD_CACHES.get(guildId) == null)
+		if (GUILD_CACHES.get(guildId) == null)
 		{
 			cache = new GuildSettingsCache(guildId, monke);
 			GUILD_CACHES.put(guildId, cache);
@@ -181,7 +181,7 @@ public class GuildSettingsCache implements ICache<String, CachedGuildSetting>
 
 	private <T> T getField(Field<T> field)
 	{
-		try(Connection connection = monke.getDatabaseHandler().getConnection())
+		try (Connection connection = monke.getDatabaseHandler().getConnection())
 		{
 			var context = monke.getDatabaseHandler().getContext(connection);
 			var query = context.select(field).from(GUILDS).where(GUILDS.GUILD_ID.eq(guildId));
@@ -189,7 +189,7 @@ public class GuildSettingsCache implements ICache<String, CachedGuildSetting>
 			query.close();
 			return result;
 		}
-		catch(Exception exception)
+		catch (Exception exception)
 		{
 			monke.getLogger().error("An SQL error occurred", exception);
 			return null;
@@ -198,7 +198,7 @@ public class GuildSettingsCache implements ICache<String, CachedGuildSetting>
 
 	private long cacheGetLong(String label, Field<Long> field)
 	{
-		if(cachedValues.get(label) == null)
+		if (cachedValues.get(label) == null)
 		{
 			cachedValues.put(label, new CachedGuildSetting(label, String.valueOf(getField(field))));
 		}
@@ -206,7 +206,7 @@ public class GuildSettingsCache implements ICache<String, CachedGuildSetting>
 		{
 			return Long.parseLong(cachedValues.get(label).getValue());
 		}
-		catch(Exception exception)
+		catch (Exception exception)
 		{
 			return -1;
 		}
@@ -214,7 +214,7 @@ public class GuildSettingsCache implements ICache<String, CachedGuildSetting>
 
 	private @NotNull String cacheGetString(String label, Field<String> field)
 	{
-		if(cachedValues.get(label) == null)
+		if (cachedValues.get(label) == null)
 		{
 			cachedValues.put(label, new CachedGuildSetting(label, String.valueOf(getField(field))));
 		}
@@ -230,12 +230,12 @@ public class GuildSettingsCache implements ICache<String, CachedGuildSetting>
 
 	private <T> void setField(Field<T> field, T value)
 	{
-		try(Connection connection = monke.getDatabaseHandler().getConnection())
+		try (Connection connection = monke.getDatabaseHandler().getConnection())
 		{
 			var context = monke.getDatabaseHandler().getContext(connection);
 			context.update(GUILDS).set(field, value).where(GUILDS.GUILD_ID.eq(guildId)).execute();
 		}
-		catch(Exception exception)
+		catch (Exception exception)
 		{
 			monke.getLogger().error("An SQL error occurred", exception);
 		}

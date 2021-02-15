@@ -12,7 +12,7 @@ import me.arynxd.monkebot.objects.json.RedditPost;
 import me.arynxd.monkebot.util.WebUtils;
 import org.jetbrains.annotations.NotNull;
 
-@SuppressWarnings("unused")
+@SuppressWarnings ("unused")
 public class MemeCommand extends Command
 {
 	public MemeCommand()
@@ -27,13 +27,13 @@ public class MemeCommand extends Command
 		Random random = new Random();
 		String subreddit;
 
-		if(args.isEmpty())
+		if (args.isEmpty())
 		{
 			subreddit = "memes";
 		}
 		else
 		{
-			subreddit = switch(args.get(0))
+			subreddit = switch (args.get(0))
 					{
 						case "wholesome" -> "wholesomememes";
 						case "dank" -> "dankmemes";
@@ -54,7 +54,7 @@ public class MemeCommand extends Command
 							.filter(post -> !post.isPinned() && !post.isStickied() && post.isMedia())
 							.collect(Collectors.toList());
 
-					if(memes.isEmpty())
+					if (memes.isEmpty())
 					{
 						failure.accept(new CommandResultException("No posts were found."));
 						return;

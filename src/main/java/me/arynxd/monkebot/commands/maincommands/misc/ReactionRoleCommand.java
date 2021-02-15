@@ -12,7 +12,7 @@ import me.arynxd.monkebot.objects.exception.CommandException;
 import me.arynxd.monkebot.objects.exception.CommandSyntaxException;
 import org.jetbrains.annotations.NotNull;
 
-@SuppressWarnings("unused")
+@SuppressWarnings ("unused")
 public class ReactionRoleCommand extends Command
 {
 	public ReactionRoleCommand()

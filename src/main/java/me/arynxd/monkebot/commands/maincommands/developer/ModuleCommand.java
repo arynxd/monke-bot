@@ -12,7 +12,7 @@ import me.arynxd.monkebot.util.CommandChecks;
 import net.dv8tion.jda.api.EmbedBuilder;
 import org.jetbrains.annotations.NotNull;
 
-@SuppressWarnings("unused")
+@SuppressWarnings ("unused")
 public class ModuleCommand extends Command
 {
 	public ModuleCommand()
@@ -44,16 +44,16 @@ public class ModuleCommand extends Command
 		@Override
 		public void run(@NotNull List<String> args, @NotNull CommandEvent event, @NotNull Consumer<CommandException> failure)
 		{
-			if(CommandChecks.argsEmpty(event, failure)) return;
+			if (CommandChecks.argsEmpty(event, failure)) return;
 			String moduleName = args.get(0);
 			Command command = event.getMonke().getCommandHandler().getCommandMap().get(moduleName);
-			if(command == null)
+			if (command == null)
 			{
 				failure.accept(new CommandResultException("Module " + moduleName + " was not found"));
 				return;
 			}
 
-			if(!command.isDisabled())
+			if (!command.isDisabled())
 			{
 				failure.accept(new CommandResultException("Module " + command.getName() + " was already enabled."));
 				return;
@@ -75,15 +75,15 @@ public class ModuleCommand extends Command
 		@Override
 		public void run(@NotNull List<String> args, @NotNull CommandEvent event, @NotNull Consumer<CommandException> failure)
 		{
-			if(CommandChecks.argsEmpty(event, failure)) return;
+			if (CommandChecks.argsEmpty(event, failure)) return;
 			String moduleName = args.get(0);
 			Command command = event.getMonke().getCommandHandler().getCommandMap().get(moduleName);
-			if(command == null)
+			if (command == null)
 			{
 				failure.accept(new CommandResultException("Module " + moduleName + " was not found"));
 				return;
 			}
-			if(command.isDisabled())
+			if (command.isDisabled())
 			{
 				failure.accept(new CommandResultException("Module " + command.getName() + " was already disabled."));
 				return;

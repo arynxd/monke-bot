@@ -29,12 +29,12 @@ public class ReportCommandReactionAdd extends ListenerAdapter
 	@Override
 	public void onMessageReactionAdd(MessageReactionAddEvent event)
 	{
-		if(!event.getReactionEmote().isEmoji() || !event.isFromGuild())
+		if (!event.getReactionEmote().isEmoji() || !event.isFromGuild())
 		{
 			return;
 		}
 
-		if(!event.getReactionEmote().getEmoji().equalsIgnoreCase(Emoji.THUMB_UP.getUnicode()))
+		if (!event.getReactionEmote().getEmoji().equalsIgnoreCase(Emoji.THUMB_UP.getUnicode()))
 		{
 			return;
 		}
@@ -43,7 +43,7 @@ public class ReportCommandReactionAdd extends ListenerAdapter
 
 		MessageChannel reportChannel = guild.getTextChannelById(GuildSettingsCache.getCache(guild.getIdLong(), monke).getReportChannel());
 
-		if(reportChannel == null)
+		if (reportChannel == null)
 		{
 			return;
 		}
@@ -61,21 +61,21 @@ public class ReportCommandReactionAdd extends ListenerAdapter
 					User user = (User) results.get(1);
 					Member member = (Member) results.get(2);
 
-					if(user.equals(monke.getJDA().getSelfUser()))
+					if (user.equals(monke.getJDA().getSelfUser()))
 					{
 						return;
 					}
-					if(message.getEmbeds().isEmpty())
+					if (message.getEmbeds().isEmpty())
 					{
 						return;
 					}
 
 					Report report = Report.getById(message.getIdLong(), monke);
 
-					if(report != null)
+					if (report != null)
 					{
 						Member reportedMember = guild.getMemberById(report.getReportedUserId());
-						if(reportedMember == null)
+						if (reportedMember == null)
 						{
 							EmbedUtils.sendReplacedEmbed(message, new EmbedBuilder(message.getEmbeds().get(0))
 									.setColor(Color.GREEN)
@@ -85,7 +85,7 @@ public class ReportCommandReactionAdd extends ListenerAdapter
 							return;
 						}
 
-						if(!member.canInteract(reportedMember))
+						if (!member.canInteract(reportedMember))
 						{
 							message.removeReaction(Emoji.THUMB_UP.getUnicode(), user).queue();
 							return;
@@ -100,7 +100,7 @@ public class ReportCommandReactionAdd extends ListenerAdapter
 
 						User reportee = monke.getShardManager().getUserById(report.getReportingUserId());
 
-						if(reportee != null)
+						if (reportee != null)
 						{
 							reportee.openPrivateChannel().flatMap(
 									privateChannel ->

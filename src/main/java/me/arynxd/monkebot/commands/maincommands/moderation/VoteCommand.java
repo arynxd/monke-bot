@@ -11,7 +11,7 @@ import me.arynxd.monkebot.objects.exception.CommandSyntaxException;
 import net.dv8tion.jda.api.Permission;
 import org.jetbrains.annotations.NotNull;
 
-@SuppressWarnings("unused")
+@SuppressWarnings ("unused")
 public class VoteCommand extends Command
 {
 	public VoteCommand()

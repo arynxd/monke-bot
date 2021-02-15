@@ -31,7 +31,7 @@ public class EmbedUtils
 	{
 		Command cmd = ctx.getCommand();
 		ctx.addErrorReaction();
-		if(ctx.isChild())
+		if (ctx.isChild())
 		{
 			sendDeletingEmbed(ctx.getChannel(), new EmbedBuilder()
 					.setDescription(Emoji.FAILURE.getAsChat() + "You entered something wrong:\n`" + ctx.getPrefix() + cmd.getParent().getAliases().get(0) + " " + cmd.getName() + " " + cmd.getSyntax() + "`")
@@ -98,8 +98,7 @@ public class EmbedUtils
 	public static void sendDeletingEmbed(MessageChannel channel, EmbedBuilder embed, long delay)
 	{
 		channel.sendMessage(embed.build()).queue(message -> message.delete().queueAfter(delay, TimeUnit.MILLISECONDS, null, error ->
-		{
-		}));
+		{ }));
 	}
 
 	public static void sendDeletingEmbed(MessageChannel channel, EmbedBuilder embed)

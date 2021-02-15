@@ -8,7 +8,7 @@ import me.arynxd.monkebot.objects.command.CommandFlag;
 import me.arynxd.monkebot.objects.exception.CommandException;
 import org.jetbrains.annotations.NotNull;
 
-@SuppressWarnings("unused")
+@SuppressWarnings ("unused")
 public class ShutdownCommand extends Command
 {
 	public ShutdownCommand()
@@ -28,7 +28,7 @@ public class ShutdownCommand extends Command
 
 		event.getMonke().getLogger().warn("-- Monke was shutdown using shutdown command.");
 		event.getMonke().getLogger().warn("-- Issued by: " + event.getAuthor().getAsTag());
-		if(event.isFromGuild())
+		if (event.isFromGuild())
 		{
 			event.getMonke().getLogger().warn("-- In guild: " + event.getGuild().getName());
 		}

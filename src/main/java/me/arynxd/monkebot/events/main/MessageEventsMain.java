@@ -28,35 +28,35 @@ public class MessageEventsMain extends ListenerAdapter
 	@Override
 	public void onMessageReceived(MessageReceivedEvent event)
 	{
-		if(event.isFromGuild() && !event.getAuthor().isBot() && !event.isWebhookMessage())
+		if (event.isFromGuild() && !event.getAuthor().isBot() && !event.isWebhookMessage())
 		{
 			Guild guild = event.getGuild();
 
-			if(BlacklistUtils.isChannelBlacklisted(event, monke))
+			if (BlacklistUtils.isChannelBlacklisted(event, monke))
 			{
 				return;
 			}
 
 			MessageCache.getCache(guild.getIdLong()).put(new CachedMessage(event.getMessage()));
 
-			if(CommandUtils.getLevelUp(event, monke) != -1)
+			if (CommandUtils.getLevelUp(event, monke) != -1)
 			{
 				List<Role> newRoles = DatabaseUtils.getRoleForLevel(guild, CommandUtils.getLevelUp(event, monke), monke);
 				Member member = event.getMessage().getMentionedMembers().get(0);
 
-				if(!newRoles.isEmpty())
+				if (!newRoles.isEmpty())
 				{
 					Role highest = null;
-					if(member.getRoles().isEmpty())
+					if (member.getRoles().isEmpty())
 					{
 						highest = event.getMessage().getMentionedMembers().get(0).getRoles().get(0);
 					}
 
-					for(Role role : newRoles)
+					for (Role role : newRoles)
 					{
-						if(role != null)
+						if (role != null)
 						{
-							if(highest == null || highest.canInteract(role))
+							if (highest == null || highest.canInteract(role))
 							{
 								guild.addRoleToMember(member, role).queue();
 							}
@@ -68,7 +68,7 @@ public class MessageEventsMain extends ListenerAdapter
 
 		}
 
-		if(handleVote(event))
+		if (handleVote(event))
 		{
 			return;
 		}
@@ -78,11 +78,11 @@ public class MessageEventsMain extends ListenerAdapter
 
 	private boolean handleVote(MessageReceivedEvent event)
 	{
-		if(!event.getChannelType().equals(ChannelType.PRIVATE) && !event.getAuthor().isBot())
+		if (!event.getChannelType().equals(ChannelType.PRIVATE) && !event.getAuthor().isBot())
 		{
 			return false;
 		}
-		if(event.getMessage().getReferencedMessage() == null)
+		if (event.getMessage().getReferencedMessage() == null)
 		{
 			return false;
 		}
@@ -91,11 +91,11 @@ public class MessageEventsMain extends ListenerAdapter
 		long messageId = event.getMessage().getReferencedMessage().getIdLong();
 		boolean isRunning = Vote.isVoteRunning(messageId, monke);
 
-		if(isRunning)
+		if (isRunning)
 		{
 			String[] opts = content.split(" ");
 
-			if(opts.length < 1)
+			if (opts.length < 1)
 			{
 				EmbedUtils.sendError(event.getChannel(), "You need to enter an option to vote for.");
 				return true;
@@ -106,32 +106,32 @@ public class MessageEventsMain extends ListenerAdapter
 				int maxOptions = Vote.getMaxVoteById(messageId, monke);
 				int option;
 
-				if(opts[0].startsWith("abstain"))
+				if (opts[0].startsWith("abstain"))
 				{
 					option = -2;
 				}
 				else
 				{
 					option = Integer.parseInt(opts[0]);
-					if(option < 0)
+					if (option < 0)
 					{
 						EmbedUtils.sendError(event.getChannel(), "Invalid option entered.");
 						return true;
 					}
-					if(option > maxOptions)
+					if (option > maxOptions)
 					{
 						EmbedUtils.sendError(event.getChannel(), "Invalid option entered.");
 						return true;
 					}
 				}
 
-				if(Vote.castById(event.getAuthor().getIdLong(), messageId, option, monke))
+				if (Vote.castById(event.getAuthor().getIdLong(), messageId, option, monke))
 				{
 					EmbedUtils.sendSuccess(event.getChannel(), "Vote cast!");
 					return true;
 				}
 			}
-			catch(Exception exception)
+			catch (Exception exception)
 			{
 				EmbedUtils.sendError(event.getChannel(), "Invalid option entered.");
 				return true;

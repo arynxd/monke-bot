@@ -31,9 +31,9 @@ public class TrackScheduler extends AudioEventAdapter
 	public void queue(AudioTrack track, User user)
 	{
 		track.setUserData(user);
-		if(!player.startTrack(track, true))
+		if (!player.startTrack(track, true))
 		{
-			synchronized(queue)
+			synchronized (queue)
 			{
 				queue.offer(track);
 			}
@@ -47,7 +47,7 @@ public class TrackScheduler extends AudioEventAdapter
 
 	public void skipOne()
 	{
-		synchronized(queue)
+		synchronized (queue)
 		{
 			player.startTrack(queue.poll(), false);
 		}
@@ -57,7 +57,7 @@ public class TrackScheduler extends AudioEventAdapter
 	@Override
 	public void onTrackEnd(AudioPlayer player, AudioTrack track, AudioTrackEndReason endReason)
 	{
-		if(endReason.mayStartNext)
+		if (endReason.mayStartNext)
 		{
 			skipOne();
 		}
@@ -69,7 +69,7 @@ public class TrackScheduler extends AudioEventAdapter
 		Duration length = Duration.between(LocalDateTime.now(), LocalDateTime.now().plusSeconds(track.getDuration() / 1000));
 		Duration passed = Duration.between(LocalDateTime.now(), LocalDateTime.now().plusSeconds(track.getPosition() / 1000));
 
-		if(handler != null && handler.getChannel() != null)
+		if (handler != null && handler.getChannel() != null)
 		{
 			handler.getChannel().sendMessage(new EmbedBuilder()
 					.setTitle("Now playing")
@@ -81,21 +81,21 @@ public class TrackScheduler extends AudioEventAdapter
 									"\n**Requested by**: " + track.getUserData(User.class).getAsMention())
 					.setColor(Constants.EMBED_COLOUR)
 					.setTimestamp(Instant.now())
-					.build()).queue();
+					.build()).queue(null, error -> handler.bind(null));
 		}
 	}
 
 	@Override
 	public void onTrackStuck(AudioPlayer player, AudioTrack track, long thresholdMs)
 	{
-		if(handler != null && handler.getChannel() != null)
+		if (handler != null && handler.getChannel() != null)
 		{
 			handler.getChannel().sendMessage(new EmbedBuilder()
 					.setTitle("Something went wrong")
 					.setDescription("An error occurred while playing " + track.getInfo().title)
 					.setColor(Constants.EMBED_COLOUR)
 					.setTimestamp(Instant.now())
-					.build()).queue();
+					.build()).queue(null, error -> handler.bind(null));
 		}
 	}
 

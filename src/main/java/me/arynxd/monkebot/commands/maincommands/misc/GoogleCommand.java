@@ -18,10 +18,11 @@ import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
 
-@SuppressWarnings("unused")
+@SuppressWarnings ("unused")
 public class GoogleCommand extends Command
 {
 	private static final ExecutorService GOOGLE_EXECUTOR = Executors.newCachedThreadPool();
+
 	public GoogleCommand()
 	{
 		super("Google", "Searches Google.", "[query]");
@@ -32,9 +33,9 @@ public class GoogleCommand extends Command
 	@Override
 	public void run(@NotNull List<String> args, @NotNull CommandEvent event, @NotNull Consumer<CommandException> failure)
 	{
-		if(CommandChecks.argsEmpty(event, failure)) return;
+		if (CommandChecks.argsEmpty(event, failure)) return;
 
-		if(CooldownHandler.isOnCooldown(event.getMember(), this))
+		if (CooldownHandler.isOnCooldown(event.getMember(), this))
 		{
 			failure.accept(new CommandCooldownException(this));
 			return;
@@ -52,7 +53,7 @@ public class GoogleCommand extends Command
 				Elements names = doc.select(".yuRUbf").select("a").select("h3").select("span"); //Select its 'name'
 				Elements descriptions = doc.select(".IsZvec").select("div").select(".aCOpRe").select("span"); //Select its description
 
-				if(links.isEmpty() || names.isEmpty() || descriptions.isEmpty())
+				if (links.isEmpty() || names.isEmpty() || descriptions.isEmpty())
 				{
 					failure.accept(new CommandResultException("No results found."));
 					return;
@@ -63,7 +64,7 @@ public class GoogleCommand extends Command
 								" --> *" + names.get(0).text() +
 								"* \n" + descriptions.get(0).text()).queue();
 			}
-			catch(Exception exception)
+			catch (Exception exception)
 			{
 				failure.accept(new CommandResultException("Google search failed!"));
 				event.getMonke().getLogger().error("A Google search exception as occurred", exception);

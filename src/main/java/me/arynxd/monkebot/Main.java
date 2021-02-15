@@ -17,17 +17,17 @@ public class Main
 			bot.build();
 			LOGGER.debug("Bot built successfully.");
 		}
-		catch(LoginException exception)
+		catch (LoginException exception)
 		{
 			bot.getLogger().error("The provided token was invalid, please ensure you put a valid token in bot.cfg");
 			System.exit(1);
 		}
-		catch(IllegalArgumentException exception)
+		catch (IllegalArgumentException exception)
 		{
 			bot.getLogger().error("A provided value was invalid, please double check the values in bot.cfg");
 			System.exit(1);
 		}
-		catch(Exception exception)
+		catch (Exception exception)
 		{
 			bot.getLogger().error("An unexpected exception occurred", exception);
 			System.exit(1);

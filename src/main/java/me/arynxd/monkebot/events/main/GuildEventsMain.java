@@ -22,7 +22,6 @@ import net.dv8tion.jda.api.events.guild.voice.GuildVoiceMoveEvent;
 import net.dv8tion.jda.api.events.message.guild.react.GuildMessageReactionAddEvent;
 import net.dv8tion.jda.api.events.message.guild.react.GuildMessageReactionRemoveEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
-import org.jetbrains.annotations.NotNull;
 
 public class GuildEventsMain extends ListenerAdapter
 {
@@ -42,16 +41,16 @@ public class GuildEventsMain extends ListenerAdapter
 
 		String[] config = monke.getConfiguration().getString(ConfigOption.LOG_CHANNEL).split("(, *)");
 
-		if(config.length < 2)
+		if (config.length < 2)
 		{
 			return;
 		}
 
 		Guild logGuild = monke.getShardManager().getGuildById(config[0]);
-		if(logGuild != null)
+		if (logGuild != null)
 		{
 			MessageChannel logChannel = logGuild.getTextChannelById(config[1]);
-			if(logChannel != null)
+			if (logChannel != null)
 			{
 				logChannel.sendMessage(new EmbedBuilder()
 						.setTitle("Left a server.")
@@ -79,16 +78,16 @@ public class GuildEventsMain extends ListenerAdapter
 
 		String[] config = monke.getConfiguration().getString(ConfigOption.LOG_CHANNEL).split("(, *)");
 
-		if(config.length < 2)
+		if (config.length < 2)
 		{
 			return;
 		}
 
 		Guild logGuild = monke.getShardManager().getGuildById(config[0]);
-		if(logGuild != null)
+		if (logGuild != null)
 		{
 			MessageChannel logChannel = logGuild.getTextChannelById(config[1]);
-			if(logChannel != null)
+			if (logChannel != null)
 			{
 				logChannel.sendMessage(new EmbedBuilder()
 						.setTitle("Joined a server.")
@@ -106,14 +105,14 @@ public class GuildEventsMain extends ListenerAdapter
 	{
 		List<ReactionRole> reactionRoles = ReactionRole.getByMessageId(event.getMessageIdLong(), monke);
 
-		for(ReactionRole reactionRole : reactionRoles)
+		for (ReactionRole reactionRole : reactionRoles)
 		{
-			if(reactionRole.getEmote().equals(event.getReactionEmote().getName()))
+			if (reactionRole.getEmote().equals(event.getReactionEmote().getName()))
 			{
 				Role role = event.getGuild().getRoleById(reactionRole.getRoleId());
-				if(role != null)
+				if (role != null)
 				{
-					if(event.getGuild().getSelfMember().canInteract(role))
+					if (event.getGuild().getSelfMember().canInteract(role))
 					{
 						event.retrieveMember().queue(reactionRole::addRole);
 					}
@@ -126,7 +125,7 @@ public class GuildEventsMain extends ListenerAdapter
 	public void onGuildVoiceLeave(GuildVoiceLeaveEvent event)
 	{
 		long humansInVC = event.getChannelLeft().getMembers().stream().filter(member -> !member.getUser().isBot()).count();
-		if(event.getMember().equals(event.getGuild().getSelfMember()) || humansInVC == 0)
+		if (event.getMember().equals(event.getGuild().getSelfMember()) || humansInVC == 0)
 		{
 			monke.getMusicHandler().cleanupPlayer(event.getGuild());
 		}
@@ -136,7 +135,7 @@ public class GuildEventsMain extends ListenerAdapter
 	public void onGuildVoiceMove(GuildVoiceMoveEvent event)
 	{
 		long humansInVC = event.getChannelLeft().getMembers().stream().filter(member -> !member.getUser().isBot()).count();
-		if(event.getMember().equals(event.getGuild().getSelfMember()) || humansInVC == 0)
+		if (event.getMember().equals(event.getGuild().getSelfMember()) || humansInVC == 0)
 		{
 			monke.getMusicHandler().cleanupPlayer(event.getGuild());
 		}
@@ -147,14 +146,14 @@ public class GuildEventsMain extends ListenerAdapter
 	{
 		List<ReactionRole> reactionRoles = ReactionRole.getByMessageId(event.getMessageIdLong(), monke);
 
-		for(ReactionRole reactionRole : reactionRoles)
+		for (ReactionRole reactionRole : reactionRoles)
 		{
-			if(reactionRole.getEmote().equals(event.getReactionEmote().getName()))
+			if (reactionRole.getEmote().equals(event.getReactionEmote().getName()))
 			{
 				Role role = event.getGuild().getRoleById(reactionRole.getRoleId());
-				if(role != null)
+				if (role != null)
 				{
-					if(event.getGuild().getSelfMember().canInteract(role))
+					if (event.getGuild().getSelfMember().canInteract(role))
 					{
 						event.retrieveMember().queue(reactionRole::removeRole);
 					}

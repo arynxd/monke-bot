@@ -6,19 +6,19 @@ import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import java.util.List;
 import java.util.function.Consumer;
+import me.arynxd.monkebot.handlers.MusicHandler;
 import me.arynxd.monkebot.objects.command.Command;
 import me.arynxd.monkebot.objects.command.CommandEvent;
 import me.arynxd.monkebot.objects.command.CommandFlag;
 import me.arynxd.monkebot.objects.exception.CommandException;
 import me.arynxd.monkebot.objects.exception.CommandResultException;
 import me.arynxd.monkebot.objects.music.GuildMusicManager;
-import me.arynxd.monkebot.handlers.MusicHandler;
 import me.arynxd.monkebot.util.CommandChecks;
 import me.arynxd.monkebot.util.IOUtils;
 import net.dv8tion.jda.api.entities.VoiceChannel;
 import org.jetbrains.annotations.NotNull;
 
-@SuppressWarnings("unused")
+@SuppressWarnings ("unused")
 public class MusicPlayCommand extends Command
 {
 	public MusicPlayCommand()
@@ -34,15 +34,15 @@ public class MusicPlayCommand extends Command
 		MusicHandler musicHandler = event.getMonke().getMusicHandler();
 		GuildMusicManager manager = musicHandler.getGuildMusicManager(event.getGuild());
 
-		if(CommandChecks.argsEmpty(event, failure)) return;
-		if(CommandChecks.sharesVoice(event, failure)) return;
-		if(CommandChecks.boundToChannel(manager, event.getChannel(), failure)) return;
+		if (CommandChecks.argsEmpty(event, failure)) return;
+		if (CommandChecks.sharesVoice(event, failure)) return;
+		if (CommandChecks.boundToChannel(manager, event.getChannel(), failure)) return;
 
 		VoiceChannel channel = event.getMember().getVoiceState().getChannel(); //Safe due to CommandChecks
 		String query = String.join("", args);
 		addFlags(CommandFlag.GUILD_ONLY);
 
-		if(!IOUtils.isURL(query))
+		if (!IOUtils.isURL(query))
 		{
 			query = "ytsearch:" + query;
 		}
@@ -53,7 +53,7 @@ public class MusicPlayCommand extends Command
 			@Override
 			public void trackLoaded(AudioTrack track)
 			{
-				if(manager.isPlaying())
+				if (manager.isPlaying())
 				{
 					event.replySuccess("Added **" + track.getInfo().title + "** to the queue.");
 				}
@@ -63,10 +63,10 @@ public class MusicPlayCommand extends Command
 			@Override
 			public void playlistLoaded(AudioPlaylist playlist)
 			{
-				if(playlist.isSearchResult())
+				if (playlist.isSearchResult())
 				{
 					AudioTrack track = playlist.getTracks().get(0);
-					if(manager.isPlaying())
+					if (manager.isPlaying())
 					{
 						event.replySuccess("Added **" + track.getInfo().title + "** to the queue.");
 					}

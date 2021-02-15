@@ -43,7 +43,7 @@ public class Parser
 		{
 			return OptionalLong.of(Long.parseUnsignedLong(arg));
 		}
-		catch(Exception exception)
+		catch (Exception exception)
 		{
 			event.replyError("Invalid ID entered.");
 			return OptionalLong.empty();
@@ -52,11 +52,11 @@ public class Parser
 
 	public Optional<Boolean> parseAsBoolean()
 	{
-		if(arg.equalsIgnoreCase("true") || arg.equalsIgnoreCase("yes"))
+		if (arg.equalsIgnoreCase("true") || arg.equalsIgnoreCase("yes"))
 		{
 			return Optional.of(true);
 		}
-		else if(arg.equalsIgnoreCase("false") || arg.equalsIgnoreCase("no"))
+		else if (arg.equalsIgnoreCase("false") || arg.equalsIgnoreCase("no"))
 		{
 			return Optional.of(false);
 		}
@@ -69,7 +69,7 @@ public class Parser
 
 	public Optional<Guild> parseAsGuild()
 	{
-		if(arg.equalsIgnoreCase("this") || arg.equalsIgnoreCase("here"))
+		if (arg.equalsIgnoreCase("this") || arg.equalsIgnoreCase("here"))
 		{
 			return Optional.of(event.getGuild());
 		}
@@ -80,18 +80,18 @@ public class Parser
 	{
 		Matcher matcher = DURATION_PATTERN.matcher(arg.toLowerCase());
 		LocalDateTime offset = LocalDateTime.now();
-		while(matcher.find())
+		while (matcher.find())
 		{
 			try
 			{
 				int num = Integer.parseInt(matcher.group(1));
-				if(num == 0)
+				if (num == 0)
 				{
 					continue;
 				}
 
 				String typ = matcher.group(2);
-				switch(typ)
+				switch (typ)
 				{
 					case "s", "sec", "secs", "seconds" -> offset = offset.plusSeconds(num);
 					case "m", "min", "mins", "minutes" -> offset = offset.plusMinutes(num);
@@ -101,10 +101,10 @@ public class Parser
 					case "mo", "mnth", "month", "months" -> offset = offset.plusMonths(num);
 				}
 			}
-			catch(Exception ignored) { }
+			catch (Exception ignored) { }
 
 		}
-		if(offset.isBefore(LocalDateTime.now()))
+		if (offset.isBefore(LocalDateTime.now()))
 		{
 			return null;
 		}
@@ -116,14 +116,14 @@ public class Parser
 		try
 		{
 			OptionalInt value = OptionalInt.of(Integer.parseUnsignedInt(arg));
-			if(value.getAsInt() == 0)
+			if (value.getAsInt() == 0)
 			{
 				event.replyError("Enter a whole number greater than 0, eg: 1");
 				return OptionalInt.empty();
 			}
 			return value;
 		}
-		catch(NumberFormatException exception)
+		catch (NumberFormatException exception)
 		{
 			event.replyError("Enter a whole number greater than 0, eg: 1");
 			return OptionalInt.empty();
@@ -155,18 +155,18 @@ public class Parser
 		JDA jda = event.getJDA();
 		SelfUser selfUser = jda.getSelfUser();
 
-		if(!message.getMentions().isEmpty()) //Direct mention
+		if (!message.getMentions().isEmpty()) //Direct mention
 		{
 			List<IMentionable> mentions = message.getMentions();
 
-			if(mentions.isEmpty())
+			if (mentions.isEmpty())
 			{
 				event.replyError("No " + typeName.toLowerCase() + "s with name " + arg + " found.");
 				return;
 			}
 
 			//Is a command but has a second user within it, @Bot info @User for example. Avoids mismatching the self user.
-			if(mentions.get(0).getIdLong() == selfUser.getIdLong() && mentions.size() > 1)
+			if (mentions.get(0).getIdLong() == selfUser.getIdLong() && mentions.size() > 1)
 			{
 				consumer.accept(mentions.get(1));
 				return;
@@ -176,16 +176,16 @@ public class Parser
 			return;
 		}
 
-		if(idMatcher.matches()) //ID
+		if (idMatcher.matches()) //ID
 		{
 			long mentionableId = Long.parseLong(idMatcher.group());
-			if(type == Message.MentionType.USER)
+			if (type == Message.MentionType.USER)
 			{
-				if(mentionableId == author.getIdLong())
+				if (mentionableId == author.getIdLong())
 				{
 					consumer.accept(author);
 				}
-				else if(mentionableId == selfUser.getIdLong())
+				else if (mentionableId == selfUser.getIdLong())
 				{
 					consumer.accept(selfUser);
 				}
@@ -195,10 +195,10 @@ public class Parser
 				}
 				return;
 			}
-			else if(type == Message.MentionType.CHANNEL)
+			else if (type == Message.MentionType.CHANNEL)
 			{
 				MessageChannel channel = jda.getTextChannelById(mentionableId);
-				if(channel != null)
+				if (channel != null)
 				{
 					consumer.accept((IMentionable) channel);
 				}
@@ -208,10 +208,10 @@ public class Parser
 				}
 				return;
 			}
-			else if(type == Message.MentionType.ROLE)
+			else if (type == Message.MentionType.ROLE)
 			{
 				Role role = jda.getRoleById(mentionableId);
-				if(role != null)
+				if (role != null)
 				{
 					consumer.accept(role);
 				}
@@ -223,11 +223,11 @@ public class Parser
 			}
 		}
 
-		if(arg.length() >= 2 && arg.length() <= 32) //Named users
+		if (arg.length() >= 2 && arg.length() <= 32) //Named users
 		{
-			if(type == Message.MentionType.USER)
+			if (type == Message.MentionType.USER)
 			{
-				if(arg.equalsIgnoreCase(event.getMember().getEffectiveName()))
+				if (arg.equalsIgnoreCase(event.getMember().getEffectiveName()))
 				{
 					consumer.accept(author);
 					return;
@@ -235,7 +235,7 @@ public class Parser
 				message.getGuild().retrieveMembersByPrefix(arg, 10)
 						.onSuccess(members ->
 						{
-							if(members.isEmpty())
+							if (members.isEmpty())
 							{
 								event.replyError("No " + typeName.toLowerCase() + "s with name " + arg + " found.");
 								return;
@@ -246,7 +246,7 @@ public class Parser
 				return;
 			}
 			var rolesChannelsList = type == Message.MentionType.CHANNEL ? guild.getTextChannelsByName(arg, true) : guild.getRolesByName(arg, true);
-			if(rolesChannelsList.isEmpty()) //Role / Channel
+			if (rolesChannelsList.isEmpty()) //Role / Channel
 			{
 				event.replyError("No " + typeName.toLowerCase() + "s with name " + arg + " found.");
 			}

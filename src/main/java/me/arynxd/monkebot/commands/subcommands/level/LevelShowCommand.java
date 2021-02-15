@@ -27,12 +27,12 @@ public class LevelShowCommand extends Command
 	public void run(@NotNull List<String> args, @NotNull CommandEvent event, @NotNull Consumer<CommandException> failure)
 	{
 		User levelBot = event.getMonke().getShardManager().getUserById(GuildSettingsCache.getCache(event.getGuildIdLong(), event.getMonke()).getLevelUpBot());
-		if(CommandChecks.userConfigured(levelBot, "Level up bot", failure)) return;
+		if (CommandChecks.userConfigured(levelBot, "Level up bot", failure)) return;
 		List<Levels> levelList = Level.getLevels(event.getGuildIdLong(), event.getMonke());
 
 		StringBuilder text = new StringBuilder();
 
-		for(Levels level : levelList)
+		for (Levels level : levelList)
 		{
 			text
 					.append("Role ")

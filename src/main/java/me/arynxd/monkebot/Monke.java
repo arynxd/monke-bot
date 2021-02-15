@@ -7,12 +7,6 @@ import java.util.Objects;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 import javax.security.auth.login.LoginException;
-import me.arynxd.monkebot.objects.bot.ConfigOption;
-import me.arynxd.monkebot.objects.bot.Configuration;
-import me.arynxd.monkebot.objects.bot.EventWaiter;
-import me.arynxd.monkebot.objects.database.Tempban;
-import me.arynxd.monkebot.objects.database.Vote;
-import me.arynxd.monkebot.objects.info.BotInfo;
 import me.arynxd.monkebot.events.command.ReportCommandReactionAdd;
 import me.arynxd.monkebot.events.logging.MemberEventsLogging;
 import me.arynxd.monkebot.events.logging.MessageEventsLogging;
@@ -20,6 +14,12 @@ import me.arynxd.monkebot.events.logging.VoiceEventsLogging;
 import me.arynxd.monkebot.events.main.GuildEventsMain;
 import me.arynxd.monkebot.events.main.MessageEventsMain;
 import me.arynxd.monkebot.handlers.*;
+import me.arynxd.monkebot.objects.bot.ConfigOption;
+import me.arynxd.monkebot.objects.bot.Configuration;
+import me.arynxd.monkebot.objects.bot.EventWaiter;
+import me.arynxd.monkebot.objects.database.Tempban;
+import me.arynxd.monkebot.objects.database.Vote;
+import me.arynxd.monkebot.objects.info.BotInfo;
 import me.arynxd.monkebot.util.DatabaseUtils;
 import me.arynxd.monkebot.util.StringUtils;
 import net.dv8tion.jda.api.JDA;
@@ -160,11 +160,11 @@ public class Monke extends ListenerAdapter
 
 	public SelfUser getSelfUser()
 	{
-		if(getJDA() == null)
+		if (getJDA() == null)
 		{
 			throw new UnsupportedOperationException("No JDA present.");
 		}
-		return getJDA() .getSelfUser();
+		return getJDA().getSelfUser();
 	}
 
 	public JDA getJDA()
@@ -174,11 +174,11 @@ public class Monke extends ListenerAdapter
 
 	public void registerGuilds(ShardManager shardManager)
 	{
-		if(shardManager == null)
+		if (shardManager == null)
 		{
 			throw new UnsupportedOperationException("Cannot register guilds without a shard manager.");
 		}
-		for(Guild guild : shardManager.getGuilds())
+		for (Guild guild : shardManager.getGuilds())
 		{
 			DatabaseUtils.registerGuild(guild, this);
 		}
@@ -192,13 +192,13 @@ public class Monke extends ListenerAdapter
 		String generatedString = new String(array, StandardCharsets.UTF_16);
 		ShardManager manager = jda.getShardManager();
 
-		if(manager == null)
+		if (manager == null)
 		{
 			return;
 		}
 
 		List<Activity> status = List.of(
-				Activity.watching(BotInfo.getGuildCount(manager)  + StringUtils.plurify(" server", (int) BotInfo.getGuildCount(manager))),
+				Activity.watching(BotInfo.getGuildCount(manager) + StringUtils.plurify(" server", (int) BotInfo.getGuildCount(manager))),
 				Activity.watching(BotInfo.getUserCount(manager) + StringUtils.plurify("  user", (int) BotInfo.getUserCount(manager))),
 				Activity.listening("your commands"),
 				Activity.playing(generatedString),
@@ -215,7 +215,7 @@ public class Monke extends ListenerAdapter
 
 	public ShardManager getShardManager()
 	{
-		if(this.shardManager == null)
+		if (this.shardManager == null)
 		{
 			throw new UnsupportedOperationException("Shardmanager is not built.");
 		}

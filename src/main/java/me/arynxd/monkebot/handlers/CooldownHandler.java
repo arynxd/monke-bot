@@ -18,14 +18,14 @@ public abstract class CooldownHandler
 	{
 		long userId = member.getIdLong();
 		long guildId = member.getGuild().getIdLong();
-		for(Map.Entry<CooledCommand, Long> entry : COOLDOWN_MAP.entrySet())
+		for (Map.Entry<CooledCommand, Long> entry : COOLDOWN_MAP.entrySet())
 		{
 			CooledCommand cooledCommand = entry.getKey();
 			long expiry = entry.getValue();
 
-			if(cooledCommand.getUserId() == userId && cooledCommand.getGuildId() == guildId && cooledCommand.getCommand().equals(command))
+			if (cooledCommand.getUserId() == userId && cooledCommand.getGuildId() == guildId && cooledCommand.getCommand().equals(command))
 			{
-				if(System.currentTimeMillis() <= expiry)
+				if (System.currentTimeMillis() <= expiry)
 				{
 					return true;
 				}

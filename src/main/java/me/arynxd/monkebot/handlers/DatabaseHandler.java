@@ -81,7 +81,7 @@ public class DatabaseHandler
 		{
 			return pool.getConnection();
 		}
-		catch(Exception exception)
+		catch (Exception exception)
 		{
 			return getConnection();
 		}
@@ -92,13 +92,13 @@ public class DatabaseHandler
 		try
 		{
 			InputStream file = IOUtils.getResourceFile("sql/" + table + ".sql");
-			if(file == null)
+			if (file == null)
 			{
 				throw new NullPointerException("File for table '" + table + "' not found");
 			}
 			getConnection().createStatement().execute(IOUtils.convertToString(file));
 		}
-		catch(Exception exception)
+		catch (Exception exception)
 		{
 			monke.getLogger().error("Error initializing table: '" + table + "'", exception);
 		}
@@ -124,7 +124,7 @@ public class DatabaseHandler
 		{
 			return new HikariDataSource(hikariConfig);
 		}
-		catch(Exception exception)
+		catch (Exception exception)
 		{
 			monke.getLogger().error("Local database offline, connection failure.");
 			System.exit(1);

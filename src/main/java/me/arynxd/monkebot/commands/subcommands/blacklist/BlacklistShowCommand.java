@@ -26,7 +26,7 @@ public class BlacklistShowCommand extends Command
 		List<String> blacklist = BlacklistUtils.getBlacklistedPhrases(event.getGuild(), event.getMonke());
 		StringBuilder text = new StringBuilder();
 
-		for(String word : blacklist)
+		for (String word : blacklist)
 		{
 			text
 					.append("||")

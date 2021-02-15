@@ -18,7 +18,7 @@ public class VerificationUtils
 	{
 		Map<String, Long> result = new HashMap<>();
 
-		try(Connection connection = monke.getDatabaseHandler().getConnection())
+		try (Connection connection = monke.getDatabaseHandler().getConnection())
 		{
 			var ctx = monke.getDatabaseHandler().getContext(connection);
 
@@ -26,12 +26,12 @@ public class VerificationUtils
 					.selectFrom(Verification.VERIFICATION)
 					.where(Verification.VERIFICATION.GUILD_ID.eq(guild.getIdLong()));
 
-			for(var row : query.fetch())
+			for (var row : query.fetch())
 			{
 				result.put(row.getPhrase(), row.getRoleId());
 			}
 		}
-		catch(Exception exception)
+		catch (Exception exception)
 		{
 			monke.getLogger().error("An SQL error occurred", exception);
 		}
@@ -41,7 +41,7 @@ public class VerificationUtils
 
 	public static boolean addMapping(String phrase, long guildId, long roleId, Monke monke)
 	{
-		try(Connection connection = monke.getDatabaseHandler().getConnection())
+		try (Connection connection = monke.getDatabaseHandler().getConnection())
 		{
 			var ctx = monke.getDatabaseHandler().getContext(connection);
 			var existsQuery = ctx
@@ -49,7 +49,7 @@ public class VerificationUtils
 					.where(Verification.VERIFICATION.ROLE_ID.eq(roleId))
 					.and(Verification.VERIFICATION.PHRASE.eq(phrase));
 
-			if(existsQuery.fetch().isNotEmpty())
+			if (existsQuery.fetch().isNotEmpty())
 			{
 				return false;
 			}
@@ -60,7 +60,7 @@ public class VerificationUtils
 
 			return insertQuery.execute() > 0;
 		}
-		catch(Exception exception)
+		catch (Exception exception)
 		{
 			monke.getLogger().error("An SQL error occurred", exception);
 			return false;
@@ -69,12 +69,12 @@ public class VerificationUtils
 
 	public static boolean removeMapping(String phrase, long guildId, long roleId, Monke monke)
 	{
-		try(Connection connection = monke.getDatabaseHandler().getConnection())
+		try (Connection connection = monke.getDatabaseHandler().getConnection())
 		{
 			var ctx = monke.getDatabaseHandler().getContext(connection);
 			var existsQuery = ctx.selectFrom(Verification.VERIFICATION).where(Verification.VERIFICATION.ROLE_ID.eq(roleId));
 
-			if(existsQuery.fetch().isEmpty())
+			if (existsQuery.fetch().isEmpty())
 			{
 				return false;
 			}
@@ -86,7 +86,7 @@ public class VerificationUtils
 
 			return insertQuery.execute() > 0;
 		}
-		catch(Exception exception)
+		catch (Exception exception)
 		{
 			monke.getLogger().error("An SQL error occurred", exception);
 			return false;

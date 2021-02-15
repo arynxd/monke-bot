@@ -3,6 +3,7 @@ package me.arynxd.monkebot.commands.maincommands.moderation;
 import java.util.List;
 import java.util.OptionalInt;
 import java.util.function.Consumer;
+import me.arynxd.monkebot.handlers.CooldownHandler;
 import me.arynxd.monkebot.objects.cache.CachedMessage;
 import me.arynxd.monkebot.objects.cache.MessageCache;
 import me.arynxd.monkebot.objects.command.Command;
@@ -11,7 +12,6 @@ import me.arynxd.monkebot.objects.command.CommandFlag;
 import me.arynxd.monkebot.objects.exception.CommandCooldownException;
 import me.arynxd.monkebot.objects.exception.CommandException;
 import me.arynxd.monkebot.objects.exception.CommandInputException;
-import me.arynxd.monkebot.handlers.CooldownHandler;
 import me.arynxd.monkebot.util.CommandChecks;
 import me.arynxd.monkebot.util.Parser;
 import net.dv8tion.jda.api.Permission;
@@ -20,7 +20,7 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import org.jetbrains.annotations.NotNull;
 
-@SuppressWarnings("unused")
+@SuppressWarnings ("unused")
 public class ClearCommand extends Command
 {
 	public ClearCommand()
@@ -36,22 +36,22 @@ public class ClearCommand extends Command
 	@Override
 	public void run(@NotNull List<String> args, @NotNull CommandEvent event, @NotNull Consumer<CommandException> failure)
 	{
-		if(CommandChecks.argsEmpty(event, failure)) return;
+		if (CommandChecks.argsEmpty(event, failure)) return;
 
 		MessageChannel channel = event.getChannel();
 		Member member = event.getMember();
 		Guild guild = event.getGuild();
 		OptionalInt amount = new Parser(args.get(0), event).parseAsUnsignedInt();
 
-		if(amount.isPresent())
+		if (amount.isPresent())
 		{
-			if(amount.getAsInt() > 50)
+			if (amount.getAsInt() > 50)
 			{
 				failure.accept(new CommandInputException("Enter an amount less than or equal to 50."));
 				return;
 			}
 
-			if(CooldownHandler.isOnCooldown(member, this))
+			if (CooldownHandler.isOnCooldown(member, this))
 			{
 				failure.accept(new CommandCooldownException(this));
 				return;

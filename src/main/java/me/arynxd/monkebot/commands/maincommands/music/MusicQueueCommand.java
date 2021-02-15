@@ -4,19 +4,19 @@ import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
+import me.arynxd.monkebot.handlers.MusicHandler;
 import me.arynxd.monkebot.objects.command.Command;
 import me.arynxd.monkebot.objects.command.CommandEvent;
 import me.arynxd.monkebot.objects.command.CommandFlag;
 import me.arynxd.monkebot.objects.exception.CommandException;
 import me.arynxd.monkebot.objects.exception.CommandResultException;
 import me.arynxd.monkebot.objects.music.GuildMusicManager;
-import me.arynxd.monkebot.handlers.MusicHandler;
 import me.arynxd.monkebot.util.CommandChecks;
 import me.arynxd.monkebot.util.StringUtils;
 import net.dv8tion.jda.api.EmbedBuilder;
 import org.jetbrains.annotations.NotNull;
 
-@SuppressWarnings("unused")
+@SuppressWarnings ("unused")
 public class MusicQueueCommand extends Command
 {
 	public MusicQueueCommand()
@@ -32,8 +32,8 @@ public class MusicQueueCommand extends Command
 		MusicHandler musicHandler = event.getMonke().getMusicHandler();
 		GuildMusicManager manager = musicHandler.getGuildMusicManager(event.getGuild());
 
-		if(CommandChecks.boundToChannel(manager, event.getChannel(), failure)) return;
-		if(CommandChecks.sharesVoice(event, failure)) return;
+		if (CommandChecks.boundToChannel(manager, event.getChannel(), failure)) return;
+		if (CommandChecks.sharesVoice(event, failure)) return;
 
 		AudioTrack currentTrack = manager.getPlayer().getPlayingTrack();
 
@@ -47,22 +47,22 @@ public class MusicQueueCommand extends Command
 		tracks = tracks.subList(0, Math.min(size, 5));
 
 		String trackString = "";
-		if(currentTrack != null)
+		if (currentTrack != null)
 		{
 			trackString += "**Now Playing**: " + currentTrack.getInfo().title + " by " + currentTrack.getInfo().author + "\n\n";
 		}
 
-		if(!tracks.isEmpty())
+		if (!tracks.isEmpty())
 		{
 			trackString += "**In the queue**: \n" + String.join("\n\n", tracks);
 		}
 
-		if(size >= 6)
+		if (size >= 6)
 		{
 			trackString += "\n\n[" + (size - 5) + StringUtils.plurify(" more track", size - 5) + "]";
 		}
 
-		if(trackString.isBlank())
+		if (trackString.isBlank())
 		{
 			failure.accept(new CommandResultException("Nothing is queued."));
 			return;

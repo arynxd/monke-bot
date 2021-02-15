@@ -32,7 +32,7 @@ public class CommandUtils
 					Member member1 = (Member) results.get(0);
 					Member member2 = (Member) results.get(1);
 
-					if(member1.canInteract(member2))
+					if (member1.canInteract(member2))
 					{
 						onSuccess.run();
 					}
@@ -49,12 +49,12 @@ public class CommandUtils
 		Member member = event.getMember();
 		long levelBot = GuildSettingsCache.getCache(event.getGuild().getIdLong(), monke).getLevelUpBot();
 
-		if(member == null || levelBot != member.getIdLong())
+		if (member == null || levelBot != member.getIdLong())
 		{
 			return -1;
 		}
 
-		if(event.getMessage().getMentionedMembers().isEmpty())
+		if (event.getMessage().getMentionedMembers().isEmpty())
 		{
 			return -1;
 		}
@@ -71,13 +71,13 @@ public class CommandUtils
 
 		content = content.replace(mention, "");
 
-		for(String letter : content.split(""))
+		for (String letter : content.split(""))
 		{
 			try
 			{
 				return Integer.parseInt(letter);
 			}
-			catch(Exception ignored) { }
+			catch (Exception ignored) { }
 		}
 		return -1;
 	}

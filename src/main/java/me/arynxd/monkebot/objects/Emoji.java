@@ -102,7 +102,7 @@ public enum Emoji
 
 	public String getAsReaction()
 	{
-		if(this.unicode.isBlank())
+		if (this.unicode.isBlank())
 		{
 			return "emote:" + this.emote;
 		}
@@ -111,9 +111,9 @@ public enum Emoji
 
 	public String getAsChat()
 	{
-		if(this.unicode.isBlank())
+		if (this.unicode.isBlank())
 		{
-			if(this.isAnimated)
+			if (this.isAnimated)
 			{
 				return "<a:emote:" + this.emote + ">";
 			}

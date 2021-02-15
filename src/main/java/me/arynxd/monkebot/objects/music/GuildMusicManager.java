@@ -4,11 +4,13 @@ import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import java.util.List;
+import javax.annotation.Nullable;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.entities.VoiceChannel;
 import net.dv8tion.jda.api.managers.AudioManager;
+import org.jetbrains.annotations.NotNull;
 
 public class GuildMusicManager
 {
@@ -75,29 +77,34 @@ public class GuildMusicManager
 		return player.isPaused();
 	}
 
-	public void leave(Guild guild)
+	public void leave(@NotNull Guild guild)
 	{
 		AudioManager manager = guild.getAudioManager();
 		manager.closeAudioConnection();
 	}
 
-	public void join(VoiceChannel channel)
+	public void join(@NotNull VoiceChannel channel)
 	{
 		AudioManager manager = channel.getGuild().getAudioManager();
 		manager.openAudioConnection(channel);
 		player.setVolume(volume);
 	}
 
-	public void kill(Guild guild)
+	public void kill(@NotNull Guild guild)
 	{
 		leave(guild);
 		player.destroy();
 		scheduler.clear();
 	}
 
-	public void bind(MessageChannel channel)
+	public void bind(@Nullable MessageChannel channel)
 	{
-		if(this.channel == null)
+		if (channel == null)
+		{
+			this.channel = null;
+			return;
+		}
+		if (this.channel == null)
 		{
 			this.channel = channel;
 		}

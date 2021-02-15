@@ -10,7 +10,7 @@ import me.arynxd.monkebot.objects.jooq.tables.*;
 /**
  * Convenience access to all tables in public.
  */
-@SuppressWarnings({"all", "unchecked", "rawtypes"})
+@SuppressWarnings ({"all", "unchecked", "rawtypes"})
 public class Tables
 {
 

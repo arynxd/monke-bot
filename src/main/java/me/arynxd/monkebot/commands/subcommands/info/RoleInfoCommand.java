@@ -21,7 +21,7 @@ public class RoleInfoCommand extends Command
 	@Override
 	public void run(@NotNull List<String> args, @NotNull CommandEvent event, @NotNull Consumer<CommandException> failure)
 	{
-		if(args.isEmpty())
+		if (args.isEmpty())
 		{
 			EmbedUtils.sendSyntaxError(event);
 		}
@@ -36,7 +36,7 @@ public class RoleInfoCommand extends Command
 					int size = members.size();
 					StringBuilder text = new StringBuilder();
 
-					if(size > 5)
+					if (size > 5)
 					{
 						members = members.subList(0, 5);
 					}

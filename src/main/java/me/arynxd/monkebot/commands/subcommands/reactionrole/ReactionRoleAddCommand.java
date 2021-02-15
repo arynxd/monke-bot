@@ -28,12 +28,12 @@ public class ReactionRoleAddCommand extends Command
 	@Override
 	public void run(@NotNull List<String> args, @NotNull CommandEvent event, @NotNull Consumer<CommandException> failure)
 	{
-		if(CommandChecks.argsSizeSubceeds(event, 4, failure)) return;
+		if (CommandChecks.argsSizeSubceeds(event, 4, failure)) return;
 
 		String emote;
-		if(!event.getMessage().getEmotes().isEmpty())
+		if (!event.getMessage().getEmotes().isEmpty())
 		{
-			if(event.getMessage().getEmotes().get(0).isAnimated())
+			if (event.getMessage().getEmotes().get(0).isAnimated())
 			{
 				failure.accept(new CommandInputException("Animated emotes are not allowed."));
 				return;
@@ -47,14 +47,14 @@ public class ReactionRoleAddCommand extends Command
 
 		OptionalLong messageId = new Parser(args.get(0), event).parseAsUnsignedLong();
 
-		if(messageId.isPresent())
+		if (messageId.isPresent())
 		{
 			new Parser(args.get(1), event).parseAsTextChannel(
 					channel -> channel.retrieveMessageById(messageId.getAsLong()).queue(
 							message -> new Parser(args.get(2), event).parseAsRole(
 									role ->
 									{
-										if(!event.getSelfMember().canInteract(role) || !event.getMember().canInteract(role))
+										if (!event.getSelfMember().canInteract(role) || !event.getMember().canInteract(role))
 										{
 											failure.accept(new CommandHierarchyException(this));
 											return;

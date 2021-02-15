@@ -8,7 +8,7 @@ import me.arynxd.monkebot.objects.command.CommandEvent;
 import me.arynxd.monkebot.objects.exception.CommandException;
 import org.jetbrains.annotations.NotNull;
 
-@SuppressWarnings("unused")
+@SuppressWarnings ("unused")
 public class CoinflipCommand extends Command
 {
 	public CoinflipCommand()
@@ -24,7 +24,7 @@ public class CoinflipCommand extends Command
 		String result;
 		int chance = random.nextInt(2);
 
-		if(chance == 1)
+		if (chance == 1)
 		{
 			result = "Heads";
 		}

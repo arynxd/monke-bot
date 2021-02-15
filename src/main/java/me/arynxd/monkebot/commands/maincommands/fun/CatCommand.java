@@ -12,7 +12,7 @@ import me.arynxd.monkebot.objects.json.RedditPost;
 import me.arynxd.monkebot.util.WebUtils;
 import org.jetbrains.annotations.NotNull;
 
-@SuppressWarnings("unused")
+@SuppressWarnings ("unused")
 public class CatCommand extends Command
 {
 	private static final List<String> SUBREDDITS = List.of("kittens", "Kitten", "cutecats", "catsnamedafterfood");
@@ -36,7 +36,7 @@ public class CatCommand extends Command
 							.filter(post -> !post.isPinned() && !post.isStickied() && post.isMedia())
 							.collect(Collectors.toList());
 
-					if(cats.isEmpty())
+					if (cats.isEmpty())
 					{
 						failure.accept(new CommandResultException("Couldn't find any cats :pensive:"));
 						return;

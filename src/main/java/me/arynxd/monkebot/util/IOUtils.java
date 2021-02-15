@@ -21,7 +21,7 @@ public class IOUtils
 		{
 			file = DatabaseHandler.class.getClassLoader().getResourceAsStream(fileName);
 		}
-		catch(Exception exception)
+		catch (Exception exception)
 		{
 			return null;
 		}
@@ -36,7 +36,7 @@ public class IOUtils
 			icon = Icon.from(new URL(url).openStream());
 
 		}
-		catch(Exception exception)
+		catch (Exception exception)
 		{
 			return null;
 		}
@@ -49,7 +49,7 @@ public class IOUtils
 		{
 			return new URL(url).openStream();
 		}
-		catch(Exception exception)
+		catch (Exception exception)
 		{
 			return null;
 		}
@@ -64,12 +64,12 @@ public class IOUtils
 		String str;
 		try
 		{
-			while((str = reader.readLine()) != null)
+			while ((str = reader.readLine()) != null)
 			{
 				stringBuilder.append(str);
 			}
 		}
-		catch(Exception exception)
+		catch (Exception exception)
 		{
 			return "";
 		}
@@ -85,7 +85,7 @@ public class IOUtils
 			obj.toURI();
 			return true;
 		}
-		catch(Exception exception)
+		catch (Exception exception)
 		{
 			return false;
 		}

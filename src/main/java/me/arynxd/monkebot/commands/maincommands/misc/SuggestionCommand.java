@@ -17,7 +17,7 @@ import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.User;
 import org.jetbrains.annotations.NotNull;
 
-@SuppressWarnings("unused")
+@SuppressWarnings ("unused")
 public class SuggestionCommand extends Command
 {
 	public SuggestionCommand()
@@ -30,15 +30,15 @@ public class SuggestionCommand extends Command
 	@Override
 	public void run(@NotNull List<String> args, @NotNull CommandEvent event, @NotNull Consumer<CommandException> failure)
 	{
-		if(CommandChecks.argsEmpty(event, failure)) return;
-		if(CommandChecks.argsEmbedCompatible(event, failure)) return;
+		if (CommandChecks.argsEmpty(event, failure)) return;
+		if (CommandChecks.argsEmbedCompatible(event, failure)) return;
 
 		User author = event.getAuthor();
 		GuildSettingsCache config = GuildSettingsCache.getCache(event.getGuildIdLong(), event.getMonke());
 		MessageChannel suggestionChannel = event.getGuild().getTextChannelById(config.getSuggestionChannel());
 
-		if(CommandChecks.channelConfigured(suggestionChannel, "Suggestion channel", failure)) return;
-		if(CommandChecks.canSee(suggestionChannel, event.getSelfMember(), "Suggestion channel", failure)) return;
+		if (CommandChecks.channelConfigured(suggestionChannel, "Suggestion channel", failure)) return;
+		if (CommandChecks.canSee(suggestionChannel, event.getSelfMember(), "Suggestion channel", failure)) return;
 		suggestionChannel.sendMessage(new EmbedBuilder()
 				.setTitle("Suggestion:")
 				.setDescription(StringUtils.markdownSanitize(String.join(" ", args)))

@@ -14,7 +14,7 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import org.jetbrains.annotations.NotNull;
 
-@SuppressWarnings("unused")
+@SuppressWarnings ("unused")
 public class WikipediaCommand extends Command
 {
 	public WikipediaCommand()
@@ -26,18 +26,18 @@ public class WikipediaCommand extends Command
 	@Override
 	public void run(@NotNull List<String> args, @NotNull CommandEvent event, @NotNull Consumer<CommandException> failure)
 	{
-		if(CommandChecks.argsEmpty(event, failure)) return;
+		if (CommandChecks.argsEmpty(event, failure)) return;
 
 		String query = String.join("_", args);
 
-		if(query.equalsIgnoreCase("cbt"))
+		if (query.equalsIgnoreCase("cbt"))
 		{
 			query = "Cock_and_ball_torture";
 		}
 
 		WebUtils.getWikipediaPage(event, query, page ->
 		{
-			if(page.getType() != WikipediaPage.PageType.STANDARD)
+			if (page.getType() != WikipediaPage.PageType.STANDARD)
 			{
 				failure.accept(new CommandResultException("Subject was too vague or not found."));
 				return;
@@ -46,24 +46,23 @@ public class WikipediaCommand extends Command
 			String thumbnail = page.getThumbnail();
 			EmbedBuilder embed = new EmbedBuilder();
 
-			if(thumbnail != null && event.getTextChannel().isNSFW())
+			if (thumbnail != null && event.getTextChannel().isNSFW())
 			{
 				embed.setImage(thumbnail);
 			}
 
 			String extract = page.getExtract();
 
-			if(extract != null)
+			if (extract != null)
 			{
-				if(extract.length() > MessageEmbed.TEXT_MAX_LENGTH)
+				if (extract.length() > MessageEmbed.TEXT_MAX_LENGTH)
 				{
 					extract = extract.substring(0, MessageEmbed.TEXT_MAX_LENGTH - 3) + "...";
 				}
 			}
-			embed
-				.setTitle(page.getTitle())
-				.setDescription(extract)
-				.setFooter("Page last edited at " + StringUtils.parseDateTime(page.getTimestamp()) + " | ");
+			embed.setTitle(page.getTitle())
+					.setDescription(extract)
+					.setFooter("Page last edited at " + StringUtils.parseDateTime(page.getTimestamp()) + " | ");
 			event.sendMessage(embed);
 		}, failure);
 	}

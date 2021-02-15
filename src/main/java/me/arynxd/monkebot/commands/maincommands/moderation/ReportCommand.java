@@ -25,7 +25,7 @@ import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.User;
 import org.jetbrains.annotations.NotNull;
 
-@SuppressWarnings("unused")
+@SuppressWarnings ("unused")
 public class ReportCommand extends Command
 {
 	public ReportCommand()
@@ -38,22 +38,22 @@ public class ReportCommand extends Command
 	@Override
 	public void run(@NotNull List<String> args, @NotNull CommandEvent event, @NotNull Consumer<CommandException> failure)
 	{
-		if(CommandChecks.argsSizeSubceeds(event, 2, failure)) return;
+		if (CommandChecks.argsSizeSubceeds(event, 2, failure)) return;
 
 		MessageChannel channel = event.getChannel();
 		User author = event.getAuthor();
 		Guild guild = event.getGuild();
 		MessageChannel reportChannel = guild.getTextChannelById(GuildSettingsCache.getCache(event.getGuildIdLong(), event.getMonke()).getReportChannel());
 
-		if(CommandChecks.channelConfigured(reportChannel, "Report channel", failure)) return;
-		if(CommandChecks.canSee(reportChannel, event.getSelfMember(), "Report channel", failure)) return;
+		if (CommandChecks.channelConfigured(reportChannel, "Report channel", failure)) return;
+		if (CommandChecks.canSee(reportChannel, event.getSelfMember(), "Report channel", failure)) return;
 
 		new Parser(args.get(0), event).parseAsUser(user ->
 		{
 			args.remove(0);
 			String reason = StringUtils.markdownSanitize(String.join(" ", args));
 
-			if(reason.isBlank())
+			if (reason.isBlank())
 			{
 				failure.accept(new CommandSyntaxException(event));
 				return;
@@ -61,7 +61,7 @@ public class ReportCommand extends Command
 
 			String messageLink = StringUtils.getMessageLink(event.getMessage().getIdLong(), channel.getIdLong(), guild.getIdLong());
 
-			if(user.isBot())
+			if (user.isBot())
 			{
 				failure.accept(new CommandInputException("You may not report bots."));
 				return;
@@ -70,7 +70,7 @@ public class ReportCommand extends Command
 			UserUtils.getMemberFromUser(user, guild).queue(
 					member ->
 					{
-						if(member.isOwner())
+						if (member.isOwner())
 						{
 							failure.accept(new CommandHierarchyException(this));
 							return;
@@ -91,7 +91,9 @@ public class ReportCommand extends Command
 											author.openPrivateChannel()
 													.flatMap(privateChannel ->
 															privateChannel.sendMessage(generateDM(member, user, reason).build()))
-													.queue(null, error -> { });
+													.queue(null, error ->
+													{
+													});
 
 											Report.add(message.getIdLong(), event.getMessage().getIdLong(), channel.getIdLong(), guild.getIdLong(), user.getIdLong(), author.getIdLong(), reason, event.getMonke());
 											message.addReaction(Emoji.THUMB_UP.getUnicode()).queue();

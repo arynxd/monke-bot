@@ -24,7 +24,7 @@ public class ChannelShowCommand extends Command
 	public void run(@NotNull List<String> args, @NotNull CommandEvent event, @NotNull Consumer<CommandException> failure)
 	{
 		StringBuilder text = new StringBuilder();
-		for(ChannelBlacklists channel : BlacklistUtils.getBlacklistedChannels(event.getGuild(), event.getMonke()))
+		for (ChannelBlacklists channel : BlacklistUtils.getBlacklistedChannels(event.getGuild(), event.getMonke()))
 		{
 			text.append(StringUtils.getChannelAsMention(channel.getChannelId())).append(" is blacklisted.");
 		}

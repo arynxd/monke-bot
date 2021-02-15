@@ -5,25 +5,25 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.function.Consumer;
+import me.arynxd.monkebot.handlers.MusicHandler;
 import me.arynxd.monkebot.objects.command.Command;
 import me.arynxd.monkebot.objects.command.CommandEvent;
 import me.arynxd.monkebot.objects.command.CommandFlag;
 import me.arynxd.monkebot.objects.exception.CommandException;
 import me.arynxd.monkebot.objects.exception.CommandResultException;
 import me.arynxd.monkebot.objects.music.GuildMusicManager;
-import me.arynxd.monkebot.handlers.MusicHandler;
 import me.arynxd.monkebot.util.CommandChecks;
 import me.arynxd.monkebot.util.StringUtils;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.User;
 import org.jetbrains.annotations.NotNull;
 
-@SuppressWarnings("unused")
+@SuppressWarnings ("unused")
 public class MusicNowPlayingCommand extends Command
 {
 	public MusicNowPlayingCommand()
 	{
-		super("Now Playing", "Shows whats playing currently", "[none]");
+		super("Now Playing", "Shows whats playing currently.", "[none]");
 		addAliases("nowplaying", "np");
 		addFlags(CommandFlag.GUILD_ONLY);
 	}
@@ -34,12 +34,12 @@ public class MusicNowPlayingCommand extends Command
 		MusicHandler musicHandler = event.getMonke().getMusicHandler();
 		GuildMusicManager manager = musicHandler.getGuildMusicManager(event.getGuild());
 
-		if(CommandChecks.boundToChannel(manager, event.getChannel(), failure)) return;
-		if(CommandChecks.sharesVoice(event, failure)) return;
+		if (CommandChecks.boundToChannel(manager, event.getChannel(), failure)) return;
+		if (CommandChecks.sharesVoice(event, failure)) return;
 
 		AudioTrack currentTrack = manager.getPlayer().getPlayingTrack();
 
-		if(currentTrack == null)
+		if (currentTrack == null)
 		{
 			failure.accept(new CommandResultException("Nothing is playing."));
 			return;

@@ -9,19 +9,19 @@ import me.arynxd.monkebot.util.Parser;
 import net.dv8tion.jda.api.EmbedBuilder;
 import org.jetbrains.annotations.NotNull;
 
-@SuppressWarnings("unused")
+@SuppressWarnings ("unused")
 public class AvatarCommand extends Command
 {
 	public AvatarCommand()
 	{
-		super("Avatar", "Shows the avatar for the specified user(s).", "<users {3}>");
+		super("Avatar", "Shows the avatar for the a user.", "<user>");
 		addAliases("avatar", "avi", "pfp");
 	}
 
 	@Override
 	public void run(@NotNull List<String> args, @NotNull CommandEvent event, @NotNull Consumer<CommandException> failure)
 	{
-		if(args.isEmpty())
+		if (args.isEmpty())
 		{
 			event.sendMessage(new EmbedBuilder()
 					.setTitle(event.getAuthor().getAsTag() + "'s Avatar")

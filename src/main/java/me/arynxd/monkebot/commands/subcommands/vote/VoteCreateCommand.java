@@ -34,7 +34,7 @@ public class VoteCreateCommand extends Command
 	@Override
 	public void run(@NotNull List<String> args, @NotNull CommandEvent event, @NotNull Consumer<CommandException> failure)
 	{
-		if(CommandChecks.argsSizeSubceeds(event, 3, failure)) return;
+		if (CommandChecks.argsSizeSubceeds(event, 3, failure)) return;
 
 		List<String> options = new Parser(args.get(1), event).parseAsSlashArgs();
 		LocalDateTime expiry = new Parser(args.get(2), event).parseAsDuration();
@@ -47,11 +47,11 @@ public class VoteCreateCommand extends Command
 		int roleCount = event.getMessage().getMentionedRoles().size();
 		int memberCount = event.getMessage().getMentionedMembers().size();
 
-		if(roleCount == argCount)
+		if (roleCount == argCount)
 		{
 			roles = event.getMessage().getMentionedRoles();
 		}
-		else if(memberCount == argCount)
+		else if (memberCount == argCount)
 		{
 			users = event.getMessage().getMentionedUsers().stream().map(User::getIdLong).collect(Collectors.toList());
 		}
@@ -78,20 +78,20 @@ public class VoteCreateCommand extends Command
 		}
 
 
-		if(options.isEmpty() || options.size() > 6 || expiry == null || roles.size() > 3 || users.size() > 10)
+		if (options.isEmpty() || options.size() > 6 || expiry == null || roles.size() > 3 || users.size() > 10)
 		{
 			failure.accept(new CommandSyntaxException(event));
 			return;
 		}
 
-		if(users.isEmpty() && !roles.isEmpty())
+		if (users.isEmpty() && !roles.isEmpty())
 		{
 			List<Role> finalRoles = roles;
 			guild.findMembers(member -> member.getRoles().stream().anyMatch(finalRoles::contains)).onSuccess(
 					members ->
 					{
 						members = members.stream().filter(member -> !member.getUser().isBot()).collect(Collectors.toList());
-						if(members.isEmpty())
+						if (members.isEmpty())
 						{
 							failure.accept(new CommandInputException("No members found for roles " + finalRoles
 									.stream()
@@ -100,7 +100,7 @@ public class VoteCreateCommand extends Command
 							return;
 						}
 
-						if(members.size() > 20)
+						if (members.size() > 20)
 						{
 							failure.accept(new CommandInputException("Too many members found for roles " + finalRoles
 									.stream()
@@ -114,7 +114,7 @@ public class VoteCreateCommand extends Command
 						vote.start();
 					});
 		}
-		else if(roles.isEmpty() && !users.isEmpty())
+		else if (roles.isEmpty() && !users.isEmpty())
 		{
 			Vote vote = new Vote(users, options, expiry, subject, event);
 			vote.start();

@@ -24,9 +24,9 @@ public class BlacklistRemoveCommand extends Command
 	@Override
 	public void run(@NotNull List<String> args, @NotNull CommandEvent event, @NotNull Consumer<CommandException> failure)
 	{
-		if(CommandChecks.argsEmpty(event, failure)) return;
+		if (CommandChecks.argsEmpty(event, failure)) return;
 		String phrase = String.join(" ", args);
-		if(BlacklistUtils.removePhrase(event.getGuild(), phrase, event.getMonke()))
+		if (BlacklistUtils.removePhrase(event.getGuild(), phrase, event.getMonke()))
 		{
 			event.replySuccess("Removed phrase ||" + phrase + "|| from the blacklist");
 		}

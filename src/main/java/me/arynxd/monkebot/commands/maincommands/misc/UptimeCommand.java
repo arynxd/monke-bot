@@ -11,7 +11,7 @@ import me.arynxd.monkebot.objects.exception.CommandException;
 import net.dv8tion.jda.api.EmbedBuilder;
 import org.jetbrains.annotations.NotNull;
 
-@SuppressWarnings("unused")
+@SuppressWarnings ("unused")
 public class UptimeCommand extends Command
 {
 	public UptimeCommand()

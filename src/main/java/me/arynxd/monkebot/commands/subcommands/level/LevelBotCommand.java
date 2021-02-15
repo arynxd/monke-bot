@@ -22,7 +22,7 @@ public class LevelBotCommand extends Command
 	@Override
 	public void run(@NotNull List<String> args, @NotNull CommandEvent event, @NotNull Consumer<CommandException> failure)
 	{
-		if(CommandChecks.argsEmpty(event, failure)) return;
+		if (CommandChecks.argsEmpty(event, failure)) return;
 
 		new Parser(args.get(0), event).parseAsUser(
 				user ->

@@ -13,11 +13,6 @@ public enum Language
 	private final String languageCode;
 	private final List<String> aliases;
 
-	public List<String> getAliases()
-	{
-		return aliases;
-	}
-
 	Language(String lanugageCode, List<String> aliases)
 	{
 		this.languageCode = lanugageCode;
@@ -30,17 +25,22 @@ public enum Language
 		this.aliases = Collections.emptyList();
 	}
 
-	public String getLanguageCode()
-	{
-		return languageCode;
-	}
-
 	public static @NotNull Language getFromName(String text)
 	{
 		return Arrays.stream(values())
 				.filter(lang ->
 						lang.getLanguageCode().equalsIgnoreCase(text)
-						|| lang.getAliases().contains(text.toLowerCase()))
+								|| lang.getAliases().contains(text.toLowerCase()))
 				.findFirst().orElse(Language.UNKNOWN);
+	}
+
+	public List<String> getAliases()
+	{
+		return aliases;
+	}
+
+	public String getLanguageCode()
+	{
+		return languageCode;
 	}
 }

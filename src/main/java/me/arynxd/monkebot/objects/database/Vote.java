@@ -43,11 +43,11 @@ public class Vote
 
 	public static Boolean closeById(long voteId, CommandEvent ctx)
 	{
-		try(Connection connection = ctx.getMonke().getDatabaseHandler().getConnection())
+		try (Connection connection = ctx.getMonke().getDatabaseHandler().getConnection())
 		{
 			MessageChannel voteChannel = ctx.getGuild().getTextChannelById(GuildSettingsCache.getCache(ctx.getGuildIdLong(), ctx.getMonke()).getVoteChannel());
 
-			if(voteChannel == null)
+			if (voteChannel == null)
 			{
 				ctx.replyError("Vote channel not setup.");
 				return null;
@@ -59,7 +59,7 @@ public class Vote
 
 			boolean voteExists = !result.isEmpty();
 
-			if(!voteExists)
+			if (!voteExists)
 			{
 				return false;
 			}
@@ -67,7 +67,7 @@ public class Vote
 			context.deleteFrom(Tables.VOTES).where(VOTES.VOTE_ID.eq(voteId)).execute();
 			return true;
 		}
-		catch(Exception exception)
+		catch (Exception exception)
 		{
 			ctx.getMonke().getLogger().error("An SQL error occurred", exception);
 			return null;
@@ -77,19 +77,19 @@ public class Vote
 	private static String generateUsers(Result<VotesRecord> result)
 	{
 		StringBuilder votes = new StringBuilder();
-		for(var row : result)
+		for (var row : result)
 		{
 			votes.append(StringUtils.getUserAsMention(row.getUserId())).append(" -> ");
 
-			if(row.getOption() == -1)
+			if (row.getOption() == -1)
 			{
 				votes.append(" Never voted ");
 			}
-			else if(row.getDirectMessageId() == -1)
+			else if (row.getDirectMessageId() == -1)
 			{
 				votes.append(" DM could not be sent ");
 			}
-			else if(row.getOption() == -2)
+			else if (row.getOption() == -2)
 			{
 				votes.append(" Abstained ");
 			}
@@ -104,7 +104,7 @@ public class Vote
 
 	public static void closeById(long voteId, long guildId, Monke monke)
 	{
-		try(Connection connection = monke.getDatabaseHandler().getConnection())
+		try (Connection connection = monke.getDatabaseHandler().getConnection())
 		{
 			var context = monke.getDatabaseHandler().getContext(connection);
 			var query = context.selectFrom(Tables.VOTES)
@@ -113,19 +113,19 @@ public class Vote
 			var result = query.fetch();
 			boolean voteExists = !result.isEmpty();
 
-			if(!voteExists)
+			if (!voteExists)
 			{
 				return;
 			}
 
 			MessageChannel voteChannel = monke.getShardManager().getTextChannelById(GuildSettingsCache.getCache(guildId, monke).getVoteChannel());
 
-			if(voteChannel == null)
+			if (voteChannel == null)
 			{
 				return;
 			}
 
-			for(var user : result)
+			for (var user : result)
 			{
 				clearDM(user.getUserId(), user.getDirectMessageId(), monke);
 			}
@@ -134,7 +134,7 @@ public class Vote
 
 			context.deleteFrom(Tables.VOTES).where(VOTES.VOTE_ID.eq(voteId)).execute();
 		}
-		catch(Exception exception)
+		catch (Exception exception)
 		{
 			monke.getLogger().error("An SQL error occurred", exception);
 		}
@@ -152,7 +152,7 @@ public class Vote
 							.clearFields()
 							.addField("Users", newUsers, false);
 
-					for(MessageEmbed.Field field : fields)
+					for (MessageEmbed.Field field : fields)
 					{
 						newEmbed.addField(field);
 					}
@@ -175,13 +175,13 @@ public class Vote
 
 	public static boolean castById(long userId, long messageId, int vote, Monke monke)
 	{
-		try(Connection connection = monke.getDatabaseHandler().getConnection())
+		try (Connection connection = monke.getDatabaseHandler().getConnection())
 		{
 			var context = monke.getDatabaseHandler().getContext(connection);
 
 			var query = context.selectFrom(Tables.VOTES).where(VOTES.DIRECT_MESSAGE_ID.eq(messageId)).fetch();
 
-			if(query.isEmpty() || query.get(0).getHasVoted())
+			if (query.isEmpty() || query.get(0).getHasVoted())
 			{
 				return false;
 			}
@@ -195,7 +195,7 @@ public class Vote
 			clearDM(userId, messageId, monke);
 			return true;
 		}
-		catch(Exception exception)
+		catch (Exception exception)
 		{
 			monke.getLogger().error("An SQL error occurred", exception);
 			return false;
@@ -204,19 +204,19 @@ public class Vote
 
 	public static int getMaxVoteById(long messageId, Monke monke)
 	{
-		try(Connection connection = monke.getDatabaseHandler().getConnection())
+		try (Connection connection = monke.getDatabaseHandler().getConnection())
 		{
 			var context = monke.getDatabaseHandler().getContext(connection);
 
 			var query = context.selectFrom(Tables.VOTES).where(VOTES.DIRECT_MESSAGE_ID.eq(messageId));
 			var result = query.fetch();
-			if(result.isNotEmpty())
+			if (result.isNotEmpty())
 			{
 				return result.get(0).getMaxOptions();
 			}
 			return -1;
 		}
-		catch(Exception exception)
+		catch (Exception exception)
 		{
 			monke.getLogger().error("An SQL error occurred", exception);
 			return -1;
@@ -225,14 +225,14 @@ public class Vote
 
 	public static boolean isVoteRunning(long messageId, Monke monke)
 	{
-		try(Connection connection = monke.getDatabaseHandler().getConnection())
+		try (Connection connection = monke.getDatabaseHandler().getConnection())
 		{
 			var context = monke.getDatabaseHandler().getContext(connection);
 			var query = context.selectFrom(Tables.VOTES).where(VOTES.DIRECT_MESSAGE_ID.eq(messageId));
 			var result = query.fetch();
 			return result.isNotEmpty();
 		}
-		catch(Exception exception)
+		catch (Exception exception)
 		{
 			monke.getLogger().error("An SQL error occurred", exception);
 			return false;
@@ -248,7 +248,7 @@ public class Vote
 	{
 		MessageChannel voteChannel = ctx.getGuild().getTextChannelById(GuildSettingsCache.getCache(ctx.getGuildIdLong(), ctx.getMonke()).getVoteChannel());
 
-		if(voteChannel == null)
+		if (voteChannel == null)
 		{
 			ctx.replyError("Vote channel not setup");
 			return;
@@ -258,7 +258,7 @@ public class Vote
 				message ->
 				{
 					message.editMessage(generateGuildEmbed().setFooter("Vote ID: " + message.getIdLong()).build()).queue();
-					for(Long userId : users)
+					for (Long userId : users)
 					{
 						monke.getShardManager()
 								.retrieveUserById(userId)
@@ -271,7 +271,7 @@ public class Vote
 
 	private void addUserToDatabase(long userId, long voteId, long dmId)
 	{
-		try(Connection connection = monke.getDatabaseHandler().getConnection())
+		try (Connection connection = monke.getDatabaseHandler().getConnection())
 		{
 			var context = monke.getDatabaseHandler().getContext(connection);
 			var query = context.insertInto(Tables.VOTES)
@@ -279,7 +279,7 @@ public class Vote
 					.values(voteId, ctx.getGuild().getIdLong(), userId, dmId, maxOptions, expiry, -1);
 			query.execute();
 		}
-		catch(Exception exception)
+		catch (Exception exception)
 		{
 			monke.getLogger().error("An SQL error occurred", exception);
 		}
@@ -306,7 +306,7 @@ public class Vote
 
 	private EmbedBuilder generateOptions(EmbedBuilder embed)
 	{
-		for(int i = 1; i < options.size() + 1; i++)
+		for (int i = 1; i < options.size() + 1; i++)
 		{
 			embed.addField("Option " + i, options.get(i - 1), true);
 		}
@@ -317,7 +317,7 @@ public class Vote
 	{
 		StringBuilder result = new StringBuilder();
 
-		for(long user : users)
+		for (long user : users)
 		{
 			result.append(StringUtils.getUserAsMention(user)).append(" -> ").append("Not voted").append("\n");
 		}

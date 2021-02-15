@@ -30,11 +30,11 @@ public class WarningShowCommand extends Command
 	@Override
 	public void run(@NotNull List<String> args, @NotNull CommandEvent event, @NotNull Consumer<CommandException> failure)
 	{
-		if(CommandChecks.argsEmpty(event, failure)) return;
+		if (CommandChecks.argsEmpty(event, failure)) return;
 
 		new Parser(args.get(0), event).parseAsUser(user ->
 		{
-			if(user.isBot())
+			if (user.isBot())
 			{
 				failure.accept(new CommandInputException("Bots cannot have warnings."));
 				return;

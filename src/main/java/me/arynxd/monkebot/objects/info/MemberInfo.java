@@ -44,7 +44,7 @@ public class MemberInfo
 	{
 		int size = member.getRoles().size();
 
-		if(size < 5)
+		if (size < 5)
 		{
 			return member.getRoles();
 		}

@@ -19,7 +19,7 @@ public class WikipediaPage
 	{
 		try
 		{
-			if(!dataObject.hasKey("type"))
+			if (!dataObject.hasKey("type"))
 				return null;
 
 			return Arrays.stream(PageType.values())
@@ -27,7 +27,7 @@ public class WikipediaPage
 					.findFirst()
 					.orElse(PageType.ERROR);
 		}
-		catch(Exception exception)
+		catch (Exception exception)
 		{
 			return null;
 		}
@@ -54,8 +54,8 @@ public class WikipediaPage
 	{
 		return dataObject.hasKey("thumbnail")
 				? dataObject.getObject("thumbnail").hasKey("source")
-					? dataObject.getObject("thumbnail").getString("source")
-					: null
+				? dataObject.getObject("thumbnail").getString("source")
+				: null
 				: null;
 
 	}
@@ -69,14 +69,14 @@ public class WikipediaPage
 
 		private final String param;
 
-		public String getParam()
-		{
-			return param;
-		}
-
 		PageType(String param)
 		{
 			this.param = param;
+		}
+
+		public String getParam()
+		{
+			return param;
 		}
 	}
 }

@@ -15,7 +15,7 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.User;
 import org.jetbrains.annotations.NotNull;
 
-@SuppressWarnings("unused")
+@SuppressWarnings ("unused")
 public class UwUCommand extends Command
 {
 	public UwUCommand()
@@ -27,22 +27,22 @@ public class UwUCommand extends Command
 	@Override
 	public void run(@NotNull List<String> args, @NotNull CommandEvent event, @NotNull Consumer<CommandException> failure)
 	{
-		if(CommandChecks.argsEmpty(event, failure)) return;
-		if(CommandChecks.argsEmbedCompatible(event, failure)) return;
+		if (CommandChecks.argsEmpty(event, failure)) return;
+		if (CommandChecks.argsEmbedCompatible(event, failure)) return;
 
 		List<String> chars = Arrays.stream(StringUtils.markdownSanitize(String.join(" ", args)).split("")).collect(Collectors.toList());
 		StringBuilder builder = new StringBuilder();
 		User author = event.getAuthor();
 
-		if(chars.isEmpty())
+		if (chars.isEmpty())
 		{
 			failure.accept(new CommandSyntaxException(event));
 			return;
 		}
 
-		for(String selectedChar : chars)
+		for (String selectedChar : chars)
 		{
-			switch(selectedChar)
+			switch (selectedChar)
 			{
 				case "r", "l" -> builder.append("w");
 				case "o" -> builder.append("wo");

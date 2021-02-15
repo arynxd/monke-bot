@@ -21,12 +21,12 @@ public class Tempban
 
 	public static boolean remove(long userId, Monke monke)
 	{
-		try(Connection connection = monke.getDatabaseHandler().getConnection())
+		try (Connection connection = monke.getDatabaseHandler().getConnection())
 		{
 			var ctx = monke.getDatabaseHandler().getContext(connection);
 			var existsQuery = ctx.selectFrom(Tables.TEMPBANS).where(TEMPBANS.USER_ID.eq(userId));
 
-			if(existsQuery.fetch().isEmpty())
+			if (existsQuery.fetch().isEmpty())
 			{
 				return false;
 			}
@@ -34,15 +34,15 @@ public class Tempban
 
 			List<Role> collectedRoles = new ArrayList<>();
 			Guild guild = null;
-			for(var row : roles.fetch())
+			for (var row : roles.fetch())
 			{
 				guild = monke.getShardManager().getGuildById(row.getGuildId());
-				if(guild != null)
+				if (guild != null)
 				{
 					Role role = guild.getRoleById(row.getRoleId());
-					if(role != null)
+					if (role != null)
 					{
-						if(!collectedRoles.contains(role))
+						if (!collectedRoles.contains(role))
 						{
 							collectedRoles.add(role);
 						}
@@ -50,7 +50,7 @@ public class Tempban
 				}
 			}
 
-			if(guild != null)
+			if (guild != null)
 			{
 				Guild finalGuild = guild;
 				guild.retrieveMemberById(userId).queue(member -> finalGuild.modifyMemberRoles(member, collectedRoles).queue());
@@ -59,7 +59,7 @@ public class Tempban
 			ctx.deleteFrom(Tables.ROLES).where(ROLES.USER_ID.eq(userId)).execute();
 			return true;
 		}
-		catch(Exception exception)
+		catch (Exception exception)
 		{
 			monke.getLogger().error("An SQL error occurred", exception);
 			return false;
@@ -68,24 +68,24 @@ public class Tempban
 
 	public static boolean add(long memberId, List<Long> roleIds, Guild guild, LocalDateTime mutedUntil, Monke monke)
 	{
-		try(Connection connection = monke.getDatabaseHandler().getConnection())
+		try (Connection connection = monke.getDatabaseHandler().getConnection())
 		{
 			var ctx = monke.getDatabaseHandler().getContext(connection);
 
 			boolean exists = ctx.select(TEMPBANS.USER_ID).from(Tables.TEMPBANS).fetchOne() != null;
-			if(exists)
+			if (exists)
 			{
 				return false;
 			}
 
-			for(long roleId : roleIds)
+			for (long roleId : roleIds)
 			{
 				ctx.insertInto(Tables.ROLES).columns(ROLES.GUILD_ID, ROLES.USER_ID, ROLES.ROLE_ID).values(guild.getIdLong(), memberId, roleId).execute();
 			}
 			ctx.insertInto(Tables.TEMPBANS).columns(TEMPBANS.GUILD_ID, TEMPBANS.USER_ID, TEMPBANS.MUTED_UNTIL).values(guild.getIdLong(), memberId, mutedUntil).execute();
 
 		}
-		catch(Exception exception)
+		catch (Exception exception)
 		{
 			monke.getLogger().error("An SQL error occurred", exception);
 			return false;

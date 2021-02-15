@@ -28,14 +28,14 @@ public class DatabaseUtils
 	public static void removeGuild(Guild guild, Monke monke)
 	{
 		LOGGER.debug("Removed guild " + guild.getId());
-		try(Connection connection = monke.getDatabaseHandler().getConnection())
+		try (Connection connection = monke.getDatabaseHandler().getConnection())
 		{
 			var context = monke.getDatabaseHandler().getContext(connection)
 					.deleteFrom(Tables.GUILDS)
 					.where(Guilds.GUILDS.GUILD_ID.eq(guild.getIdLong()));
 			context.execute();
 		}
-		catch(Exception exception)
+		catch (Exception exception)
 		{
 			monke.getLogger().error("An SQL error occurred", exception);
 		}
@@ -44,14 +44,14 @@ public class DatabaseUtils
 	public static void removeGuild(long guildId, Monke monke)
 	{
 		LOGGER.debug("Removed guild " + guildId);
-		try(Connection connection = monke.getDatabaseHandler().getConnection())
+		try (Connection connection = monke.getDatabaseHandler().getConnection())
 		{
 			var context = monke.getDatabaseHandler().getContext(connection)
 					.deleteFrom(Tables.GUILDS)
 					.where(Guilds.GUILDS.GUILD_ID.eq(guildId));
 			context.execute();
 		}
-		catch(Exception exception)
+		catch (Exception exception)
 		{
 			monke.getLogger().error("An SQL error occurred", exception);
 		}
@@ -60,7 +60,7 @@ public class DatabaseUtils
 	public static void registerGuild(Guild guild, Monke monke)
 	{
 		LOGGER.debug("Registered guild " + guild.getId());
-		try(Connection connection = monke.getDatabaseHandler().getConnection())
+		try (Connection connection = monke.getDatabaseHandler().getConnection())
 		{
 			var context = monke.getDatabaseHandler().getContext(connection)
 					.insertInto(Tables.GUILDS)
@@ -69,7 +69,7 @@ public class DatabaseUtils
 					.onDuplicateKeyIgnore();
 			context.execute();
 		}
-		catch(Exception exception)
+		catch (Exception exception)
 		{
 			monke.getLogger().error("An SQL error occurred", exception);
 		}
@@ -78,7 +78,7 @@ public class DatabaseUtils
 	public static void registerGuild(long guildId, Monke monke)
 	{
 		LOGGER.debug("Removed guild " + guildId);
-		try(Connection connection = monke.getDatabaseHandler().getConnection())
+		try (Connection connection = monke.getDatabaseHandler().getConnection())
 		{
 			var context = monke.getDatabaseHandler().getContext(connection)
 					.insertInto(Tables.GUILDS)
@@ -87,7 +87,7 @@ public class DatabaseUtils
 					.onDuplicateKeyIgnore();
 			context.execute();
 		}
-		catch(Exception exception)
+		catch (Exception exception)
 		{
 			monke.getLogger().error("An SQL error occurred", exception);
 		}
@@ -96,19 +96,19 @@ public class DatabaseUtils
 	public static List<Tempbans> getExpiredTempbans(Monke monke)
 	{
 		List<Tempbans> result = new ArrayList<>();
-		try(Connection connection = monke.getDatabaseHandler().getConnection())
+		try (Connection connection = monke.getDatabaseHandler().getConnection())
 		{
 			var context = monke.getDatabaseHandler().getContext(connection).selectFrom(Tables.TEMPBANS);
 
-			for(var value : context.fetch())
+			for (var value : context.fetch())
 			{
-				if(value.getMutedUntil().isBefore(LocalDateTime.now()))
+				if (value.getMutedUntil().isBefore(LocalDateTime.now()))
 				{
 					result.add(new Tempbans(value.getId(), value.getUserId(), value.getGuildId(), value.getMutedUntil()));
 				}
 			}
 		}
-		catch(Exception exception)
+		catch (Exception exception)
 		{
 			monke.getLogger().error("An SQL error occurred", exception);
 		}
@@ -117,7 +117,7 @@ public class DatabaseUtils
 
 	public static List<Role> getRoleForLevel(Guild guild, int level, Monke monke)
 	{
-		try(Connection connection = monke.getDatabaseHandler().getConnection())
+		try (Connection connection = monke.getDatabaseHandler().getConnection())
 		{
 			var context = monke.getDatabaseHandler().getContext(connection);
 			var query = context
@@ -126,7 +126,7 @@ public class DatabaseUtils
 
 			var result = query.fetch();
 
-			if(result.isEmpty())
+			if (result.isEmpty())
 			{
 				return Collections.emptyList();
 			}
@@ -136,7 +136,7 @@ public class DatabaseUtils
 			result.forEach(role -> roles.add(guild.getRoleById(role.getRoleId())));
 			return roles;
 		}
-		catch(Exception exception)
+		catch (Exception exception)
 		{
 			monke.getLogger().error("An SQL error occurred", exception);
 			return Collections.emptyList();
@@ -146,19 +146,19 @@ public class DatabaseUtils
 	public static List<Votes> getExpiredVotes(Monke monke)
 	{
 		List<Votes> result = new ArrayList<>();
-		try(Connection connection = monke.getDatabaseHandler().getConnection())
+		try (Connection connection = monke.getDatabaseHandler().getConnection())
 		{
 			var context = monke.getDatabaseHandler().getContext(connection).selectFrom(Tables.VOTES);
 
-			for(var value : context.fetch())
+			for (var value : context.fetch())
 			{
-				if(value.getExpiry().isBefore(LocalDateTime.now()))
+				if (value.getExpiry().isBefore(LocalDateTime.now()))
 				{
 					result.add(new Votes(value.getId(), value.getVoteId(), value.getGuildId(), value.getDirectMessageId(), value.getUserId(), value.getOption(), value.getMaxOptions(), value.getExpiry(), value.getHasVoted()));
 				}
 			}
 		}
-		catch(Exception exception)
+		catch (Exception exception)
 		{
 			monke.getLogger().error("An SQL error occurred", exception);
 		}

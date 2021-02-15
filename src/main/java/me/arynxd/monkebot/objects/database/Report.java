@@ -31,14 +31,14 @@ public class Report
 
 	public static Report getById(long messageId, Monke monke)
 	{
-		try(Connection connection = monke.getDatabaseHandler().getConnection())
+		try (Connection connection = monke.getDatabaseHandler().getConnection())
 		{
 			var context = monke.getDatabaseHandler().getContext(connection);
 			var query = context.selectFrom(REPORTS).where(REPORTS.MESSAGE_ID.eq(messageId));
 			var result = query.fetch();
 			query.close();
 
-			if(!result.isEmpty())
+			if (!result.isEmpty())
 			{
 				var report = result.get(0);
 				return new Report(report.getMessageId(), report.getReportMessageId(), report.getChannelId(), report.getGuildId(), report.getReporterId(), report.getReportteeId(), report.getReportText(), monke);
@@ -48,7 +48,7 @@ public class Report
 				return null;
 			}
 		}
-		catch(Exception exception)
+		catch (Exception exception)
 		{
 			monke.getLogger().error("An SQL error occurred", exception);
 			return null;
@@ -57,7 +57,7 @@ public class Report
 
 	public static void add(long messageId, long commandMessageId, long channelId, long guildId, long reportedUserId, long reportingUserId, String reason, Monke monke)
 	{
-		try(Connection connection = monke.getDatabaseHandler().getConnection())
+		try (Connection connection = monke.getDatabaseHandler().getConnection())
 		{
 			var ctx = monke.getDatabaseHandler().getContext(connection);
 
@@ -66,7 +66,7 @@ public class Report
 					.values(messageId, commandMessageId, channelId, guildId, reportedUserId, reportingUserId, reason)
 					.execute();
 		}
-		catch(Exception exception)
+		catch (Exception exception)
 		{
 			monke.getLogger().error("An SQL error occurred", exception);
 		}
@@ -74,12 +74,12 @@ public class Report
 
 	public static void remove(long messageId, Monke monke)
 	{
-		try(Connection connection = monke.getDatabaseHandler().getConnection())
+		try (Connection connection = monke.getDatabaseHandler().getConnection())
 		{
 			var context = monke.getDatabaseHandler().getContext(connection);
 			context.deleteFrom(Tables.REPORTS).where(REPORTS.MESSAGE_ID.eq(messageId)).execute();
 		}
-		catch(Exception exception)
+		catch (Exception exception)
 		{
 			monke.getLogger().error("An SQL error occurred", exception);
 		}

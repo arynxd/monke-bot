@@ -32,7 +32,7 @@ public class Configuration
 	{
 		try
 		{
-			if(CONFIG_FILE.createNewFile())
+			if (CONFIG_FILE.createNewFile())
 			{
 				LOGGER.debug("Created new config file.");
 			}
@@ -41,7 +41,7 @@ public class Configuration
 				LOGGER.debug("Config file exists.");
 			}
 		}
-		catch(Exception exception)
+		catch (Exception exception)
 		{
 			monke.getLogger().error("An exception occurred while creating the config file, abort.", exception);
 			System.exit(1);
@@ -52,7 +52,7 @@ public class Configuration
 	{
 		try
 		{
-			if(CONFIG_FOLDER.mkdir())
+			if (CONFIG_FOLDER.mkdir())
 			{
 				LOGGER.debug("Created new config file.");
 			}
@@ -61,7 +61,7 @@ public class Configuration
 				LOGGER.debug("Config file exists.");
 			}
 		}
-		catch(Exception exception)
+		catch (Exception exception)
 		{
 			monke.getLogger().error("An exception occurred while creating the config folder, abort.", exception);
 			System.exit(1);
@@ -75,9 +75,9 @@ public class Configuration
 		{
 			BufferedReader reader = new BufferedReader(new FileReader(CONFIG_FILE));
 			String line;
-			while((line = reader.readLine()) != null)
+			while ((line = reader.readLine()) != null)
 			{
-				if(!line.contains("=") || line.startsWith("#"))
+				if (!line.contains("=") || line.startsWith("#"))
 				{
 					continue;
 				}
@@ -86,7 +86,7 @@ public class Configuration
 			}
 			return applyDefaults(values);
 		}
-		catch(Exception exception)
+		catch (Exception exception)
 		{
 			monke.getLogger().error("A config error occurred", exception);
 			return Collections.emptyList();
@@ -95,9 +95,9 @@ public class Configuration
 
 	private List<ConfigurationValue> applyDefaults(List<ConfigurationValue> loadedValues)
 	{
-		for(ConfigOption configOption : ConfigOption.values())
+		for (ConfigOption configOption : ConfigOption.values())
 		{
-			if(loadedValues.stream().map(ConfigurationValue::getKey).noneMatch(key -> configOption.getKey().equals(key)))
+			if (loadedValues.stream().map(ConfigurationValue::getKey).noneMatch(key -> configOption.getKey().equals(key)))
 			{
 				loadedValues.add(new ConfigurationValue(configOption.getKey(), configOption.getDefaultValue()));
 			}
@@ -109,7 +109,7 @@ public class Configuration
 	private void save(List<ConfigurationValue> configValues)
 	{
 		StringBuilder stringBuilder = new StringBuilder();
-		for(ConfigurationValue configurationValue : configValues)
+		for (ConfigurationValue configurationValue : configValues)
 		{
 			stringBuilder
 					.append(configurationValue.getKey())
@@ -123,7 +123,7 @@ public class Configuration
 			fileWriter.write(stringBuilder.toString());
 			fileWriter.flush();
 		}
-		catch(Exception exception)
+		catch (Exception exception)
 		{
 			monke.getLogger().error("A config error occurred", exception);
 		}
@@ -131,11 +131,11 @@ public class Configuration
 
 	public @NotNull String getString(ConfigOption configOption)
 	{
-		synchronized(configValues)
+		synchronized (configValues)
 		{
-			for(ConfigurationValue configurationValue : configValues)
+			for (ConfigurationValue configurationValue : configValues)
 			{
-				if(configurationValue.getKey().equals(configOption.getKey()))
+				if (configurationValue.getKey().equals(configOption.getKey()))
 				{
 					return configurationValue.getValue();
 				}

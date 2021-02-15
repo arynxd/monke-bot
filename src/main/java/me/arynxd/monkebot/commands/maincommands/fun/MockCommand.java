@@ -16,7 +16,7 @@ import me.arynxd.monkebot.util.StringUtils;
 import net.dv8tion.jda.api.EmbedBuilder;
 import org.jetbrains.annotations.NotNull;
 
-@SuppressWarnings("unused")
+@SuppressWarnings ("unused")
 public class MockCommand extends Command
 {
 	public MockCommand()
@@ -28,11 +28,11 @@ public class MockCommand extends Command
 	@Override
 	public void run(@NotNull List<String> args, @NotNull CommandEvent event, @NotNull Consumer<CommandException> failure)
 	{
-		if(CommandChecks.argsEmpty(event, failure)) return;
-		if(CommandChecks.argsEmbedCompatible(event, failure)) return;
+		if (CommandChecks.argsEmpty(event, failure)) return;
+		if (CommandChecks.argsEmbedCompatible(event, failure)) return;
 
 		InputStream file = IOUtils.getResourceFile("mock.jpg");
-		if(file == null)
+		if (file == null)
 		{
 			failure.accept(new CommandResultException("An error occurred while loading the mock image."));
 			return;
@@ -54,7 +54,7 @@ public class MockCommand extends Command
 		mockText.append('"');
 		args.forEach(word ->
 		{
-			for(String selectedChar : StringUtils.markdownSanitize(word).split(""))
+			for (String selectedChar : StringUtils.markdownSanitize(word).split(""))
 			{
 				mockText.append(random.nextBoolean() ? selectedChar.toUpperCase() : selectedChar.toLowerCase());
 			}

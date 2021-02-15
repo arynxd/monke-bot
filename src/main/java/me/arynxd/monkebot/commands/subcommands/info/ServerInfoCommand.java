@@ -26,7 +26,7 @@ public class ServerInfoCommand extends Command
 	public void run(@NotNull List<String> args, @NotNull CommandEvent event, @NotNull Consumer<CommandException> failure)
 	{
 		Optional<Guild> guild;
-		if(args.isEmpty())
+		if (args.isEmpty())
 		{
 			guild = Optional.of(event.getGuild());
 		}
@@ -35,7 +35,7 @@ public class ServerInfoCommand extends Command
 			guild = new Parser(args.get(0), event).parseAsGuild();
 		}
 
-		if(guild.isPresent())
+		if (guild.isPresent())
 		{
 			GuildInfo guildInfo = new GuildInfo(guild.get());
 

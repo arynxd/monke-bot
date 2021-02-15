@@ -32,7 +32,7 @@ public class VoiceEventsLogging extends ListenerAdapter
 		Member member = event.getMember();
 		MessageChannel logChannel = guild.getTextChannelById(GuildSettingsCache.getCache(guild.getIdLong(), monke).getLogChannel());
 
-		if(logChannel != null)
+		if (logChannel != null)
 		{
 			logChannel.sendMessage(new EmbedBuilder()
 					.setTitle("Member Moved VC")
@@ -54,7 +54,7 @@ public class VoiceEventsLogging extends ListenerAdapter
 		Guild guild = event.getGuild();
 		MessageChannel logChannel = guild.getTextChannelById(GuildSettingsCache.getCache(guild.getIdLong(), monke).getLogChannel());
 
-		if(logChannel != null)
+		if (logChannel != null)
 		{
 			logChannel.sendMessage(new EmbedBuilder()
 					.setTitle("Member Left VC")
@@ -75,7 +75,7 @@ public class VoiceEventsLogging extends ListenerAdapter
 		Guild guild = event.getGuild();
 		MessageChannel logChannel = guild.getTextChannelById(GuildSettingsCache.getCache(guild.getIdLong(), monke).getLogChannel());
 
-		if(logChannel != null)
+		if (logChannel != null)
 		{
 			logChannel.sendMessage(new EmbedBuilder()
 					.setTitle("Member Joined VC")

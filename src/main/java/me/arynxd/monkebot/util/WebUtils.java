@@ -41,11 +41,11 @@ public class WebUtils
 			@Override
 			public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException
 			{
-				try(ResponseBody responseBody = response.body())
+				try (ResponseBody responseBody = response.body())
 				{
 					List<RedditPost> post = new ArrayList<>();
 
-					if(responseBody == null)
+					if (responseBody == null)
 					{
 						failure.accept(new CommandResultException("The retrieved posts were empty."));
 						return;
@@ -54,7 +54,7 @@ public class WebUtils
 					DataObject redditJson = DataObject.fromJson(responseBody.string());
 
 
-					if(!redditJson.hasKey("data") && !redditJson.getObject("data").hasKey("children"))
+					if (!redditJson.hasKey("data") && !redditJson.getObject("data").hasKey("children"))
 					{
 						failure.accept(new CommandResultException("The data Reddit provided was corrupt."));
 						return;
@@ -62,16 +62,16 @@ public class WebUtils
 
 					DataArray memeArray = redditJson.getObject("data").getArray("children");
 
-					for(int i = 0; i < memeArray.length(); i++)
+					for (int i = 0; i < memeArray.length(); i++)
 					{
 						DataObject meme = memeArray.getObject(i);
-						if(meme.hasKey("data"))
+						if (meme.hasKey("data"))
 						{
 							post.add(new RedditPost(meme.getObject("data")));
 						}
 					}
 
-					if(post.isEmpty())
+					if (post.isEmpty())
 					{
 						failure.accept(new CommandResultException("Reddit provided no posts."));
 						return;
@@ -101,9 +101,9 @@ public class WebUtils
 			@Override
 			public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException
 			{
-				try(ResponseBody responseBody = response.body())
+				try (ResponseBody responseBody = response.body())
 				{
-					if(responseBody == null)
+					if (responseBody == null)
 					{
 						failure.accept(new CommandResultException("Wikipedia provided no data!"));
 						return;
@@ -118,7 +118,7 @@ public class WebUtils
 
 	public static void checkAndSendPost(CommandEvent event, RedditPost post, Consumer<CommandException> failure)
 	{
-		if(CommandChecks.canPost(event, post, failure)) return;
+		if (CommandChecks.canPost(event, post, failure)) return;
 
 		event.sendMessage(new EmbedBuilder()
 				.setTitle(post.getTitle())

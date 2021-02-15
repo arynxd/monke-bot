@@ -14,7 +14,7 @@ import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Icon;
 import org.jetbrains.annotations.NotNull;
 
-@SuppressWarnings("unused")
+@SuppressWarnings ("unused")
 public class StealCommand extends Command
 {
 	public StealCommand()
@@ -29,17 +29,17 @@ public class StealCommand extends Command
 	@Override
 	public void run(@NotNull List<String> args, @NotNull CommandEvent event, @NotNull Consumer<CommandException> failure)
 	{
-		if(CommandChecks.argsSizeSubceeds(event, 2, failure) || CommandChecks.isURL(args.get(1), event, failure))
+		if (CommandChecks.argsSizeSubceeds(event, 2, failure) || CommandChecks.isURL(args.get(1), event, failure))
 			return;
 
-		if(!args.get(0).matches("([A-Z]|[a-z]|_)\\w+"))
+		if (!args.get(0).matches("([A-Z]|[a-z]|_)\\w+"))
 		{
 			failure.accept(new CommandInputException("Emoji names must be A-Z with underscores (_)"));
 			return;
 		}
 
 		Icon icon = IOUtils.getIcon(args.get(1));
-		if(icon == null)
+		if (icon == null)
 		{
 			failure.accept(new CommandResultException("The image / gif provided could not be loaded."));
 		}

@@ -30,7 +30,7 @@ public class MemberEventsLogging extends ListenerAdapter
 		User user = event.getUser();
 		MessageChannel logChannel = guild.getTextChannelById(GuildSettingsCache.getCache(guild.getIdLong(), monke).getLogChannel());
 
-		if(logChannel != null)
+		if (logChannel != null)
 		{
 			logChannel.sendMessage(new EmbedBuilder()
 					.setTitle("Member Left")
@@ -48,7 +48,7 @@ public class MemberEventsLogging extends ListenerAdapter
 		Member member = event.getMember();
 		MessageChannel logChannel = guild.getTextChannelById(GuildSettingsCache.getCache(guild.getIdLong(), monke).getLogChannel());
 
-		if(logChannel != null)
+		if (logChannel != null)
 		{
 			logChannel.sendMessage(new EmbedBuilder()
 					.setTitle("Member Joined")

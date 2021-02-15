@@ -19,7 +19,7 @@ import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.User;
 import org.jetbrains.annotations.NotNull;
 
-@SuppressWarnings("unused")
+@SuppressWarnings ("unused")
 public class TempbanCommand extends Command
 {
 	public TempbanCommand()
@@ -35,18 +35,18 @@ public class TempbanCommand extends Command
 	@Override
 	public void run(@NotNull List<String> args, @NotNull CommandEvent event, @NotNull Consumer<CommandException> failure)
 	{
-		if(CommandChecks.argsSizeMatches(event, 2, failure)) return;
+		if (CommandChecks.argsSizeMatches(event, 2, failure)) return;
 
 		new Parser(args.get(0), event).parseAsUser(user ->
 		{
 			User author = event.getAuthor();
-			if(user.isBot())
+			if (user.isBot())
 			{
 				failure.accept(new CommandInputException("Bots cannot be tempbanned."));
 				return;
 			}
 
-			if(user.equals(author))
+			if (user.equals(author))
 			{
 				failure.accept(new CommandHierarchyException(this));
 				return;
@@ -57,9 +57,9 @@ public class TempbanCommand extends Command
 			Guild guild = event.getGuild();
 			Role tempBanRole = guild.getRoleById(GuildSettingsCache.getCache(event.getGuildIdLong(), event.getMonke()).getTempBanRole());
 
-			if(CommandChecks.roleConfigured(tempBanRole, "Tempban role", failure)) return;
+			if (CommandChecks.roleConfigured(tempBanRole, "Tempban role", failure)) return;
 
-			if(muteTime == null || muteTime.isAfter(LocalDateTime.now().plusWeeks(1)))
+			if (muteTime == null || muteTime.isAfter(LocalDateTime.now().plusWeeks(1)))
 			{
 				failure.accept(new CommandInputException("Duration " + args.get(1) + " is invalid."));
 				return;
@@ -73,7 +73,7 @@ public class TempbanCommand extends Command
 								guild.modifyMemberRoles(member, tempBanRole).queue(
 										success ->
 										{
-											if(Tempban.add(member.getIdLong(), roleIds, guild, muteTime, event.getMonke()))
+											if (Tempban.add(member.getIdLong(), roleIds, guild, muteTime, event.getMonke()))
 											{
 												event.replySuccess("Tempbanned " + user.getAsMention() + " until " + StringUtils.parseDateTime(muteTime));
 											}
@@ -98,18 +98,18 @@ public class TempbanCommand extends Command
 		@Override
 		public void run(@NotNull List<String> args, @NotNull CommandEvent event, @NotNull Consumer<CommandException> failure)
 		{
-			if(CommandChecks.argsEmpty(event, failure)) return;
+			if (CommandChecks.argsEmpty(event, failure)) return;
 
 			new Parser(args.get(0), event).parseAsUser(user ->
 			{
 				User author = event.getAuthor();
-				if(user.isBot())
+				if (user.isBot())
 				{
 					failure.accept(new CommandInputException("Bots cannot be tempbanned."));
 					return;
 				}
 
-				if(user.equals(author))
+				if (user.equals(author))
 				{
 					failure.accept(new CommandHierarchyException(this));
 					return;
@@ -122,7 +122,7 @@ public class TempbanCommand extends Command
 						CommandUtils.interactionCheck(author, user, event, () ->
 								UserUtils.getMemberFromUser(user, guild).queue(member ->
 								{
-									if(Tempban.remove(member.getIdLong(), event.getMonke()))
+									if (Tempban.remove(member.getIdLong(), event.getMonke()))
 									{
 										event.replySuccess("Removed tempban for user " + StringUtils.getUserAsMention(member.getIdLong()));
 									}

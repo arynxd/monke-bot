@@ -4,7 +4,10 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Collections;
 import me.arynxd.monkebot.objects.Emoji;
+import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.utils.MarkdownSanitizer;
 
 public class StringUtils
@@ -20,7 +23,7 @@ public class StringUtils
 		{
 			return "<:emote:" + Long.parseLong(emote) + ">";
 		}
-		catch(Exception exception)
+		catch (Exception exception)
 		{
 			return emote;
 		}
@@ -43,7 +46,7 @@ public class StringUtils
 
 	public static String parseToEmote(int number)
 	{
-		return switch(number)
+		return switch (number)
 				{
 					case 1 -> Emoji.ONE.getAsChat();
 					case 2 -> Emoji.TWO.getAsChat();
@@ -109,6 +112,27 @@ public class StringUtils
 		return duration.toHoursPart() + "h : " + duration.toMinutesPart() + "m : " + duration.toSecondsPart() + "s";
 	}
 
+	public static void sendPartialMessages(String input, MessageChannel channel)
+	{
+		while (true)
+		{
+			if (input.length() >= Message.MAX_CONTENT_LENGTH)
+			{
+				channel.sendMessage(input.substring(0, Message.MAX_CONTENT_LENGTH))
+						.allowedMentions(Collections.emptyList())
+						.queue();
+
+				input = input.substring(Message.MAX_CONTENT_LENGTH);
+			}
+			else
+			{
+				channel.sendMessage(input)
+						.allowedMentions(Collections.emptyList())
+						.queue();
+				break;
+			}
+		}
+	}
 
 	public static String prettyPrintJSON(String json)
 	{
@@ -116,9 +140,9 @@ public class StringUtils
 		int indentLevel = 0;
 		boolean inQuote = false;
 
-		for(char jsonChar : json.toCharArray())
+		for (char jsonChar : json.toCharArray())
 		{
-			switch(jsonChar)
+			switch (jsonChar)
 			{
 				case '"':
 					inQuote = !inQuote;
@@ -126,7 +150,7 @@ public class StringUtils
 					break;
 
 				case ' ':
-					if(inQuote)
+					if (inQuote)
 					{
 						jsonBuilder.append(jsonChar);
 					}
@@ -148,7 +172,7 @@ public class StringUtils
 
 				case ',':
 					jsonBuilder.append(jsonChar);
-					if(!inQuote)
+					if (!inQuote)
 					{
 						indentSection(indentLevel, jsonBuilder);
 					}

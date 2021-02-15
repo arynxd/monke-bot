@@ -30,11 +30,11 @@ public class MessageEventsLogging extends ListenerAdapter
 	@Override
 	public void onMessageUpdate(MessageUpdateEvent event)
 	{
-		if(event.isFromGuild())
+		if (event.isFromGuild())
 		{
 			MessageCache cache = MessageCache.getCache(event.getGuild().getIdLong());
 
-			if(cache.isCached(event.getMessage().getIdLong()))
+			if (cache.isCached(event.getMessage().getIdLong()))
 			{
 				Message newMessage = event.getMessage();
 				CachedMessage oldMessage = cache.get(event.getMessageIdLong());
@@ -44,16 +44,16 @@ public class MessageEventsLogging extends ListenerAdapter
 				Guild guild = event.getGuild();
 				MessageChannel logChannel = guild.getTextChannelById(GuildSettingsCache.getCache(guild.getIdLong(), monke).getLogChannel());
 
-				if(logChannel != null)
+				if (logChannel != null)
 				{
-					if(CommandUtils.isValidCommand(newMessage.getContentRaw(), event.getGuild().getIdLong(), monke))
+					if (CommandUtils.isValidCommand(newMessage.getContentRaw(), event.getGuild().getIdLong(), monke))
 					{
 						return;
 					}
 
-					if(newMessage.getAuthor().isBot()) return;
-					if(newContent.length() >= 2000) newContent = newContent.substring(0, 1500) + " **...**";
-					if(oldContent.length() >= 2000) newContent = newContent.substring(0, 1500) + " **...**";
+					if (newMessage.getAuthor().isBot()) return;
+					if (newContent.length() >= 2000) newContent = newContent.substring(0, 1500) + " **...**";
+					if (oldContent.length() >= 2000) newContent = newContent.substring(0, 1500) + " **...**";
 
 					logChannel.sendMessage(new EmbedBuilder()
 							.setTitle("Message Altered")
@@ -75,11 +75,11 @@ public class MessageEventsLogging extends ListenerAdapter
 	@Override
 	public void onMessageDelete(MessageDeleteEvent event)
 	{
-		if(event.getChannelType().equals(ChannelType.TEXT))
+		if (event.getChannelType().equals(ChannelType.TEXT))
 		{
 			MessageCache cache = MessageCache.getCache(event.getGuild().getIdLong());
 
-			if(cache.isCached(event.getMessageIdLong()))
+			if (cache.isCached(event.getMessageIdLong()))
 			{
 				CachedMessage message = cache.get(event.getMessageIdLong());
 				Guild guild = event.getGuild();
@@ -87,14 +87,14 @@ public class MessageEventsLogging extends ListenerAdapter
 				String content = message.getContentRaw();
 				MessageChannel logChannel = guild.getTextChannelById(GuildSettingsCache.getCache(guild.getIdLong(), monke).getLogChannel());
 
-				if(logChannel != null)
+				if (logChannel != null)
 				{
-					if(CommandUtils.isValidCommand(content, guild.getIdLong(), monke))
+					if (CommandUtils.isValidCommand(content, guild.getIdLong(), monke))
 					{
 						return;
 					}
-					if(message.getAuthor().isBot()) return;
-					if(content.length() >= 2000) content = content.substring(0, 1500) + " **...**";
+					if (message.getAuthor().isBot()) return;
+					if (content.length() >= 2000) content = content.substring(0, 1500) + " **...**";
 
 
 					logChannel.sendMessage(new EmbedBuilder()

@@ -70,9 +70,9 @@ public class TaskHandler
 
 	public BotTask getTask(String taskName)
 	{
-		for(BotTask task : tasks)
+		for (BotTask task : tasks)
 		{
-			if(task.getName().equalsIgnoreCase(taskName))
+			if (task.getName().equalsIgnoreCase(taskName))
 			{
 				return task;
 			}
@@ -83,9 +83,9 @@ public class TaskHandler
 	public void cancelTask(String taskName, boolean shouldInterrupt)
 	{
 		LOGGER.debug("Cancelling task " + taskName);
-		for(BotTask task : tasks)
+		for (BotTask task : tasks)
 		{
-			if(task.getName().equalsIgnoreCase(taskName))
+			if (task.getName().equalsIgnoreCase(taskName))
 			{
 				LOGGER.debug("Cancelled task " + taskName);
 				task.getTask().cancel(shouldInterrupt);
@@ -98,7 +98,7 @@ public class TaskHandler
 	public void close()
 	{
 		LOGGER.debug("Closing TaskHandler");
-		for(BotTask task : tasks)
+		for (BotTask task : tasks)
 		{
 			task.cancel(false);
 		}
@@ -108,7 +108,7 @@ public class TaskHandler
 	public String getTaskName()
 	{
 		UUID uuid = UUID.randomUUID();
-		if(!currentUUIDs.contains(uuid))
+		if (!currentUUIDs.contains(uuid))
 		{
 			currentUUIDs.add(uuid);
 			return uuid.toString();

@@ -25,12 +25,12 @@ public class ChannelIgnoreCommand extends Command
 	@Override
 	public void run(@NotNull List<String> args, @NotNull CommandEvent event, @NotNull Consumer<CommandException> failure)
 	{
-		if(CommandChecks.argsSizeSubceeds(event, 2, failure)) return;
+		if (CommandChecks.argsSizeSubceeds(event, 2, failure)) return;
 
 		new Parser(args.get(0), event).parseAsTextChannel(
 				channel ->
 				{
-					if(channel.equals(event.getTextChannel()))
+					if (channel.equals(event.getTextChannel()))
 					{
 						failure.accept(new CommandInputException("You cannot ignore me in the channel where you issued the command."));
 						return;
@@ -38,11 +38,11 @@ public class ChannelIgnoreCommand extends Command
 
 					Optional<Boolean> bool = new Parser(args.get(1), event).parseAsBoolean();
 
-					if(bool.isPresent())
+					if (bool.isPresent())
 					{
-						if(bool.get())
+						if (bool.get())
 						{
-							if(BlacklistUtils.addChannel(channel, event.getGuild(), event.getMonke()))
+							if (BlacklistUtils.addChannel(channel, event.getGuild(), event.getMonke()))
 							{
 								event.replySuccess("Blacklisted channel " + channel.getAsMention());
 							}
@@ -53,7 +53,7 @@ public class ChannelIgnoreCommand extends Command
 						}
 						else
 						{
-							if(BlacklistUtils.removeChannel(channel, event.getGuild(), event.getMonke()))
+							if (BlacklistUtils.removeChannel(channel, event.getGuild(), event.getMonke()))
 							{
 								event.replySuccess("Removed blacklist for channel " + channel.getAsMention());
 							}

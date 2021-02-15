@@ -42,7 +42,7 @@ public class CommandEvent
 
 	public @NotNull String getPrefix()
 	{
-		if(!isFromGuild())
+		if (!isFromGuild())
 		{
 			return Constants.DEFAULT_BOT_PREFIX;
 		}
@@ -95,7 +95,7 @@ public class CommandEvent
 
 	public @NotNull Guild getGuild()
 	{
-		if(event.isFromGuild())
+		if (event.isFromGuild())
 		{
 			return event.getGuild();
 		}
@@ -145,7 +145,7 @@ public class CommandEvent
 
 	public @NotNull TextChannel getTextChannel()
 	{
-		if(!isFromGuild())
+		if (!isFromGuild())
 		{
 			throw new IllegalStateException("Event did not occur in a text channel.");
 		}

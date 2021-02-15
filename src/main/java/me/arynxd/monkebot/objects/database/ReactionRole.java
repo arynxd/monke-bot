@@ -31,7 +31,7 @@ public class ReactionRole
 
 	public static @NotNull List<ReactionRole> getByMessageId(long messageId, @NotNull Monke monke)
 	{
-		try(Connection connection = monke.getDatabaseHandler().getConnection())
+		try (Connection connection = monke.getDatabaseHandler().getConnection())
 		{
 			var context = monke.getDatabaseHandler().getContext(connection);
 			var query = context
@@ -41,21 +41,21 @@ public class ReactionRole
 			var result = query.fetch();
 			query.close();
 
-			if(result.isEmpty())
+			if (result.isEmpty())
 			{
 				return Collections.emptyList();
 			}
 			else
 			{
 				List<ReactionRole> reactionRoles = new ArrayList<>();
-				for(var rr : result)
+				for (var rr : result)
 				{
 					reactionRoles.add(new ReactionRole(rr.getMessageId(), rr.getRoleId(), rr.getGuildId(), rr.getEmoteId(), monke));
 				}
 				return reactionRoles;
 			}
 		}
-		catch(Exception exception)
+		catch (Exception exception)
 		{
 			monke.getLogger().error("An SQL error occurred", exception);
 			return Collections.emptyList();
@@ -64,7 +64,7 @@ public class ReactionRole
 
 	public void add()
 	{
-		try(Connection connection = monke.getDatabaseHandler().getConnection())
+		try (Connection connection = monke.getDatabaseHandler().getConnection())
 		{
 			var context = monke.getDatabaseHandler().getContext(connection);
 			var query = context
@@ -73,7 +73,7 @@ public class ReactionRole
 					.values(guildId, messageId, roleId, emote);
 			query.execute();
 		}
-		catch(Exception exception)
+		catch (Exception exception)
 		{
 			monke.getLogger().error("An SQL error occurred", exception);
 		}
@@ -102,10 +102,10 @@ public class ReactionRole
 	public void addRole(@NotNull Member member)
 	{
 		Guild guild = monke.getShardManager().getGuildById(guildId);
-		if(guild != null)
+		if (guild != null)
 		{
 			Role role = guild.getRoleById(roleId);
-			if(role != null)
+			if (role != null)
 			{
 				guild.addRoleToMember(member, role).queue();
 			}
@@ -115,10 +115,10 @@ public class ReactionRole
 	public void removeRole(@NotNull Member member)
 	{
 		Guild guild = monke.getShardManager().getGuildById(guildId);
-		if(guild != null)
+		if (guild != null)
 		{
 			Role role = guild.getRoleById(roleId);
-			if(role != null)
+			if (role != null)
 			{
 				guild.removeRoleFromMember(member, role).queue();
 			}
@@ -127,7 +127,7 @@ public class ReactionRole
 
 	public void remove()
 	{
-		try(Connection connection = monke.getDatabaseHandler().getConnection())
+		try (Connection connection = monke.getDatabaseHandler().getConnection())
 		{
 			var context = monke.getDatabaseHandler().getContext(connection);
 			var query = context
@@ -135,7 +135,7 @@ public class ReactionRole
 					.where(REACTION_ROLES.MESSAGE_ID.eq(messageId).and(REACTION_ROLES.ROLE_ID.eq(roleId)).and(REACTION_ROLES.EMOTE_ID.eq(emote)));
 			query.execute();
 		}
-		catch(Exception exception)
+		catch (Exception exception)
 		{
 			monke.getLogger().error("An SQL error occurred", exception);
 		}
@@ -143,7 +143,7 @@ public class ReactionRole
 
 	public boolean isPresent()
 	{
-		try(Connection connection = monke.getDatabaseHandler().getConnection())
+		try (Connection connection = monke.getDatabaseHandler().getConnection())
 		{
 			var context = monke.getDatabaseHandler().getContext(connection);
 			var query = context
@@ -154,7 +154,7 @@ public class ReactionRole
 			query.close();
 			return !result.isEmpty();
 		}
-		catch(Exception exception)
+		catch (Exception exception)
 		{
 			monke.getLogger().error("An SQL error occurred", exception);
 			return false;

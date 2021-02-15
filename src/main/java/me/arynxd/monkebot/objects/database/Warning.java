@@ -26,13 +26,13 @@ public class Warning
 
 	public void add(String reason)
 	{
-		try(Connection connection = monke.getDatabaseHandler().getConnection())
+		try (Connection connection = monke.getDatabaseHandler().getConnection())
 		{
 			var context = monke.getDatabaseHandler().getContext(connection);
 			var query = context.insertInto(Tables.WARNINGS).columns(WARNINGS.GUILD_ID, WARNINGS.USER_ID, WARNINGS.WARN_TEXT).values(guildId, userId, reason);
 			query.execute();
 		}
-		catch(Exception exception)
+		catch (Exception exception)
 		{
 			monke.getLogger().error("An SQL error occurred", exception);
 		}
@@ -40,12 +40,12 @@ public class Warning
 
 	public void remove(long key)
 	{
-		try(Connection connection = monke.getDatabaseHandler().getConnection())
+		try (Connection connection = monke.getDatabaseHandler().getConnection())
 		{
 			var context = monke.getDatabaseHandler().getContext(connection);
 			context.deleteFrom(Tables.WARNINGS).where(WARNINGS.ID.eq(key)).execute();
 		}
-		catch(Exception exception)
+		catch (Exception exception)
 		{
 			monke.getLogger().error("An SQL error occurred", exception);
 		}
@@ -54,18 +54,18 @@ public class Warning
 	public List<Warnings> get()
 	{
 		List<Warnings> result = new ArrayList<>();
-		try(Connection connection = monke.getDatabaseHandler().getConnection())
+		try (Connection connection = monke.getDatabaseHandler().getConnection())
 		{
 			var context = monke.getDatabaseHandler().getContext(connection);
 			var query = context.selectFrom(Tables.WARNINGS).where(WARNINGS.GUILD_ID.eq(guildId)).and(WARNINGS.USER_ID.eq(userId));
 
-			for(var value : query.fetch())
+			for (var value : query.fetch())
 			{
 				result.add(new Warnings(value.getId(), value.getUserId(), value.getGuildId(), value.getTimestamp(), value.getWarnText()));
 			}
 
 		}
-		catch(Exception exception)
+		catch (Exception exception)
 		{
 			monke.getLogger().error("An SQL error occurred", exception);
 		}
@@ -75,7 +75,7 @@ public class Warning
 
 	public Warnings getByWarnId(long warnId)
 	{
-		try(Connection connection = monke.getDatabaseHandler().getConnection())
+		try (Connection connection = monke.getDatabaseHandler().getConnection())
 		{
 			var context = monke.getDatabaseHandler().getContext(connection)
 					.selectFrom(WARNINGS)
@@ -83,7 +83,7 @@ public class Warning
 
 			var result = context.fetch();
 			context.close();
-			if(!result.isEmpty())
+			if (!result.isEmpty())
 			{
 				var warn = result.get(0);
 				return new Warnings(warn.getId(), warn.getUserId(), warn.getGuildId(), warn.getTimestamp(), warn.getWarnText());
@@ -93,7 +93,7 @@ public class Warning
 				return null;
 			}
 		}
-		catch(Exception exception)
+		catch (Exception exception)
 		{
 			monke.getLogger().error("An SQL error occurred", exception);
 			return null;

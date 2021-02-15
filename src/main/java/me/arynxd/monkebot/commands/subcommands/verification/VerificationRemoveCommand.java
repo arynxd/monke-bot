@@ -24,14 +24,14 @@ public class VerificationRemoveCommand extends Command
 	@Override
 	public void run(@NotNull List<String> args, @NotNull CommandEvent event, @NotNull Consumer<CommandException> failure)
 	{
-		if(CommandChecks.argsSizeExceeds(event, 3, failure)) return;
+		if (CommandChecks.argsSizeExceeds(event, 3, failure)) return;
 
 		new Parser(args.get(0), event).parseAsRole(
 				role ->
 				{
 					String phrase = String.join(" ", args.subList(1, args.size()));
 
-					if(VerificationUtils.removeMapping(phrase, event.getGuildIdLong(), role.getIdLong(), event.getMonke()))
+					if (VerificationUtils.removeMapping(phrase, event.getGuildIdLong(), role.getIdLong(), event.getMonke()))
 					{
 						event.replySuccess("Remove mapping " + phrase + " for role " + role.getAsMention());
 					}

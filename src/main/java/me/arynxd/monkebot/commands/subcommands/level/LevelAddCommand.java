@@ -26,12 +26,12 @@ public class LevelAddCommand extends Command
 	public void run(@NotNull List<String> args, @NotNull CommandEvent event, @NotNull Consumer<CommandException> failure)
 	{
 		User levelBot = event.getMonke().getShardManager().getUserById(GuildSettingsCache.getCache(event.getGuildIdLong(), event.getMonke()).getLevelUpBot());
-		if(CommandChecks.userConfigured(levelBot, "Level up bot", failure)) return;
-		if(CommandChecks.argsSizeSubceeds(event, 2, failure)) return;
+		if (CommandChecks.userConfigured(levelBot, "Level up bot", failure)) return;
+		if (CommandChecks.argsSizeSubceeds(event, 2, failure)) return;
 
 		OptionalInt level = new Parser(args.get(0), event).parseAsUnsignedInt();
 
-		if(level.isPresent())
+		if (level.isPresent())
 		{
 			new Parser(args.get(1), event).parseAsRole(
 					role ->

@@ -20,7 +20,7 @@ public class Level
 
 	public static void addLevel(@NotNull Role role, @NotNull Integer level, long guildId, @NotNull Monke igsqbot)
 	{
-		try(Connection connection = igsqbot.getDatabaseHandler().getConnection())
+		try (Connection connection = igsqbot.getDatabaseHandler().getConnection())
 		{
 			var context = igsqbot.getDatabaseHandler().getContext(connection);
 			var query = context
@@ -30,7 +30,7 @@ public class Level
 
 			query.execute();
 		}
-		catch(Exception exception)
+		catch (Exception exception)
 		{
 			igsqbot.getLogger().error("An SQL error occurred", exception);
 		}
@@ -38,7 +38,7 @@ public class Level
 
 	public static boolean removeLevel(@NotNull Role role, @NotNull Integer level, long guildId, @NotNull Monke igsqbot)
 	{
-		try(Connection connection = igsqbot.getDatabaseHandler().getConnection())
+		try (Connection connection = igsqbot.getDatabaseHandler().getConnection())
 		{
 			var context = igsqbot.getDatabaseHandler().getContext(connection);
 			var query = context
@@ -49,7 +49,7 @@ public class Level
 
 			return query.execute() > 0;
 		}
-		catch(Exception exception)
+		catch (Exception exception)
 		{
 			igsqbot.getLogger().error("An SQL error occurred", exception);
 			return false;
@@ -59,19 +59,19 @@ public class Level
 	public static @NotNull List<Levels> getLevels(long guildId, @NotNull Monke igsqbot)
 	{
 		List<Levels> result = new ArrayList<>();
-		try(Connection connection = igsqbot.getDatabaseHandler().getConnection())
+		try (Connection connection = igsqbot.getDatabaseHandler().getConnection())
 		{
 			var context = igsqbot.getDatabaseHandler().getContext(connection);
 			var query = context
 					.selectFrom(Tables.LEVELS)
 					.where(LEVELS.GUILD_ID.eq(guildId));
 
-			for(var row : query.fetch())
+			for (var row : query.fetch())
 			{
 				result.add(new Levels(row.getId(), row.getGuildId(), row.getRoleId(), row.getAwardedAt()));
 			}
 		}
-		catch(Exception exception)
+		catch (Exception exception)
 		{
 			igsqbot.getLogger().error("An SQL error occurred", exception);
 		}

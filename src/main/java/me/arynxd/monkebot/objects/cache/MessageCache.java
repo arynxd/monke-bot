@@ -29,7 +29,7 @@ public class MessageCache implements ICache<Long, CachedMessage>
 	public static @NotNull MessageCache getCache(long guildId)
 	{
 		MessageCache cache = MESSAGE_CACHES.get(guildId);
-		if(MESSAGE_CACHES.get(guildId) == null)
+		if (MESSAGE_CACHES.get(guildId) == null)
 		{
 			cache = new MessageCache();
 			MESSAGE_CACHES.put(guildId, cache);
@@ -52,7 +52,7 @@ public class MessageCache implements ICache<Long, CachedMessage>
 	@Override
 	public void put(@NotNull Collection<CachedMessage> messages)
 	{
-		for(CachedMessage selectedMessage : messages)
+		for (CachedMessage selectedMessage : messages)
 		{
 			LOGGER.debug("Adding message " + selectedMessage.getKey() + " to cache.");
 			cachedMessages.put(selectedMessage.getKey(), selectedMessage);

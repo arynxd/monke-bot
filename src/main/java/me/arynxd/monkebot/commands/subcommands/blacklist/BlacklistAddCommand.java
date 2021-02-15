@@ -24,10 +24,10 @@ public class BlacklistAddCommand extends Command
 	@Override
 	public void run(@NotNull List<String> args, @NotNull CommandEvent event, @NotNull Consumer<CommandException> failure)
 	{
-		if(CommandChecks.argsEmpty(event, failure)) return;
+		if (CommandChecks.argsEmpty(event, failure)) return;
 		String phrase = String.join(" ", args);
 
-		if(event.getMonke().getCommandHandler().getCommandMap().get(phrase) != null)
+		if (event.getMonke().getCommandHandler().getCommandMap().get(phrase) != null)
 		{
 			failure.accept(new CommandInputException("You cannot blacklist my commands."));
 			return;

@@ -7,7 +7,7 @@ import me.arynxd.monkebot.objects.command.CommandEvent;
 import me.arynxd.monkebot.objects.exception.CommandException;
 import org.jetbrains.annotations.NotNull;
 
-@SuppressWarnings("unused")
+@SuppressWarnings ("unused")
 public class FlipCommand extends Command
 {
 	public FlipCommand()
