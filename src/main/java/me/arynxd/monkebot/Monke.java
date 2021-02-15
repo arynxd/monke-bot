@@ -186,10 +186,6 @@ public class Monke extends ListenerAdapter
 
 	private void switchStatus(JDA jda)
 	{
-		byte[] array = new byte[10];
-		new Random().nextBytes(array);
-
-		String generatedString = new String(array, StandardCharsets.UTF_16);
 		ShardManager manager = jda.getShardManager();
 
 		if (manager == null)
@@ -200,9 +196,12 @@ public class Monke extends ListenerAdapter
 		List<Activity> status = List.of(
 				Activity.watching(BotInfo.getGuildCount(manager) + StringUtils.plurify(" server", (int) BotInfo.getGuildCount(manager))),
 				Activity.watching(BotInfo.getUserCount(manager) + StringUtils.plurify("  user", (int) BotInfo.getUserCount(manager))),
+				Activity.watching("the kids"),
 				Activity.listening("your commands"),
-				Activity.playing(generatedString),
-				Activity.playing("forknife!!!!")
+				Activity.listening(Constants.DEFAULT_BOT_PREFIX + "help"),
+				Activity.playing("forknife!!!!"),
+				Activity.playing("with your feelings"),
+				Activity.competing("the race to 100 servers")
 		);
 
 		jda.getPresence().setPresence(OnlineStatus.ONLINE, status.get(new Random().nextInt(status.size())));
