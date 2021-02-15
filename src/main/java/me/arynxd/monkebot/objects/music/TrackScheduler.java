@@ -69,7 +69,7 @@ public class TrackScheduler extends AudioEventAdapter
 		Duration length = Duration.between(LocalDateTime.now(), LocalDateTime.now().plusSeconds(track.getDuration() / 1000));
 		Duration passed = Duration.between(LocalDateTime.now(), LocalDateTime.now().plusSeconds(track.getPosition() / 1000));
 
-		if(handler.getChannel() != null)
+		if(handler != null && handler.getChannel() != null)
 		{
 			handler.getChannel().sendMessage(new EmbedBuilder()
 					.setTitle("Now playing")
@@ -88,12 +88,15 @@ public class TrackScheduler extends AudioEventAdapter
 	@Override
 	public void onTrackStuck(AudioPlayer player, AudioTrack track, long thresholdMs)
 	{
-		handler.getChannel().sendMessage(new EmbedBuilder()
-				.setTitle("Something went wrong")
-				.setDescription("An error occurred while playing " + track.getInfo().title)
-				.setColor(Constants.EMBED_COLOUR)
-				.setTimestamp(Instant.now())
-				.build()).queue();
+		if(handler != null && handler.getChannel() != null)
+		{
+			handler.getChannel().sendMessage(new EmbedBuilder()
+					.setTitle("Something went wrong")
+					.setDescription("An error occurred while playing " + track.getInfo().title)
+					.setColor(Constants.EMBED_COLOUR)
+					.setTimestamp(Instant.now())
+					.build()).queue();
+		}
 	}
 
 	public boolean hasNext()

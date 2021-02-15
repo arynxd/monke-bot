@@ -144,7 +144,7 @@ public class Monke extends ListenerAdapter
 		getLogger().info("");
 		getLogger().info("Account:         " + event.getJDA().getSelfUser().getAsTag() + " / " + event.getJDA().getSelfUser().getId());
 		getLogger().info("Total Shards:    " + BotInfo.getTotalShards(event.getJDA().getShardManager()));
-		getLogger().info("Total Guilds:    " + BotInfo.getTotalServers(event.getJDA().getShardManager()));
+		getLogger().info("Total Guilds:    " + BotInfo.getGuildCount(event.getJDA().getShardManager()));
 		getLogger().info("JDA Version:     " + JDAInfo.VERSION);
 		getLogger().info("Monke Version:   " + Constants.VERSION);
 		getLogger().info("JVM Version:     " + BotInfo.getJavaVersion());

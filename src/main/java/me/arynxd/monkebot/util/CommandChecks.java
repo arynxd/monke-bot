@@ -77,7 +77,7 @@ public class CommandChecks
 
 	public static boolean canPost(CommandEvent event, RedditPost post, Consumer<CommandException> callback)
 	{
-		if(event.isFromGuild() && post.isNSFW() && !event.getTextChannel().isNSFW())
+		if(event.isFromGuild() && (post.isNSFW() || post.isSpoiled()) && !event.getTextChannel().isNSFW())
 		{
 			callback.accept(new CommandResultException("The selected post was marked as NSFW and cannot be shown here, please try again."));
 			return true;

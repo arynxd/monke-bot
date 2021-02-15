@@ -18,9 +18,11 @@ import net.dv8tion.jda.api.events.guild.GuildJoinEvent;
 import net.dv8tion.jda.api.events.guild.GuildLeaveEvent;
 import net.dv8tion.jda.api.events.guild.UnavailableGuildLeaveEvent;
 import net.dv8tion.jda.api.events.guild.voice.GuildVoiceLeaveEvent;
+import net.dv8tion.jda.api.events.guild.voice.GuildVoiceMoveEvent;
 import net.dv8tion.jda.api.events.message.guild.react.GuildMessageReactionAddEvent;
 import net.dv8tion.jda.api.events.message.guild.react.GuildMessageReactionRemoveEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import org.jetbrains.annotations.NotNull;
 
 public class GuildEventsMain extends ListenerAdapter
 {
@@ -54,7 +56,7 @@ public class GuildEventsMain extends ListenerAdapter
 				logChannel.sendMessage(new EmbedBuilder()
 						.setTitle("Left a server.")
 						.setDescription("server name: " + event.getGuild().getName()
-								+ "\n\nTotal servers: " + BotInfo.getTotalServers(event.getJDA().getShardManager()))
+								+ "\n\nTotal servers: " + BotInfo.getGuildCount(event.getJDA().getShardManager()))
 						.setColor(Constants.EMBED_COLOUR)
 						.setTimestamp(Instant.now())
 						.build()).queue();
@@ -91,7 +93,7 @@ public class GuildEventsMain extends ListenerAdapter
 				logChannel.sendMessage(new EmbedBuilder()
 						.setTitle("Joined a server.")
 						.setDescription("server name: " + event.getGuild().getName()
-								+ "\n\nTotal servers: " + BotInfo.getTotalServers(event.getJDA().getShardManager()))
+								+ "\n\nTotal servers: " + BotInfo.getGuildCount(event.getJDA().getShardManager()))
 						.setColor(Constants.EMBED_COLOUR)
 						.setTimestamp(Instant.now())
 						.build()).queue();
@@ -122,6 +124,16 @@ public class GuildEventsMain extends ListenerAdapter
 
 	@Override
 	public void onGuildVoiceLeave(GuildVoiceLeaveEvent event)
+	{
+		long humansInVC = event.getChannelLeft().getMembers().stream().filter(member -> !member.getUser().isBot()).count();
+		if(event.getMember().equals(event.getGuild().getSelfMember()) || humansInVC == 0)
+		{
+			monke.getMusicHandler().cleanupPlayer(event.getGuild());
+		}
+	}
+
+	@Override
+	public void onGuildVoiceMove(GuildVoiceMoveEvent event)
 	{
 		long humansInVC = event.getChannelLeft().getMembers().stream().filter(member -> !member.getUser().isBot()).count();
 		if(event.getMember().equals(event.getGuild().getSelfMember()) || humansInVC == 0)
