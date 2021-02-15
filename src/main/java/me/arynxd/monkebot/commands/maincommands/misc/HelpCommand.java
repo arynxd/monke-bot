@@ -89,7 +89,6 @@ public class HelpCommand extends Command
 
 		EmbedBuilder embedBuilder = new EmbedBuilder();
 		int fieldCount = 0;
-		int page = 1;
 		for(int i = 0; i < commands.size(); i++)
 		{
 			Command cmd = commands.get(i);
@@ -105,7 +104,6 @@ public class HelpCommand extends Command
 				result.add(embedBuilder);
 				embedBuilder = new EmbedBuilder();
 				fieldCount = 0;
-				page++;
 				i--;
 			}
 		}

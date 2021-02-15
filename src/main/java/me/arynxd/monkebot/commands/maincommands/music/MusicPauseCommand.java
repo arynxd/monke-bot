@@ -17,7 +17,7 @@ public class MusicPauseCommand extends Command
 	public MusicPauseCommand()
 	{
 		super("Pause", "Pauses the music player.", "[none]");
-		addAliases("pause");
+		addAliases("pause", "stop");
 		addFlags(CommandFlag.GUILD_ONLY);
 	}
 

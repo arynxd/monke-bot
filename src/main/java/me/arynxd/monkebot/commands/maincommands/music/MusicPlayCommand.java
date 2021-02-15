@@ -53,8 +53,11 @@ public class MusicPlayCommand extends Command
 			@Override
 			public void trackLoaded(AudioTrack track)
 			{
-				event.replySuccess("Added **" + track.getInfo().title + "** to the queue.");
-				manager.play(channel, track); //Safe due to CommandChecks
+				if(manager.isPlaying())
+				{
+					event.replySuccess("Added **" + track.getInfo().title + "** to the queue.");
+				}
+				manager.play(channel, track, event.getAuthor()); //Safe due to CommandChecks
 			}
 
 			@Override
@@ -62,13 +65,17 @@ public class MusicPlayCommand extends Command
 			{
 				if(playlist.isSearchResult())
 				{
-					event.replySuccess("Added **" + playlist.getTracks().get(0).getInfo().title + "** to the queue.");
-					manager.play(channel, playlist.getTracks().get(0)); //Safe due to CommandChecks
+					AudioTrack track = playlist.getTracks().get(0);
+					if(manager.isPlaying())
+					{
+						event.replySuccess("Added **" + track.getInfo().title + "** to the queue.");
+					}
+					manager.play(channel, track, event.getAuthor()); //Safe due to CommandChecks
 				}
 				else
 				{
 					event.replySuccess("Added " + playlist.getTracks().size() + " tracks to the queue.");
-					manager.playAll(channel, playlist.getTracks()); //Safe due to CommandChecks
+					manager.playAll(channel, playlist.getTracks(), event.getAuthor()); //Safe due to CommandChecks
 				}
 
 			}

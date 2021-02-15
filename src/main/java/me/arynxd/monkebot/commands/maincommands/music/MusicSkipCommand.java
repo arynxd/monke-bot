@@ -34,7 +34,6 @@ public class MusicSkipCommand extends Command
 		if(manager.getScheduler().hasNext())
 		{
 			manager.getScheduler().skipOne();
-			event.replySuccess("Skipped 1 track.");
 		}
 		else
 		{

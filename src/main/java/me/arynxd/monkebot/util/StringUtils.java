@@ -36,9 +36,9 @@ public class StringUtils
 		return text.replaceAll("(\\?|\\&)([^=]+)\\=([^&]+)", "");
 	}
 
-	public static String plurify(int number)
+	public static String plurify(String prefix, int number)
 	{
-		return number == 1 ? "" : "s";
+		return number == 1 ? prefix : prefix + "s";
 	}
 
 	public static String parseToEmote(int number)

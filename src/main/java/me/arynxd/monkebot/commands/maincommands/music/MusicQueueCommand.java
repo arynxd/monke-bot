@@ -39,7 +39,7 @@ public class MusicQueueCommand extends Command
 
 		List<String> tracks = manager.getScheduler().getQueue()
 				.stream()
-				.map(track -> track.getInfo().title + " by " + track.getInfo().author)
+				.map(track -> "[" + track.getInfo().title + "](" + track.getInfo().uri + ")" + " by " + track.getInfo().author)
 				.collect(Collectors.toList());
 
 		int size = tracks.size();
@@ -49,17 +49,17 @@ public class MusicQueueCommand extends Command
 		String trackString = "";
 		if(currentTrack != null)
 		{
-			trackString += "Now Playing: " + currentTrack.getInfo().title + " by " + currentTrack.getInfo().author + "\n\n";
+			trackString += "**Now Playing**: " + currentTrack.getInfo().title + " by " + currentTrack.getInfo().author + "\n\n";
 		}
 
 		if(!tracks.isEmpty())
 		{
-			trackString += "In the queue: \n" + String.join("\n\n", tracks);
+			trackString += "**In the queue**: \n" + String.join("\n\n", tracks);
 		}
 
 		if(size >= 6)
 		{
-			trackString += "\n\n[" + (size - 5) + " more track" + StringUtils.plurify(size - 5) + "]";
+			trackString += "\n\n[" + (size - 5) + StringUtils.plurify(" more track", size - 5) + "]";
 		}
 
 		if(trackString.isBlank())

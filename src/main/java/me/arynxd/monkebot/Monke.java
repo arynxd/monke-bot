@@ -189,7 +189,7 @@ public class Monke extends ListenerAdapter
 		byte[] array = new byte[10];
 		new Random().nextBytes(array);
 
-		String generatedString = new String(array, StandardCharsets.UTF_8);
+		String generatedString = new String(array, StandardCharsets.UTF_16);
 		ShardManager manager = jda.getShardManager();
 
 		if(manager == null)
@@ -198,14 +198,14 @@ public class Monke extends ListenerAdapter
 		}
 
 		List<Activity> status = List.of(
-				Activity.watching(BotInfo.getGuildCount(manager) + " guild" + StringUtils.plurify((int) BotInfo.getGuildCount(manager))),
-				Activity.watching(BotInfo.getUserCount(manager) + " user" + StringUtils.plurify((int) BotInfo.getUserCount(manager))),
+				Activity.watching(BotInfo.getGuildCount(manager)  + StringUtils.plurify(" server", (int) BotInfo.getGuildCount(manager))),
+				Activity.watching(BotInfo.getUserCount(manager) + StringUtils.plurify("  user", (int) BotInfo.getUserCount(manager))),
 				Activity.listening("your commands"),
 				Activity.playing(generatedString),
 				Activity.playing("forknife!!!!")
 		);
 
-		jda.getPresence().setPresence(OnlineStatus.ONLINE, status.get(new Random().nextInt(status.size() - 1)));
+		jda.getPresence().setPresence(OnlineStatus.ONLINE, status.get(new Random().nextInt(status.size())));
 	}
 
 	public LocalDateTime getStartTimestamp()

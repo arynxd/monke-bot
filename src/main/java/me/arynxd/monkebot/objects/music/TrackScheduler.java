@@ -13,6 +13,7 @@ import java.util.List;
 import me.arynxd.monkebot.Constants;
 import me.arynxd.monkebot.util.StringUtils;
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.entities.User;
 
 public class TrackScheduler extends AudioEventAdapter
 {
@@ -27,8 +28,9 @@ public class TrackScheduler extends AudioEventAdapter
 		this.handler = handler;
 	}
 
-	public void queue(AudioTrack track)
+	public void queue(AudioTrack track, User user)
 	{
+		track.setUserData(user);
 		if(!player.startTrack(track, true))
 		{
 			synchronized(queue)
@@ -49,6 +51,7 @@ public class TrackScheduler extends AudioEventAdapter
 		{
 			player.startTrack(queue.poll(), false);
 		}
+		player.setPaused(false);
 	}
 
 	@Override
@@ -74,7 +77,8 @@ public class TrackScheduler extends AudioEventAdapter
 							"[" + track.getInfo().title + "](" + track.getInfo().uri + ")" +
 									"\n**Author**: " + track.getInfo().author +
 									"\n**Position**: " + StringUtils.parseDuration(passed) +
-									"\n**Length**: " + StringUtils.parseDuration(length))
+									"\n**Length**: " + StringUtils.parseDuration(length) +
+									"\n**Requested by**: " + track.getUserData(User.class).getAsMention())
 					.setColor(Constants.EMBED_COLOUR)
 					.setTimestamp(Instant.now())
 					.build()).queue();

@@ -15,6 +15,7 @@ import me.arynxd.monkebot.handlers.MusicHandler;
 import me.arynxd.monkebot.util.CommandChecks;
 import me.arynxd.monkebot.util.StringUtils;
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.entities.User;
 import org.jetbrains.annotations.NotNull;
 
 @SuppressWarnings("unused")
@@ -52,6 +53,7 @@ public class MusicNowPlayingCommand extends Command
 						"[" + currentTrack.getInfo().title + "](" + currentTrack.getInfo().uri + ")" +
 								"\n**Author**: " + currentTrack.getInfo().author +
 								"\n**Position**: " + StringUtils.parseDuration(passed) +
-								"\n**Length**: " + StringUtils.parseDuration(length)));
+								"\n**Length**: " + StringUtils.parseDuration(length) +
+								"\n**Requested by**: " + currentTrack.getUserData(User.class).getAsMention()));
 	}
 }
