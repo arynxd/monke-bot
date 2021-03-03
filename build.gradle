@@ -31,8 +31,9 @@ dependencies {
     implementation 'org.codehaus.groovy:groovy-jsr223:3.0.7'
 
     //Discord
-    implementation 'net.dv8tion:JDA:4.2.0_228'
-    implementation 'com.sedmelluq:lavaplayer:1.3.72'
+
+    implementation 'net.dv8tion:JDA:4.2.0_230'
+    implementation 'com.sedmelluq:lavaplayer:1.3.71'
 
     //Database
     implementation 'org.postgresql:postgresql:42.2.19'
