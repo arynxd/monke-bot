@@ -18,7 +18,7 @@ dependencies {
     implementation 'info.debatty:java-string-similarity:2.0.0'
     implementation 'io.github.classgraph:classgraph:4.8.98'
     implementation 'ch.qos.logback:logback-classic:1.2.3'
-    implementation 'net.jodah:expiringmap:0.5.9'
+    implementation 'net.jodah:expiringmap:0.5.10'
 
     //Web
     implementation 'org.jsoup:jsoup:1.13.1'
