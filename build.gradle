@@ -21,7 +21,7 @@ dependencies {
     implementation 'net.jodah:expiringmap:0.5.9'
 
     //Web
-    implementation 'org.jsoup:jsoup:1.13.1'
+    implementation 'org.jsoup:jsoup:1.14.2'
     implementation "io.javalin:javalin:3.13.3"
     implementation 'io.prometheus:simpleclient:0.10.0'
     implementation 'io.prometheus:simpleclient_hotspot:0.10.0'
