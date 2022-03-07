@@ -28,7 +28,7 @@ dependencies {
     implementation 'io.prometheus:simpleclient_httpserver:0.10.0'
 
     //Eval
-    implementation 'org.codehaus.groovy:groovy-jsr223:3.0.7'
+    implementation 'org.codehaus.groovy:groovy-jsr223:3.0.10'
 
     //Discord
 
